@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1537f2b502772429e10651be20967e, type: 3}
+  m_Name: Loc_Sprite_Flag
+  m_EditorClassIdentifier: 
+  m_Assets:
+  - m_Language: 10
+    m_Value: {fileID: 21300000, guid: 18323d9c827bda24c80b2ae0655d70ee, type: 3}
+  - m_Language: 37
+    m_Value: {fileID: 21300000, guid: 7d5738965038350439da410b760d119d, type: 3}
+  - m_Language: 34
+    m_Value: {fileID: 21300000, guid: cfdb00fbc9bd25e40b7a310cd911a3d2, type: 3}
+  - m_Language: 15
+    m_Value: {fileID: 21300000, guid: 09a56b192f9fb5048ac347c2ea2f24a8, type: 3}
+  - m_Language: 40
+    m_Value: {fileID: 21300000, guid: 90ca312f8e6b8e54d99d543f9605fcad, type: 3}
+  - m_Language: 30
+    m_Value: {fileID: 21300000, guid: 69ab9d0e44af2e8418b19bbda8e772cf, type: 3}
