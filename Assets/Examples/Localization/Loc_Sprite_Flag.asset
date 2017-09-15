@@ -24,3 +24,5 @@ MonoBehaviour:
     m_Value: {fileID: 21300000, guid: 90ca312f8e6b8e54d99d543f9605fcad, type: 3}
   - m_Language: 30
     m_Value: {fileID: 21300000, guid: 69ab9d0e44af2e8418b19bbda8e772cf, type: 3}
+  - m_Language: 1
+    m_Value: {fileID: 21300000, guid: b952e26b7609033488caf5c4b4fe5ca4, type: 3}
