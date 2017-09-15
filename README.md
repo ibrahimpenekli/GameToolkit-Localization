@@ -1,2 +1,2 @@
-# Asset Localization for Unity
+# GameToolkit: Asset Localization for Unity
 Asset localization system for Unity.
