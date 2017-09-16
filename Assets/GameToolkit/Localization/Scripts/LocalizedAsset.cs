@@ -1,6 +1,8 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +12,11 @@ namespace GameToolkit.Localization
 	/// 
 	/// </summary>
     public abstract class LocalizedAsset<TAsset> : ScriptableObject where TAsset : class
-    {
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-        protected abstract List<Locale<TAsset>> GetAssetList();
+    {       
+        /// <summary>
+        /// Gets the defined locale items of the localized asset.
+        /// </summary>
+        public abstract LocaleItem<TAsset>[] LocaleItems { get; }
 
         /// <summary>
         /// Returns localized text regarding to Localization.Instance.CurrentLanguage.
@@ -26,57 +27,35 @@ namespace GameToolkit.Localization
         {
             get
             {
-                var assetList = GetAssetList();
-                var val = GetValue(Localization.Instance.CurrentLanguage, assetList);
-                if (val == null)
+                var value = GetLocaleValue(Localization.Instance.CurrentLanguage);
+                if (value == null)
                 {
-                    if (assetList.Count > 0)
-                    {
-                        val = assetList[0].Value;
-                    }
-                    else
-                    {
-                        val = default(TAsset);
-                    }
+                    var localeItem = LocaleItems.FirstOrDefault();
+                    value = localeItem != null ? localeItem.Value : default(TAsset);
                 }
-
-                return val;
+                return value;
             }
+        }
+
+        /// <summary>
+        /// Returns the language given is whether exist or not.
+        /// </summary>
+        public bool HasLocale(SystemLanguage language)
+        {
+            var localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
+            return localeItem != null;
         }
 
         /// <summary>
         /// Returns localized text regarding to language given; otherwise, null.
         /// </summary>
         /// <returns>Localized text.</returns>
-        public TAsset GetValue(SystemLanguage language)
+        public TAsset GetLocaleValue(SystemLanguage language)
         {
-            return GetValue(language, GetAssetList());
-        }
-
-        /// <summary>
-        /// Returns the language given is whether exist or not.
-        /// </summary>
-        public bool Has(SystemLanguage language)
-        {
-            var assetList = GetAssetList();
-            foreach (var asset in assetList)
+            var localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
+            if (localeItem != null)
             {
-                if (asset.Language == language)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private TAsset GetValue(SystemLanguage language, List<Locale<TAsset>> assetList)
-        {
-            foreach (var asset in assetList)
-            {
-                if (asset.Language == language)
-                {
-                    return asset.Value;
-                }
+                return localeItem.Value;
             }
             return null;
         }

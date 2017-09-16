@@ -14,14 +14,11 @@ namespace GameToolkit.Localization
     public class LocalizedTexture : LocalizedAsset<Texture>
     {
         [Serializable]
-        private class LocaleTexture : Locale<Texture> { };
+        private class TextureLocaleItem : LocaleItem<Texture> { };
 
         [SerializeField, Tooltip("Localized textures. First item is fallback value.")]
-        private List<LocaleTexture> m_Assets = new List<LocaleTexture> { new LocaleTexture() };
+        private TextureLocaleItem[] m_LocaleItems = new TextureLocaleItem[0];
 
-        protected override List<Locale<Texture>> GetAssetList()
-        {
-            return m_Assets.ConvertAll(x => (Locale<Texture>)x);
-        }
+        public override LocaleItem<Texture>[] LocaleItems { get { return m_LocaleItems; } }
     }
 }

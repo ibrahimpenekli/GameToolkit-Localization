@@ -14,14 +14,11 @@ namespace GameToolkit.Localization
     public class LocalizedSprite : LocalizedAsset<Sprite>
     {
         [Serializable]
-        private class LocaleSprite : Locale<Sprite> { };
+        private class SpriteLocaleItem : LocaleItem<Sprite> { };
 
         [SerializeField, Tooltip("Localized sprites. First item is fallback value.")]
-        private List<LocaleSprite> m_Assets = new List<LocaleSprite> { new LocaleSprite() };
+        private SpriteLocaleItem[] m_LocaleItems = new SpriteLocaleItem[0];
 
-        protected override List<Locale<Sprite>> GetAssetList()
-        {
-            return m_Assets.ConvertAll(x => (Locale<Sprite>)x);
-        }
+        public override LocaleItem<Sprite>[] LocaleItems { get { return m_LocaleItems; } }
     }
 }

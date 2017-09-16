@@ -12,7 +12,7 @@ namespace GameToolkit.Localization
     public class LocalizedAudioSourceBehaviour : LocalizedAssetBehaviour
     {
         [SerializeField]
-        private LocalizedAudio m_LocalizedAsset;
+        private LocalizedAudioClip m_LocalizedAsset;
 
         protected override bool IsAssetExist()
         {

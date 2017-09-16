@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8711fe1ee219c340aa35a61117637d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizedAsset: {fileID: 11400000, guid: 5dde9c82724564140843095d32ee265f, type: 2}
+  m_LocalizedAsset: {fileID: 11400000, guid: 6ddea72c495931c47b0f143c195c8f92, type: 2}
 --- !u!82 &994859402
 AudioSource:
   m_ObjectHideFlags: 0

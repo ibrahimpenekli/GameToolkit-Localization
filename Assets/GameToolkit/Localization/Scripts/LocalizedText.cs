@@ -14,14 +14,11 @@ namespace GameToolkit.Localization
     public class LocalizedText : LocalizedAsset<string>
     {
         [Serializable]
-        private class LocaleText : Locale<string> { };
+        private class TextLocaleItem : LocaleItem<string> { };
 
         [SerializeField, Tooltip("Localized texts. First item is fallback value.")]
-        private List<LocaleText> m_Assets = new List<LocaleText> { new LocaleText() };
-
-        protected override List<Locale<string>> GetAssetList()
-        {
-            return m_Assets.ConvertAll(x => (Locale<string>)x);
-        }
+        private TextLocaleItem[] m_LocaleItems = new TextLocaleItem[0];
+        
+        public override LocaleItem<string>[] LocaleItems { get { return m_LocaleItems; } }
     }
 }
