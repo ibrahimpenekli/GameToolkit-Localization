@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1537f2b502772429e10651be20967e, type: 3}
   m_Name: Loc_Sprite_Flag
   m_EditorClassIdentifier: 
-  m_Assets:
+  m_LocaleItems:
   - m_Language: 10
     m_Value: {fileID: 21300000, guid: ad1eb22eabc34144b9f851abfdb0bb7f, type: 3}
   - m_Language: 37

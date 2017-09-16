@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46cffd6b74deb304f800173cf2bab6eb, type: 3}
   m_Name: Loc_Texture_Flag
   m_EditorClassIdentifier: 
-  m_Assets:
+  m_LocaleItems:
   - m_Language: 10
     m_Value: {fileID: 2800000, guid: dbdd09e40aa4cc04c9d5dd90db89d097, type: 3}
   - m_Language: 37

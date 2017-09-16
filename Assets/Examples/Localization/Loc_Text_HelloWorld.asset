@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af65ee6b0f35f974dba93979a07edbce, type: 3}
   m_Name: Loc_Text_HelloWorld
   m_EditorClassIdentifier: 
-  m_Assets:
+  m_LocaleItems:
   - m_Language: 10
     m_Value: Hello World!
   - m_Language: 37
