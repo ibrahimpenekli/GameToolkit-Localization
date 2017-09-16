@@ -11,17 +11,14 @@ namespace GameToolkit.Localization
     [RequireComponent(typeof(AudioSource))]
     public class LocalizedAudioSourceBehaviour : LocalizedAssetBehaviour
     {
-        [SerializeField]
-        private LocalizedAudioClip m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public LocalizedAudioClip LocalizedAudioClip;
 
         protected override void UpdateComponentValue()
         {
-            GetComponent<AudioSource>().clip = m_LocalizedAsset.Value;
+            if (LocalizedAudioClip)
+            {
+                GetComponent<AudioSource>().clip = LocalizedAudioClip.Value;
+            }
         }
     }
 }

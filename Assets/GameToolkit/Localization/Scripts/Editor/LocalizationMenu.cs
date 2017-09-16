@@ -4,7 +4,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace GameToolkit.Localization
+namespace GameToolkit.Localization.Editor
 {
 	/// <summary>
 	/// Unity Editor menu for changing localization under "Tools/Localization".

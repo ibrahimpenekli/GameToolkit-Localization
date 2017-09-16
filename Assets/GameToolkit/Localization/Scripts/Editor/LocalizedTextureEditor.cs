@@ -4,7 +4,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace GameToolkit.Localization
+namespace GameToolkit.Localization.Editor
 {
     [CustomEditor(typeof(LocalizedTexture))]
     public class LocalizedTextureEditor : LocalizedAssetEditor<Texture2D>

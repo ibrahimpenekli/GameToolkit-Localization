@@ -6,25 +6,15 @@ namespace GameToolkit.Localization
 {
     public class LocalizedMaterialBehaviour : LocalizedAssetBehaviour
     {
-		[SerializeField]
-		private Material m_Material;
-
-		[SerializeField, Tooltip("Texture property name.")]
-		private string m_PropertyName = "_MainTex";
-
-		[SerializeField]
-        private LocalizedTexture m_LocalizedAsset;
-
-		protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+		public Material Material;
+		public string PropertyName = "_MainTex";
+        public LocalizedTexture LocalizedTexture;
 
 		protected override void UpdateComponentValue()
         {
-			if (m_Material)
+			if (Material && LocalizedTexture)
 			{
-				m_Material.SetTexture(m_PropertyName, m_LocalizedAsset.Value);
+				Material.SetTexture(PropertyName, LocalizedTexture.Value);
 			}
         }
     }

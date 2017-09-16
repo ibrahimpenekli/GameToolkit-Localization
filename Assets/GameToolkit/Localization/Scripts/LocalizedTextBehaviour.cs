@@ -12,17 +12,20 @@ namespace GameToolkit.Localization
     [RequireComponent(typeof(Text))]
     public class LocalizedTextBehaviour : LocalizedAssetBehaviour
     {
-        [SerializeField]
-        private LocalizedText m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public LocalizedText LocalizedText;
+        public LocalizedFont LocalizedFont;
 
         protected override void UpdateComponentValue()
         {
-            GetComponent<Text>().text = m_LocalizedAsset.Value;
+            if (LocalizedText)
+            {
+                GetComponent<Text>().text = LocalizedText.Value;
+            }
+            
+            if (LocalizedFont)
+            {
+                GetComponent<Text>().font = LocalizedFont.Value;
+            }
         }
     }
 }

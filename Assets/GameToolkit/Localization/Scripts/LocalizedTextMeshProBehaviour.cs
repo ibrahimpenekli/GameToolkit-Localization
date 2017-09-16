@@ -12,17 +12,14 @@ namespace GameToolkit.Localization
     [RequireComponent(typeof(TextMeshPro))]
     public class LocalizedTextMeshProBehaviour : LocalizedAssetBehaviour
     {
-        [SerializeField]
-        private LocalizedText m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public LocalizedText LocalizedText;
 
         protected override void UpdateComponentValue()
         {
-            GetComponent<TextMeshPro>().text = m_LocalizedAsset.Value;
+            if (LocalizedText)
+            {
+                GetComponent<TextMeshPro>().text = LocalizedText.Value;
+            }
         }
     }
 }*/

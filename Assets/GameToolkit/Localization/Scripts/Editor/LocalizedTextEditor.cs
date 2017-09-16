@@ -4,7 +4,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace GameToolkit.Localization
+namespace GameToolkit.Localization.Editor
 {
     [CustomEditor(typeof(LocalizedText))]
     public class LocalizedTextEditor : LocalizedAssetEditor<string>

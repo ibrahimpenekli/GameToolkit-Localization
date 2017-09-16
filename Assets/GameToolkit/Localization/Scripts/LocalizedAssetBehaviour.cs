@@ -13,25 +13,12 @@ namespace GameToolkit.Localization
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <returns></returns>
-        protected abstract bool IsAssetExist();
-
-		/// <summary>
-		/// 
-		/// </summary>
         protected abstract void UpdateComponentValue();
 
         protected virtual void OnEnable()
         {
-            if (IsAssetExist())
-            {
-                UpdateComponentValue();
-                Localization.Instance.LocaleChanged += Localization_LocaleChanged;
-            }
-            else
-            {
-                enabled = false;
-            }
+            UpdateComponentValue();
+            Localization.Instance.LocaleChanged += Localization_LocaleChanged;
         }
 
         protected virtual void OnDisable()
@@ -41,10 +28,7 @@ namespace GameToolkit.Localization
 
         private void Localization_LocaleChanged(object sender, LocaleChangedEventArgs e)
         {
-            if (IsAssetExist())
-            {
-                UpdateComponentValue();
-            }
+            UpdateComponentValue();
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
+// Licensed under the MIT License. See LICENSE in the project root for license information.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,28 +10,21 @@ namespace GameToolkit.Localization
 	[RequireComponent(typeof(Renderer))]
     public class LocalizedRendererBehaviour : LocalizedAssetBehaviour
     {
-		[SerializeField]
-        private int m_MaterialIndex = 0;
-
-        [SerializeField, Tooltip("Texture property name.")]
-        private string m_PropertyName = "_MainTex";
-
-        [SerializeField]
-        private LocalizedTexture m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public int MaterialIndex = 0;
+        public string PropertyName = "_MainTex";
+        public LocalizedTexture LocalizedTexture;
 
         protected override void UpdateComponentValue()
         {
-			GetComponent<Renderer>().materials[m_MaterialIndex].SetTexture(m_PropertyName, m_LocalizedAsset.Value);
+            if (LocalizedTexture)
+            {
+                GetComponent<Renderer>().materials[MaterialIndex].SetTexture(PropertyName, LocalizedTexture.Value);
+            }
         }
 
 		private void OnValidate()
 		{
-			m_MaterialIndex = Mathf.Max(0, m_MaterialIndex);
+			MaterialIndex = Mathf.Max(0, MaterialIndex);
 		}
     }
 }

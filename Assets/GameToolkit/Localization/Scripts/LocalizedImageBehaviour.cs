@@ -12,17 +12,14 @@ namespace GameToolkit.Localization
     [RequireComponent(typeof(Image))]
     public class LocalizedImageBehaviour : LocalizedAssetBehaviour
     {
-        [SerializeField]
-        private LocalizedSprite m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public LocalizedSprite LocalizedSprite;
 
         protected override void UpdateComponentValue()
         {
-            GetComponent<Image>().sprite = m_LocalizedAsset.Value;
+            if (LocalizedSprite)
+            {
+                GetComponent<Image>().sprite = LocalizedSprite.Value;
+            }
         }
     }
 }

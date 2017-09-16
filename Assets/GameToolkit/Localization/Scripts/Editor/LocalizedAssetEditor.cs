@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
-namespace GameToolkit.Localization
+namespace GameToolkit.Localization.Editor
 {
-    public abstract class LocalizedAssetEditor<TAsset> : Editor where TAsset : class
+    public abstract class LocalizedAssetEditor<TAsset> : UnityEditor.Editor where TAsset : class
     {
         private const float LanguageFieldWidth = 100;
 

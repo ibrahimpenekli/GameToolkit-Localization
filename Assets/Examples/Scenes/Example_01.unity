@@ -478,9 +478,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8579e5b216407e540992d8c06a2edfe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaterialIndex: 0
-  m_PropertyName: _MainTex
-  m_LocalizedAsset: {fileID: 11400000, guid: 6d29858b4489c564bbefa45579bdce7e, type: 2}
+  MaterialIndex: 0
+  PropertyName: _MainTex
+  LocalizedTexture: {fileID: 11400000, guid: 6d29858b4489c564bbefa45579bdce7e, type: 2}
 --- !u!23 &265536433
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -625,7 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b194db8571223c6408fcd23e271d47b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizedAsset: {fileID: 11400000, guid: de44dc5c14dd1e94ebffd766fa746961, type: 2}
+  LocalizedSprite: {fileID: 11400000, guid: de44dc5c14dd1e94ebffd766fa746961, type: 2}
 --- !u!1 &721150438
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,7 +931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8711fe1ee219c340aa35a61117637d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizedAsset: {fileID: 11400000, guid: 6ddea72c495931c47b0f143c195c8f92, type: 2}
+  LocalizedAudioClip: {fileID: 11400000, guid: 6ddea72c495931c47b0f143c195c8f92, type: 2}
 --- !u!82 &994859402
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1704,7 +1704,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725bf5ddb878f09429d39010d9e2d59a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizedAsset: {fileID: 11400000, guid: 4962529a9acde6b438db8e5276214ce9, type: 2}
+  LocalizedText: {fileID: 11400000, guid: 4962529a9acde6b438db8e5276214ce9, type: 2}
+  LocalizedFont: {fileID: 11400000, guid: 042c2a32bf4d74742a2d91dc488c6965, type: 2}
 --- !u!1 &1741121404
 GameObject:
   m_ObjectHideFlags: 0

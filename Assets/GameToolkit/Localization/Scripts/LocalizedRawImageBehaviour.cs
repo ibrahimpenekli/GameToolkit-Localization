@@ -12,17 +12,14 @@ namespace GameToolkit.Localization
     [RequireComponent(typeof(RawImage))]
     public class LocalizedRawImageBehaviour : LocalizedAssetBehaviour
     {
-        [SerializeField]
-        private LocalizedTexture m_LocalizedAsset;
-
-        protected override bool IsAssetExist()
-        {
-            return m_LocalizedAsset;
-        }
+        public LocalizedTexture LocalizedTexture;
 
         protected override void UpdateComponentValue()
         {
-            GetComponent<RawImage>().texture = m_LocalizedAsset.Value;
+            if (LocalizedTexture)
+            {
+                GetComponent<RawImage>().texture = LocalizedTexture.Value;
+            }
         }
     }
 }
