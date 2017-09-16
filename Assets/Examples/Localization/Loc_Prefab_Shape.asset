@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92fb9018ce2e2a2418e9fd80cde2b3b3, type: 3}
+  m_Name: Loc_Prefab_Shape
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: 10
+    m_Value: {fileID: 1823501855626836, guid: 31428973e85ffc944b298e29e416c207, type: 2}
+  - m_Language: 37
+    m_Value: {fileID: 1112608846796636, guid: 791d4d7581fbabd4aabfaf0f253521df, type: 2}
+  - m_Language: 1
+    m_Value: {fileID: 1384120416915356, guid: eb2f4a47cacbfa649b3d9fb44254cf16, type: 2}
+  - m_Language: 30
+    m_Value: {fileID: 1739504056131026, guid: ca2c30938bf93b84da4dcc1b43d29b8e, type: 2}
+  - m_Language: 15
+    m_Value: {fileID: 1823501855626836, guid: 31428973e85ffc944b298e29e416c207, type: 2}
+  - m_Language: 40
+    m_Value: {fileID: 1112608846796636, guid: 791d4d7581fbabd4aabfaf0f253521df, type: 2}
+  - m_Language: 34
+    m_Value: {fileID: 1384120416915356, guid: eb2f4a47cacbfa649b3d9fb44254cf16, type: 2}

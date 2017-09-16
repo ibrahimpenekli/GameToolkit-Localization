@@ -796,6 +796,47 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &992963411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 992963413}
+  - component: {fileID: 992963412}
+  m_Layer: 0
+  m_Name: Localized GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &992963412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 992963411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23e059da7382ef418001e319fb5fe46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizedPrefab: {fileID: 11400000, guid: 3838b7b44dafb5048993009d03fbf87b, type: 2}
+--- !u!4 &992963413
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 992963411}
+  m_LocalRotation: {x: -0.3689816, y: -0.18190989, z: -0.073973455, w: 0.90845436}
+  m_LocalPosition: {x: 1.83, y: 2.517, z: 2.054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -44.212, y: -22.641, z: -0.013}
 --- !u!1 &994859396
 GameObject:
   m_ObjectHideFlags: 0
