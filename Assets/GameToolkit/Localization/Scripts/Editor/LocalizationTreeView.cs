@@ -146,6 +146,41 @@ namespace GameToolkit.Localization.Editor
             }
         }
 
+        protected override bool CanRename(TreeViewItem item)
+		{
+            if (item is AssetTreeViewItem)
+            {
+                // Only allow rename if we can show the rename overlay with a certain width (label might be clipped
+                // by other columns).
+                var renameRect = GetRenameRect(treeViewRect, 0, item);
+                return renameRect.width > 30;
+            }
+			return false;
+		}
+
+        protected override void RenameEnded(RenameEndedArgs args)
+		{
+			// Set the backend name and reload the tree to reflect the new model
+			if (args.acceptedRename)
+			{
+                var item = this.FindItem(args.itemID, this.rootItem) as AssetTreeViewItem;
+                if (item != null)
+                {
+                    var assetPath =  AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
+                    AssetDatabase.RenameAsset(assetPath, args.newName);
+                    AssetDatabase.SaveAssets();
+                    Reload();
+                }
+			}
+		}
+
+		protected override Rect GetRenameRect (Rect rowRect, int row, TreeViewItem item)
+		{
+			var cellRect = GetCellRectForTreeFoldouts(rowRect);
+			CenterRectUsingSingleLineHeight(ref cellRect);
+			return base.GetRenameRect(cellRect, row, item);
+		}
+
         public static MultiColumnHeaderState CreateDefaultMultiColumnHeaderState(float treeViewWidth)
         {
             var typeColumnWidth = 30;
