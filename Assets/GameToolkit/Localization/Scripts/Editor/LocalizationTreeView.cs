@@ -26,7 +26,7 @@ namespace GameToolkit.Localization.Editor
         };
 
         // TreeView columns.
-        enum Columns
+        private enum Columns
         {
             Type,
             Name,
@@ -63,7 +63,7 @@ namespace GameToolkit.Localization.Editor
                 allItems.Add(new AssetTreeViewItem(0, localizedAsset));
 
                 // Add locale items.
-                var localItems = localizedAsset.Localizables;
+                var localItems = localizedAsset.LocaleItems;
                 for (int i = 0; i < localItems.Length; i++)
                 {
                     allItems.Add(new LocaleTreeViewItem(id++, 1, localItems[i]));
@@ -131,11 +131,14 @@ namespace GameToolkit.Localization.Editor
                         if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
                         {
                             localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object) localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
-                        }
-
-                        if (valueType == typeof(string))
+                        } 
+                        else if (valueType == typeof(string))
                         {
                             localeItem.ObjectValue = EditorGUI.TextArea(cellRect, (string) localeItem.ObjectValue);
+                        }
+                        else
+                        {
+                            EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
                         }
                     }
                 }
@@ -157,7 +160,7 @@ namespace GameToolkit.Localization.Editor
                     contextMenuText = "Type",
                     headerTextAlignment = TextAlignment.Center,
                     sortedAscending = true,
-                    sortingArrowAlignment = TextAlignment.Right,
+                    sortingArrowAlignment = TextAlignment.Center,
                     width = typeColumnWidth,
                     minWidth = 30,
                     maxWidth = 60,
@@ -173,17 +176,17 @@ namespace GameToolkit.Localization.Editor
                     width = nameColumnWidth,
                     minWidth = 60,
                     autoResize = false,
-                    allowToggleVisibility = false
+                    allowToggleVisibility = true
                 },
                 new MultiColumnHeaderState.Column
                 {
                     headerContent = new GUIContent("Language", "Locale item language."),
                     headerTextAlignment = TextAlignment.Left,
                     sortedAscending = true,
-                    sortingArrowAlignment = TextAlignment.Left,
+                    sortingArrowAlignment = TextAlignment.Center,
                     width = languageColumnWidth,
-                    minWidth = 60,
-                    autoResize = true
+                    minWidth = 35,
+                    autoResize = false
                 },
                 new MultiColumnHeaderState.Column
                 {

@@ -19,6 +19,6 @@ namespace GameToolkit.Localization
         [SerializeField, Tooltip("Localized textures. First item is fallback value.")]
         private TextureLocaleItem[] m_LocaleItems = new TextureLocaleItem[0];
 
-        public override LocaleItem<Texture>[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }
 }

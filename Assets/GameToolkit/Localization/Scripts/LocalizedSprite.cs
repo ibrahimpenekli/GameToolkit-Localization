@@ -19,6 +19,6 @@ namespace GameToolkit.Localization
         [SerializeField, Tooltip("Localized sprites. First item is fallback value.")]
         private SpriteLocaleItem[] m_LocaleItems = new SpriteLocaleItem[0];
 
-        public override LocaleItem<Sprite>[] LocaleItems { get { return m_LocaleItems; } }
+        public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }
 }

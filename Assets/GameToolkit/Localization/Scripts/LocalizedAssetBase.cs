@@ -16,6 +16,6 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Gets the defined locale items of the localized asset.
         /// </summary>
-        public abstract LocaleItemBase[] Localizables { get; }
+        public abstract LocaleItemBase[] LocaleItems { get; }
     }
 }

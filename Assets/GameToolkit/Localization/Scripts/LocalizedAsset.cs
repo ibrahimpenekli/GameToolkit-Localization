@@ -12,13 +12,14 @@ namespace GameToolkit.Localization
 	/// 
 	/// </summary>
     public abstract class LocalizedAsset<TAsset> : LocalizedAssetBase where TAsset : class
-    {       
+    {
         /// <summary>
-        /// Gets the defined locale items of the localized asset.
+        /// Gets the defined locale items of the localized asset with concrete type.
         /// </summary>
-        public abstract LocaleItem<TAsset>[] LocaleItems { get; }
-
-        public override LocaleItemBase[] Localizables { get { return LocaleItems; } }
+        public LocaleItem<TAsset>[] TypedLocaleItems 
+        { 
+            get { return (LocaleItem<TAsset>[]) LocaleItems; }
+        }
 
         /// <summary>
         /// Returns localized text regarding to Localization.Instance.CurrentLanguage.
@@ -32,7 +33,7 @@ namespace GameToolkit.Localization
                 var value = GetLocaleValue(Localization.Instance.CurrentLanguage);
                 if (value == null)
                 {
-                    var localeItem = LocaleItems.FirstOrDefault();
+                    var localeItem = TypedLocaleItems.FirstOrDefault();
                     value = localeItem != null ? localeItem.Value : default(TAsset);
                 }
                 return value;
@@ -54,7 +55,7 @@ namespace GameToolkit.Localization
         /// <returns>Localized text.</returns>
         public TAsset GetLocaleValue(SystemLanguage language)
         {
-            var localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
+            var localeItem = TypedLocaleItems.FirstOrDefault(x => x.Language == language);
             if (localeItem != null)
             {
                 return localeItem.Value;
