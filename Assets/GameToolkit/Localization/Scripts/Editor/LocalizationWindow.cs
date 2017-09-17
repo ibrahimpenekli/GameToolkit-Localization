@@ -100,7 +100,7 @@ namespace GameToolkit.Localization.Editor
 
         private void SearchBarView(Rect rect)
         {
-            m_SearchField.OnGUI(rect, "");
+            m_TreeView.searchString = m_SearchField.OnGUI(rect, m_TreeView.searchString);
         }
 
         private void BottomToolbarView(Rect rect)
