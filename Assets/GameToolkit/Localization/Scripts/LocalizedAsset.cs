@@ -11,14 +11,22 @@ namespace GameToolkit.Localization
 	/// <summary>
 	/// 
 	/// </summary>
-    public abstract class LocalizedAsset<TAsset> : LocalizedAssetBase where TAsset : class
+    public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class
     {
+        /// <summary>
+        /// Gets the value type.
+        /// </summary>
+        public override Type ValueType 
+        { 
+            get { return typeof(T); }
+        }
+
         /// <summary>
         /// Gets the defined locale items of the localized asset with concrete type.
         /// </summary>
-        public LocaleItem<TAsset>[] TypedLocaleItems 
+        public LocaleItem<T>[] TypedLocaleItems 
         { 
-            get { return (LocaleItem<TAsset>[]) LocaleItems; }
+            get { return (LocaleItem<T>[]) LocaleItems; }
         }
 
         /// <summary>
@@ -26,7 +34,7 @@ namespace GameToolkit.Localization
         /// Returns fallback text or empty string if not found.
         /// </summary>
         /// <returns>Localized text.</returns>
-        public TAsset Value
+        public T Value
         {
             get
             {
@@ -34,7 +42,7 @@ namespace GameToolkit.Localization
                 if (value == null)
                 {
                     var localeItem = TypedLocaleItems.FirstOrDefault();
-                    value = localeItem != null ? localeItem.Value : default(TAsset);
+                    value = localeItem != null ? localeItem.Value : default(T);
                 }
                 return value;
             }
@@ -53,7 +61,7 @@ namespace GameToolkit.Localization
         /// Returns localized text regarding to language given; otherwise, null.
         /// </summary>
         /// <returns>Localized text.</returns>
-        public TAsset GetLocaleValue(SystemLanguage language)
+        public T GetLocaleValue(SystemLanguage language)
         {
             var localeItem = TypedLocaleItems.FirstOrDefault(x => x.Language == language);
             if (localeItem != null)
@@ -67,9 +75,9 @@ namespace GameToolkit.Localization
         /// Returns LocalizedAsset value.
         /// </summary>
         /// <param name="asset">LocalizedAsset</param>
-        public static implicit operator TAsset(LocalizedAsset<TAsset> asset)
+        public static implicit operator T(LocalizedAsset<T> asset)
         {
-            return asset ? asset.Value : default(TAsset);
+            return asset ? asset.Value : default(T);
         }
     }
 }

@@ -16,14 +16,14 @@ namespace GameToolkit.Localization.Editor
         [NonSerialized]
         private bool m_Initialized;
 
-        [SerializeField] 
-		private TreeViewState m_TreeViewState; // Serialized in the window layout file so it survives assembly reloading
-		
-		[SerializeField] 
-		private MultiColumnHeaderState m_MultiColumnHeaderState;
-		
-		private SearchField m_SearchField;
-		private LocalizationTreeView m_TreeView;
+        [SerializeField]
+        private TreeViewState m_TreeViewState; // Serialized in the window layout file so it survives assembly reloading
+
+        [SerializeField]
+        private MultiColumnHeaderState m_MultiColumnHeaderState;
+
+        private SearchField m_SearchField;
+        private LocalizationTreeView m_TreeView;
 
         Rect ToolbarRect { get { return new Rect(20f, 10f, position.width - 40f, 20f); } }
         Rect BodyViewRect { get { return new Rect(20, 30, position.width - 40, position.height - 60); } }
@@ -55,30 +55,30 @@ namespace GameToolkit.Localization.Editor
         {
             if (!m_Initialized)
             {
-				// Check if it already exists (deserialized from window layout file or scriptable object)
-				if (m_TreeViewState == null)
-				{
-					m_TreeViewState = new TreeViewState();
-				}
+                // Check if it already exists (deserialized from window layout file or scriptable object)
+                if (m_TreeViewState == null)
+                {
+                    m_TreeViewState = new TreeViewState();
+                }
 
                 bool firstInit = m_MultiColumnHeaderState == null;
-				var headerState = LocalizationTreeView.CreateDefaultMultiColumnHeaderState(BodyViewRect.width);
-				if (MultiColumnHeaderState.CanOverwriteSerializedFields(m_MultiColumnHeaderState, headerState))
-					MultiColumnHeaderState.OverwriteSerializedFields(m_MultiColumnHeaderState, headerState);
-				m_MultiColumnHeaderState = headerState;
-				
-				var multiColumnHeader = new MultiColumnHeader(headerState);
-				if (firstInit)
-				{
-					multiColumnHeader.ResizeToFit();
-				}
-					
+                var headerState = LocalizationTreeView.CreateDefaultMultiColumnHeaderState(BodyViewRect.width);
+                if (MultiColumnHeaderState.CanOverwriteSerializedFields(m_MultiColumnHeaderState, headerState))
+                {
+                    MultiColumnHeaderState.OverwriteSerializedFields(m_MultiColumnHeaderState, headerState);
+                }
+                m_MultiColumnHeaderState = headerState;
 
-				//var treeModel = new TreeModel<MyTreeElement>(GetData());
-				m_TreeView = new LocalizationTreeView(m_TreeViewState, multiColumnHeader);
+                var multiColumnHeader = new MultiColumnHeader(headerState);
+                if (firstInit)
+                {
+                    multiColumnHeader.ResizeToFit();
+                }
 
-				m_SearchField = new SearchField();
-				m_SearchField.downOrUpArrowKeyPressed += m_TreeView.SetFocusAndEnsureSelectedItem;
+                m_TreeView = new LocalizationTreeView(m_TreeViewState, multiColumnHeader);
+
+                m_SearchField = new SearchField();
+                m_SearchField.downOrUpArrowKeyPressed += m_TreeView.SetFocusAndEnsureSelectedItem;
 
                 m_Initialized = true;
             }
@@ -95,7 +95,7 @@ namespace GameToolkit.Localization.Editor
 
         private void BodyView(Rect rect)
         {
-			m_TreeView.OnGUI(rect);
+            m_TreeView.OnGUI(rect);
         }
 
         private void SearchBarView(Rect rect)
@@ -109,20 +109,74 @@ namespace GameToolkit.Localization.Editor
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (GUILayout.Button("Expand All", "miniButtonLeft"))
-                {
-                    m_TreeView.ExpandAll();
-                }
-
-                if (GUILayout.Button("Collapse All", "miniButtonRight"))
-                {
-                    m_TreeView.CollapseAll();
-                }
-
+                TreeViewControls();
+                LocalizedAssetControls();
                 GUILayout.FlexibleSpace();
+                LocaleItemControls();
             }
 
             GUILayout.EndArea();
+        }
+
+        private void TreeViewControls()
+        {
+            if (GUILayout.Button("Expand All", "miniButtonLeft"))
+            {
+                m_TreeView.ExpandAll();
+            }
+
+            if (GUILayout.Button("Collapse All", "miniButtonRight"))
+            {
+                m_TreeView.CollapseAll();
+            }
+        }
+
+        private void LocalizedAssetControls()
+        {
+            if (GUILayout.Button(new GUIContent("Create", "Create a new localized asset."), "miniButtonLeft"))
+            {
+                var mousePosition = Event.current.mousePosition;
+                var popupPosition = new Rect(mousePosition.x, mousePosition.y, 0, 0);
+                EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/GameToolkit/Localization/", null);
+            }
+
+            var selectedItem = m_TreeView.GetSelectedItem() as AssetTreeViewItem;
+            GUI.enabled = selectedItem != null;
+
+            if (GUILayout.Button(new GUIContent("Rename", "Rename the selected localized asset."), "miniButtonMid"))
+            {
+                m_TreeView.BeginRename(selectedItem);
+            }
+            if (GUILayout.Button(new GUIContent("Delete", "Delete the selected localized asset."), "miniButtonRight"))
+            {
+                var assetPath = AssetDatabase.GetAssetPath(selectedItem.LocalizedAsset.GetInstanceID());
+                AssetDatabase.DeleteAsset(assetPath);
+            }
+            GUI.enabled = true;
+        }
+
+        private void LocaleItemControls()
+        {
+            var selectedItem = m_TreeView.GetSelectedItem();
+            var assetItem = selectedItem as AssetTreeViewItem;
+            if (assetItem == null)
+            {
+                assetItem = ((LocaleTreeViewItem)selectedItem).Parent;
+            }
+
+            GUI.enabled = assetItem != null;
+            if (GUILayout.Button("Add", "miniButtonLeft"))
+            {
+                // TODO: Add locale item.
+            }
+
+            var localeItem = selectedItem as LocaleTreeViewItem;
+            GUI.enabled = localeItem != null;
+            if (GUILayout.Button("Remove", "miniButtonRight"))
+            {
+                // TODO: Remove locale item.
+            }
+            GUI.enabled = true;
         }
     }
 }

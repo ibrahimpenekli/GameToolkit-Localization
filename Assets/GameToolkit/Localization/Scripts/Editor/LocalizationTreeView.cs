@@ -14,16 +14,7 @@ namespace GameToolkit.Localization.Editor
     {
         private const float RowHeight = 20f;
         private const float ToggleWidth = 18f;
-
-        private static readonly Dictionary<Type, Texture2D> LocalizedAssetIcons = new Dictionary<Type, Texture2D>()
-        {
-            {typeof(LocalizedText), EditorGUIUtility.FindTexture("TextAsset Icon")},
-            {typeof(LocalizedAudioClip), EditorGUIUtility.FindTexture("AudioClip Icon")},
-            {typeof(LocalizedSprite), EditorGUIUtility.FindTexture("Sprite Icon")},
-            {typeof(LocalizedTexture), EditorGUIUtility.FindTexture("Texture Icon")},
-            {typeof(LocalizedFont), EditorGUIUtility.FindTexture("Font Icon")},
-            {typeof(LocalizedPrefab), EditorGUIUtility.FindTexture("PrefabNormal Icon")}
-        };
+        private const int FirstElementId = 1;
 
         // TreeView columns.
         private enum Columns
@@ -34,22 +25,84 @@ namespace GameToolkit.Localization.Editor
             Value
         }
 
+        private enum SortOption
+		{
+            Type,
+			Name
+		}
+
+        private int m_ElementId = FirstElementId;
+
         public LocalizationTreeView(TreeViewState state, MultiColumnHeader multiColumnHeader) : base(state, multiColumnHeader)
         {
             rowHeight = RowHeight;
             columnIndexForTreeFoldouts = 1;
             showAlternatingRowBackgrounds = true;
             showBorder = true;
-
+            
             // Center foldout in the row since we also center content. See RowGUI.
             customFoldoutYOffset = (RowHeight - EditorGUIUtility.singleLineHeight) * 0.5f; 
-            //multiColumnHeader.sortingChanged += OnSortingChanged;
+            multiColumnHeader.sortingChanged += OnSortingChanged;
 
             Reload();
         }
-        static int id = 1;
+
+        private void OnSortingChanged(MultiColumnHeader multiColumnHeader)
+		{
+			if (GetRows().Count <= 1)
+            {
+                return;
+            }
+
+            // No column to sort for (just use the order the data are in).
+            if (multiColumnHeader.sortedColumnIndex == -1)
+			{
+				return; 
+			}
+
+
+		}
+
+        private void SortByMultipleColumns()
+		{
+			var sortedColumns = multiColumnHeader.state.sortedColumns;
+
+			if (sortedColumns.Length == 0)
+            {
+                return;
+            }
+
+			/*var myTypes = rootItem.children.Cast<TreeViewItem<MyTreeElement> >();
+			var orderedQuery = InitialOrder (myTypes, sortedColumns);
+			for (int i=1; i<sortedColumns.Length; i++)
+			{
+				SortOption sortOption = m_SortOptions[sortedColumns[i]];
+				bool ascending = multiColumnHeader.IsSortedAscending(sortedColumns[i]);
+
+				switch (sortOption)
+				{
+					case SortOption.Name:
+						orderedQuery = orderedQuery.ThenBy(l => l.data.name, ascending);
+						break;
+					case SortOption.Value1:
+						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue1, ascending);
+						break;
+					case SortOption.Value2:
+						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue2, ascending);
+						break;
+					case SortOption.Value3:
+						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue3, ascending);
+						break;
+				}
+            }*/
+
+			//rootItem.children = orderedQuery.Cast<TreeViewItem> ().ToList ();
+		}
+
         protected override TreeViewItem BuildRoot()
         {
+            m_ElementId = FirstElementId;
+
             // This section illustrates that IDs should be unique. The root item is required to 
             // have a depth of -1, and the rest of the items increment from that.
             var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
@@ -60,13 +113,14 @@ namespace GameToolkit.Localization.Editor
             // Add localized assets.
             foreach (var localizedAsset in localizedAssets)
             {
-                allItems.Add(new AssetTreeViewItem(0, localizedAsset));
+                var assetItem = new AssetTreeViewItem(0, localizedAsset);
+                allItems.Add(assetItem);
 
                 // Add locale items.
                 var localItems = localizedAsset.LocaleItems;
                 for (int i = 0; i < localItems.Length; i++)
                 {
-                    allItems.Add(new LocaleTreeViewItem(id++, 1, localItems[i]));
+                    allItems.Add(new LocaleTreeViewItem(m_ElementId++, 1, localItems[i], assetItem));
                 }
             }
 
@@ -91,17 +145,24 @@ namespace GameToolkit.Localization.Editor
 			{
                 case Columns.Type:
                 {
-                    var assetItem = item as AssetTreeViewItem;
-                    if (assetItem != null)
+                    var treeViewItem = item as AssetTreeViewItem;
+                    if (treeViewItem != null)
                     {
-                        if (LocalizedAssetIcons.ContainsKey(assetItem.LocalizedAsset.GetType()))
+                        Texture2D icon;
+                        var valueType = treeViewItem.LocalizedAsset.ValueType;
+                        if (valueType == typeof(string))
                         {
-                            GUI.DrawTexture(cellRect, LocalizedAssetIcons[assetItem.LocalizedAsset.GetType()], ScaleMode.ScaleToFit);
+                            icon = EditorGUIUtility.FindTexture("TextAsset Icon");
                         }
                         else
                         {
-                            GUI.DrawTexture(cellRect, EditorGUIUtility.FindTexture("DefaultAsset Icon"), ScaleMode.ScaleToFit);
+                            icon = EditorGUIUtility.FindTexture(valueType.Name + " Icon");
+                            if (!icon)
+                            {
+                                icon = EditorGUIUtility.FindTexture("DefaultAsset Icon");
+                            }
                         }
+                        GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
                     }
                 }
                 break;
@@ -163,7 +224,7 @@ namespace GameToolkit.Localization.Editor
 			// Set the backend name and reload the tree to reflect the new model
 			if (args.acceptedRename)
 			{
-                var item = this.FindItem(args.itemID, this.rootItem) as AssetTreeViewItem;
+                var item = FindItem(args.itemID, rootItem) as AssetTreeViewItem;
                 if (item != null)
                 {
                     var assetPath =  AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
@@ -173,6 +234,16 @@ namespace GameToolkit.Localization.Editor
                 }
 			}
 		}
+
+        public TreeViewItem GetSelectedItem()
+        {
+            var selection = GetSelection();
+            if (selection.Count > 0)
+            {
+                return FindItem(selection[0], rootItem);
+            }
+            return null;
+        }
 
 		protected override Rect GetRenameRect (Rect rowRect, int row, TreeViewItem item)
 		{
