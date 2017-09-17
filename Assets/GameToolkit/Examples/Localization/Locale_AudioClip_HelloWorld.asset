@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d52821015a1fc141befc5a0ab0d265c, type: 3}
-  m_Name: Loc_AudioClip_HelloWorld
+  m_Name: Locale_AudioClip_HelloWorld
   m_EditorClassIdentifier: 
   m_LocaleItems:
   - m_Language: 10
