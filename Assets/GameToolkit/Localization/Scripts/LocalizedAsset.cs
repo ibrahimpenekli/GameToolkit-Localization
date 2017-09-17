@@ -11,12 +11,14 @@ namespace GameToolkit.Localization
 	/// <summary>
 	/// 
 	/// </summary>
-    public abstract class LocalizedAsset<TAsset> : ScriptableObject where TAsset : class
+    public abstract class LocalizedAsset<TAsset> : LocalizedAssetBase where TAsset : class
     {       
         /// <summary>
         /// Gets the defined locale items of the localized asset.
         /// </summary>
         public abstract LocaleItem<TAsset>[] LocaleItems { get; }
+
+        public override LocaleItemBase[] Localizables { get { return LocaleItems; } }
 
         /// <summary>
         /// Returns localized text regarding to Localization.Instance.CurrentLanguage.

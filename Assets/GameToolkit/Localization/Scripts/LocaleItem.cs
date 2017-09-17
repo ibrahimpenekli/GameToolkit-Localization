@@ -1,6 +1,7 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using UnityEngine;
 
 namespace GameToolkit.Localization
@@ -8,22 +9,10 @@ namespace GameToolkit.Localization
     /// <summary>
     /// Keeps the both asset and the corresponding language.
     /// </summary>
-    public class LocaleItem<T> : ILocalizable
-    {
-        [SerializeField, Tooltip("Locale language.")]
-        private SystemLanguage m_Language = SystemLanguage.English;
-        
+    public class LocaleItem<T> : LocaleItemBase
+    {   
         [SerializeField, Tooltip("Locale value.")]
         private T m_Value;
-
-        /// <summary>
-        /// Gets or sets the language of the locale.
-        /// </summary>
-        public SystemLanguage Language
-        {
-            get { return m_Language; }
-            set { m_Language = value; }
-        }
 
         /// <summary>s
         /// Gets or sets the value of locale item.
@@ -32,6 +21,13 @@ namespace GameToolkit.Localization
         {
             get { return m_Value; }
             set { m_Value = value; }
+        }
+
+        /// <see cref="LocaleItemBase.ObjectValue"/>
+        public override object ObjectValue 
+        { 
+            get { return m_Value; }
+            set { Value = (T) value; }
         }
 
         public LocaleItem()

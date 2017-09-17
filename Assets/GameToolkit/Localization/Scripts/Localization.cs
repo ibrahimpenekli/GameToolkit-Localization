@@ -61,9 +61,18 @@ namespace GameToolkit.Localization
         /// Finds all localized assets with type given.
         /// </summary>
         /// <returns>Array of specified localized assets.</returns>
-        public LocalizedAsset<T>[] FindAllLocalizedAssets<T>() where T : class
+        public T[] FindAllLocalizedAssets<T>() where T : LocalizedAssetBase
         {
-            return Resources.FindObjectsOfTypeAll<LocalizedAsset<T>>();
+            return Resources.FindObjectsOfTypeAll<T>();
+        }
+
+        /// <summary>
+        /// Finds all localized assets.
+        /// </summary>
+        /// <returns>Array of localized assets.</returns>
+        public LocalizedAssetBase[] FindAllLocalizedAssets()
+        {
+            return FindAllLocalizedAssets<LocalizedAssetBase>();
         }
 
         /// <summary>
