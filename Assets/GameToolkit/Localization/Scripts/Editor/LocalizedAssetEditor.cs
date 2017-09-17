@@ -27,8 +27,8 @@ namespace GameToolkit.Localization.Editor
             );
             
             m_LocaleItemList.drawHeaderCallback = (Rect rect) =>
-            {
-                EditorGUI.LabelField(rect, elements.displayName);
+            {   
+                EditorGUI.LabelField(rect, ObjectNames.NicifyVariableName(target.GetType().Name) + "s");
             };
             
             m_LocaleItemList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) => 
