@@ -165,7 +165,7 @@ namespace GameToolkit.Localization.Editor
                 }
 
                 GUI.enabled = assetItem != null;
-                if (GUILayout.Button("Add", "miniButtonLeft"))
+                if (GUILayout.Button(new GUIContent("+", "Adds locale for selected asset."), "miniButtonLeft"))
                 {
                     var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
                     serializedObject.Update();
@@ -180,7 +180,7 @@ namespace GameToolkit.Localization.Editor
 
                 var localeItem = selectedItem as LocaleTreeViewItem;
                 GUI.enabled = localeItem != null;
-                if (GUILayout.Button("Remove", "miniButtonRight"))
+                if (GUILayout.Button(new GUIContent("-", "Removes selected locale."), "miniButtonRight"))
                 {
                     var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
                     serializedObject.Update();
