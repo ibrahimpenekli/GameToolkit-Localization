@@ -10,15 +10,15 @@ namespace GameToolkit.Localization
 	/// <summary>
 	/// 
 	/// </summary>
-    [CreateAssetMenu(fileName = "LocalizedSprite", menuName = "GameToolkit/Localization/Sprite")]
-    public class LocalizedSprite : LocalizedAsset<Sprite>
+    [CreateAssetMenu(fileName = "LocalizedTextAsset", menuName = "GameToolkit/Localization/Text Asset")]
+    public class LocalizedTextAsset : LocalizedAsset<TextAsset>
     {
         [Serializable]
-        private class SpriteLocaleItem : LocaleItem<Sprite> { };
+        private class TextAssetLocaleItem : LocaleItem<TextAsset> { };
 
         [SerializeField]
-        private SpriteLocaleItem[] m_LocaleItems = new SpriteLocaleItem[1];
-
+        private TextAssetLocaleItem[] m_LocaleItems = new TextAssetLocaleItem[1];
+        
         public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }
 }

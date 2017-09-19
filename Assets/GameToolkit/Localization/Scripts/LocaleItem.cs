@@ -30,7 +30,7 @@ namespace GameToolkit.Localization
             set { Value = (T) value; }
         }
 
-        public LocaleItem()
+        public LocaleItem() : base()
         {
         }
 

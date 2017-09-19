@@ -188,7 +188,7 @@ namespace GameToolkit.Localization.Editor
                     if (treeViewItem != null)
                     {
                         var localeItem = treeViewItem.LocaleItem;
-                        var valueType = localeItem.ObjectValue.GetType();
+                        var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
                         if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
                         {
                             localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object) localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);

@@ -16,8 +16,8 @@ namespace GameToolkit.Localization
         [Serializable]
         private class TextLocaleItem : LocaleItem<string> { };
 
-        [SerializeField, Tooltip("Localized texts. First item is fallback value.")]
-        private TextLocaleItem[] m_LocaleItems = new TextLocaleItem[0];
+        [SerializeField]
+        private TextLocaleItem[] m_LocaleItems = new TextLocaleItem[1];
         
         public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }

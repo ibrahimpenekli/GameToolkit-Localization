@@ -16,8 +16,8 @@ namespace GameToolkit.Localization
         [Serializable]
         private class FontLocaleItem : LocaleItem<Font> { };
 
-        [SerializeField, Tooltip("Localized fonts. First item is fallback value.")]
-        private FontLocaleItem[] m_LocaleItems = new FontLocaleItem[0];
+        [SerializeField]
+        private FontLocaleItem[] m_LocaleItems = new FontLocaleItem[1];
         
         public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }

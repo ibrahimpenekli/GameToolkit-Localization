@@ -41,13 +41,11 @@ namespace GameToolkit.Localization.Editor
 
         private void Awake()
         {
-            Debug.Log("LocalizationWindow: Awake");
             m_Initialized = false;
         }
 
         private void OnProjectChange()
         {
-            Debug.Log("LocalizationWindow: OnProjectChange");
             m_Initialized = false;
         }
 
@@ -158,25 +156,46 @@ namespace GameToolkit.Localization.Editor
         private void LocaleItemControls()
         {
             var selectedItem = m_TreeView.GetSelectedItem();
-            var assetItem = selectedItem as AssetTreeViewItem;
-            if (assetItem == null)
+            if (selectedItem != null)
             {
-                assetItem = ((LocaleTreeViewItem)selectedItem).Parent;
-            }
+                var assetItem = selectedItem as AssetTreeViewItem;
+                if (assetItem == null)
+                {
+                    assetItem = ((LocaleTreeViewItem)selectedItem).Parent;
+                }
 
-            GUI.enabled = assetItem != null;
-            if (GUILayout.Button("Add", "miniButtonLeft"))
-            {
-                // TODO: Add locale item.
-            }
+                GUI.enabled = assetItem != null;
+                if (GUILayout.Button("Add", "miniButtonLeft"))
+                {
+                    var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
+                    serializedObject.Update();
+                    var elements = serializedObject.FindProperty("m_LocaleItems");
+                    if (elements != null)
+                    {
+                        elements.arraySize += 1;
+                        serializedObject.ApplyModifiedProperties();
+                        m_TreeView.Reload();
+                    }
+                }
 
-            var localeItem = selectedItem as LocaleTreeViewItem;
-            GUI.enabled = localeItem != null;
-            if (GUILayout.Button("Remove", "miniButtonRight"))
-            {
-                // TODO: Remove locale item.
+                var localeItem = selectedItem as LocaleTreeViewItem;
+                GUI.enabled = localeItem != null;
+                if (GUILayout.Button("Remove", "miniButtonRight"))
+                {
+                    var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
+                    serializedObject.Update();
+                    var elements = serializedObject.FindProperty("m_LocaleItems");
+                    if (elements != null && elements.arraySize > 1)
+                    {
+                        var localizedAsset = assetItem.LocalizedAsset;
+                        var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem.LocaleItem);
+                        elements.DeleteArrayElementAtIndex(localeItemIndex);
+                        serializedObject.ApplyModifiedProperties();
+                        m_TreeView.Reload();
+                    }
+                }
+                GUI.enabled = true;
             }
-            GUI.enabled = true;
         }
     }
 }

@@ -46,6 +46,10 @@ namespace GameToolkit.Localization.Editor
                     var r2 = new Rect(r1.x + r1.width + 4, r1.y, rect.width - r1.width - 4, r1.height);
                     EditorGUI.PropertyField(r2, element.FindPropertyRelative("m_Value"), GUIContent.none);
                 };
+                m_LocaleItemList.onCanRemoveCallback = (ReorderableList list) =>
+                {
+                    return list.count > 1;
+                };
             }
         }
 
@@ -56,6 +60,8 @@ namespace GameToolkit.Localization.Editor
                 serializedObject.Update();
                 m_LocaleItemList.DoLayoutList();
                 serializedObject.ApplyModifiedProperties();
+
+                EditorGUILayout.HelpBox("First locale item is used as fallback if needed.", MessageType.Info);
             }
             else
             {

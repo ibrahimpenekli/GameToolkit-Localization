@@ -16,8 +16,8 @@ namespace GameToolkit.Localization
         [Serializable]
         private class PrefabLocaleItem : LocaleItem<GameObject> { };
 
-        [SerializeField, Tooltip("Localized prefabs. First item is fallback value.")]
-        private PrefabLocaleItem[] m_LocaleItems = new PrefabLocaleItem[0];
+        [SerializeField]
+        private PrefabLocaleItem[] m_LocaleItems = new PrefabLocaleItem[1];
         
         public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }
