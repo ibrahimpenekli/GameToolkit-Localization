@@ -58,17 +58,31 @@ namespace GameToolkit.Localization
         }
 
         /// <summary>
-        /// Finds all localized assets with type given.
+        /// Finds all localized assets with type given. Finds all assets in the project if in Editor; otherwise,
+        /// finds only that loaded in memory.
         /// </summary>
         /// <returns>Array of specified localized assets.</returns>
         public T[] FindAllLocalizedAssets<T>() where T : LocalizedAssetBase
         {
+#if UNITY_EDITOR
+            var guids = UnityEditor.AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+            var assets = new T[guids.Length];
+            for (int i = 0; i < guids.Length; ++i)
+            {
+                var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+                assets[i] = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                Debug.Assert(assets[i]);
+            }
+            return assets;
+#else
             return Resources.FindObjectsOfTypeAll<T>();
+#endif
         }
 
         /// <summary>
         /// Finds all localized assets.
         /// </summary>
+        /// <seealso cref="FindAllLocalizedAssets{T}"/>
         /// <returns>Array of localized assets.</returns>
         public LocalizedAssetBase[] FindAllLocalizedAssets()
         {
