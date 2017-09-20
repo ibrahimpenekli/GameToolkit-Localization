@@ -43,4 +43,6 @@ sysinfo.txt
 ehthumbs.db
 Thumbs.db
 
-LocalizationSettings.asset*
+# Folder that contains personal service account, API keys etc.
+Assets/Accounts/
+Assets/Accounts.meta

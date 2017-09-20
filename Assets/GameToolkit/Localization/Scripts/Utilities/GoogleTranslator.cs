@@ -19,7 +19,12 @@ namespace GameToolkit.Localization.Utilities
         /// Gets or sets the google cloud API key.
         /// </summary>
         /// <seealso cref="https://cloud.google.com/docs/authentication/api-keys"/>
-        public string ApiKey { get; set; }
+        public TextAsset AuthenticationFile { get; set; }
+
+        public GoogleTranslator(TextAsset authFile)
+        {
+            AuthenticationFile = authFile;
+        }
 
         public IEnumerator Translate(GoogleTranslateRequest request)
         {
@@ -28,12 +33,17 @@ namespace GameToolkit.Localization.Utilities
                 throw new ArgumentNullException("request");
             }
 
+            if (!AuthenticationFile)
+            {
+                throw new ArgumentNullException("AuthenticationFile", "Auth file not attached.");
+            }
+
             var form = new WWWForm();
             form.AddField(RequestKeyInputText, request.Text);
             form.AddField(RequestKeySourceLanguage, Localization.GetLanguageCode(request.Source));
             form.AddField(RequestKeyTargetLanguage, Localization.GetLanguageCode(request.Target));
 
-            var url = string.Format(RequestUrlFormat, LocalizationSettings.Instance.ApiKey);
+            var url = string.Format(RequestUrlFormat, AuthenticationFile.text);
             WWW www = new WWW(url, form);
             yield return www;
 
