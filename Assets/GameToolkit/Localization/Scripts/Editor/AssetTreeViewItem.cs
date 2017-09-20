@@ -5,7 +5,7 @@ using UnityEditor.IMGUI.Controls;
 
 namespace GameToolkit.Localization.Editor
 {
-    class AssetTreeViewItem : TreeViewItem
+    public class AssetTreeViewItem : TreeViewItem
     {
         public LocalizedAssetBase LocalizedAsset { get; private set; }
 

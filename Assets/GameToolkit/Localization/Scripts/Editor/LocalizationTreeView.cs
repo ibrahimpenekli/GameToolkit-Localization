@@ -25,12 +25,6 @@ namespace GameToolkit.Localization.Editor
             Value
         }
 
-        private enum SortOption
-		{
-            Type,
-			Name
-		}
-
         private int m_ElementId = FirstElementId;
 
         public LocalizationTreeView(TreeViewState state, MultiColumnHeader multiColumnHeader) : base(state, multiColumnHeader)
@@ -39,65 +33,12 @@ namespace GameToolkit.Localization.Editor
             columnIndexForTreeFoldouts = 1;
             showAlternatingRowBackgrounds = true;
             showBorder = true;
-            
-            // Center foldout in the row since we also center content. See RowGUI.
-            customFoldoutYOffset = (RowHeight - EditorGUIUtility.singleLineHeight) * 0.5f; 
-            multiColumnHeader.sortingChanged += OnSortingChanged;
 
+            // Center foldout in the row since we also center content. See RowGUI.
+            customFoldoutYOffset = (RowHeight - EditorGUIUtility.singleLineHeight) * 0.5f;
+            multiColumnHeader.canSort = false;
             Reload();
         }
-
-        private void OnSortingChanged(MultiColumnHeader multiColumnHeader)
-		{
-			if (GetRows().Count <= 1)
-            {
-                return;
-            }
-
-            // No column to sort for (just use the order the data are in).
-            if (multiColumnHeader.sortedColumnIndex == -1)
-			{
-				return; 
-			}
-
-
-		}
-
-        private void SortByMultipleColumns()
-		{
-			var sortedColumns = multiColumnHeader.state.sortedColumns;
-
-			if (sortedColumns.Length == 0)
-            {
-                return;
-            }
-
-			/*var myTypes = rootItem.children.Cast<TreeViewItem<MyTreeElement> >();
-			var orderedQuery = InitialOrder (myTypes, sortedColumns);
-			for (int i=1; i<sortedColumns.Length; i++)
-			{
-				SortOption sortOption = m_SortOptions[sortedColumns[i]];
-				bool ascending = multiColumnHeader.IsSortedAscending(sortedColumns[i]);
-
-				switch (sortOption)
-				{
-					case SortOption.Name:
-						orderedQuery = orderedQuery.ThenBy(l => l.data.name, ascending);
-						break;
-					case SortOption.Value1:
-						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue1, ascending);
-						break;
-					case SortOption.Value2:
-						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue2, ascending);
-						break;
-					case SortOption.Value3:
-						orderedQuery = orderedQuery.ThenBy(l => l.data.floatValue3, ascending);
-						break;
-				}
-            }*/
-
-			//rootItem.children = orderedQuery.Cast<TreeViewItem> ().ToList ();
-		}
 
         protected override TreeViewItem BuildRoot()
         {
@@ -140,75 +81,75 @@ namespace GameToolkit.Localization.Editor
         void CellGUI(Rect cellRect, TreeViewItem item, Columns column, ref RowGUIArgs args)
         {
             // Center cell rect vertically (makes it easier to place controls, icons etc in the cells).
-			CenterRectUsingSingleLineHeight(ref cellRect);
+            CenterRectUsingSingleLineHeight(ref cellRect);
             switch (column)
-			{
+            {
                 case Columns.Type:
-                {
-                    var treeViewItem = item as AssetTreeViewItem;
-                    if (treeViewItem != null)
                     {
-                        Texture2D icon;
-                        var valueType = treeViewItem.LocalizedAsset.ValueType;
-                        if (valueType == typeof(string))
+                        var treeViewItem = item as AssetTreeViewItem;
+                        if (treeViewItem != null)
                         {
-                            icon = EditorGUIUtility.FindTexture("TextAsset Icon");
-                        }
-                        else
-                        {
-                            icon = EditorGUIUtility.FindTexture(valueType.Name + " Icon");
-                            if (!icon)
+                            Texture2D icon;
+                            var valueType = treeViewItem.LocalizedAsset.ValueType;
+                            if (valueType == typeof(string))
                             {
-                                icon = EditorGUIUtility.FindTexture("DefaultAsset Icon");
+                                icon = EditorGUIUtility.FindTexture("TextAsset Icon");
+                            }
+                            else
+                            {
+                                icon = EditorGUIUtility.FindTexture(valueType.Name + " Icon");
+                                if (!icon)
+                                {
+                                    icon = EditorGUIUtility.FindTexture("DefaultAsset Icon");
+                                }
+                            }
+                            GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
+                        }
+                    }
+                    break;
+                case Columns.Name:
+                    {
+                        // Default icon and label
+                        args.rowRect = cellRect;
+                        base.RowGUI(args);
+                    }
+                    break;
+                case Columns.Language:
+                    {
+                        var localeItem = item as LocaleTreeViewItem;
+                        if (localeItem != null)
+                        {
+                            localeItem.LocaleItem.Language = (SystemLanguage)EditorGUI.EnumPopup(cellRect, localeItem.LocaleItem.Language);
+                        }
+                    }
+                    break;
+                case Columns.Value:
+                    {
+                        var treeViewItem = item as LocaleTreeViewItem;
+                        if (treeViewItem != null)
+                        {
+                            var localeItem = treeViewItem.LocaleItem;
+                            var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
+                            if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
+                            {
+                                localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object)localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
+                            }
+                            else if (valueType == typeof(string))
+                            {
+                                localeItem.ObjectValue = EditorGUI.TextArea(cellRect, (string)localeItem.ObjectValue);
+                            }
+                            else
+                            {
+                                EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
                             }
                         }
-                        GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
                     }
-                }
-                break;
-                case Columns.Name:
-                {
-                    // Default icon and label
-                    args.rowRect = cellRect;
-                    base.RowGUI(args);
-                }
-                break;
-                case Columns.Language:
-                {
-                    var localeItem = item as LocaleTreeViewItem;
-                    if (localeItem != null)
-                    {
-                        localeItem.LocaleItem.Language = (SystemLanguage) EditorGUI.EnumPopup(cellRect, localeItem.LocaleItem.Language);
-                    }
-                }
-                break;
-                case Columns.Value:
-                {
-                    var treeViewItem = item as LocaleTreeViewItem;
-                    if (treeViewItem != null)
-                    {
-                        var localeItem = treeViewItem.LocaleItem;
-                        var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
-                        if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
-                        {
-                            localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object) localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
-                        } 
-                        else if (valueType == typeof(string))
-                        {
-                            localeItem.ObjectValue = EditorGUI.TextArea(cellRect, (string) localeItem.ObjectValue);
-                        }
-                        else
-                        {
-                            EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
-                        }
-                    }
-                }
-                break;
+                    break;
             }
         }
 
         protected override bool CanRename(TreeViewItem item)
-		{
+        {
             if (item is AssetTreeViewItem)
             {
                 // Only allow rename if we can show the rename overlay with a certain width (label might be clipped
@@ -216,24 +157,24 @@ namespace GameToolkit.Localization.Editor
                 var renameRect = GetRenameRect(treeViewRect, 0, item);
                 return renameRect.width > 30;
             }
-			return false;
-		}
+            return false;
+        }
 
         protected override void RenameEnded(RenameEndedArgs args)
-		{
-			// Set the backend name and reload the tree to reflect the new model
-			if (args.acceptedRename)
-			{
+        {
+            // Set the backend name and reload the tree to reflect the new model
+            if (args.acceptedRename)
+            {
                 var item = FindItem(args.itemID, rootItem) as AssetTreeViewItem;
                 if (item != null)
                 {
-                    var assetPath =  AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
+                    var assetPath = AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
                     AssetDatabase.RenameAsset(assetPath, args.newName);
                     AssetDatabase.SaveAssets();
                     Reload();
                 }
-			}
-		}
+            }
+        }
 
         public TreeViewItem GetSelectedItem()
         {
@@ -245,12 +186,12 @@ namespace GameToolkit.Localization.Editor
             return null;
         }
 
-		protected override Rect GetRenameRect (Rect rowRect, int row, TreeViewItem item)
-		{
-			var cellRect = GetCellRectForTreeFoldouts(rowRect);
-			CenterRectUsingSingleLineHeight(ref cellRect);
-			return base.GetRenameRect(cellRect, row, item);
-		}
+        protected override Rect GetRenameRect(Rect rowRect, int row, TreeViewItem item)
+        {
+            var cellRect = GetCellRectForTreeFoldouts(rowRect);
+            CenterRectUsingSingleLineHeight(ref cellRect);
+            return base.GetRenameRect(cellRect, row, item);
+        }
 
         public static MultiColumnHeaderState CreateDefaultMultiColumnHeaderState(float treeViewWidth)
         {
@@ -262,7 +203,7 @@ namespace GameToolkit.Localization.Editor
             {
                 new MultiColumnHeaderState.Column
                 {
-                    headerContent = new GUIContent(EditorGUIUtility.FindTexture("FilterByType"), "Filter by asset type."),
+                    headerContent = new GUIContent(EditorGUIUtility.FindTexture("FilterByType"), "Localized asset type."),
                     contextMenuText = "Type",
                     headerTextAlignment = TextAlignment.Center,
                     sortedAscending = true,
@@ -282,11 +223,11 @@ namespace GameToolkit.Localization.Editor
                     width = nameColumnWidth,
                     minWidth = 60,
                     autoResize = false,
-                    allowToggleVisibility = true
+                    allowToggleVisibility = false
                 },
                 new MultiColumnHeaderState.Column
                 {
-                    headerContent = new GUIContent("Language", "Locale item language."),
+                    headerContent = new GUIContent("Language", "Locale language."),
                     headerTextAlignment = TextAlignment.Left,
                     sortedAscending = true,
                     sortingArrowAlignment = TextAlignment.Center,
@@ -296,7 +237,7 @@ namespace GameToolkit.Localization.Editor
                 },
                 new MultiColumnHeaderState.Column
                 {
-                    headerContent = new GUIContent("Value", "Locale item value."),
+                    headerContent = new GUIContent("Value", "Locale value."),
                     headerTextAlignment = TextAlignment.Left,
                     sortedAscending = true,
                     sortingArrowAlignment = TextAlignment.Left,
@@ -306,7 +247,8 @@ namespace GameToolkit.Localization.Editor
                 }
             };
 
-            Assert.AreEqual(columns.Length, Enum.GetValues(typeof(Columns)).Length, "Number of columns should match number of enum values: You probably forgot to update one of them.");
+            Assert.AreEqual(columns.Length, Enum.GetValues(typeof(Columns)).Length,
+                            "Number of columns should match number of enum values: You probably forgot to update one of them.");
 
             var state = new MultiColumnHeaderState(columns);
             return state;

@@ -16,7 +16,7 @@ namespace GameToolkit.Localization.Editor
 
         private void OnEnable()
         {
-            var elements = serializedObject.FindProperty("m_LocaleItems");
+            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
             if (elements != null)
             {
                 m_LocaleItemList = new ReorderableList
@@ -40,11 +40,11 @@ namespace GameToolkit.Localization.Editor
 
                     // Language field.
                     var r1 = new Rect(rect.x, rect.y + 2, LanguageFieldWidth, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.PropertyField(r1, element.FindPropertyRelative("m_Language"), GUIContent.none);
+                    EditorGUI.PropertyField(r1, element.FindPropertyRelative(LocalizationEditorHelper.LocaleLanguageSerializedProperty), GUIContent.none);
 
                     // Value field.
                     var r2 = new Rect(r1.x + r1.width + 4, r1.y, rect.width - r1.width - 4, r1.height);
-                    EditorGUI.PropertyField(r2, element.FindPropertyRelative("m_Value"), GUIContent.none);
+                    EditorGUI.PropertyField(r2, element.FindPropertyRelative(LocalizationEditorHelper.LocaleValueSerializedProperty), GUIContent.none);
                 };
                 m_LocaleItemList.onCanRemoveCallback = (ReorderableList list) =>
                 {

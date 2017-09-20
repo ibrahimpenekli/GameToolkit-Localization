@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af65ee6b0f35f974dba93979a07edbce, type: 3}
+  m_Name: Locale_Text_QuitButton
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: 10
+    m_Value: Quit Game
+  - m_Language: 37
+    m_Value: "Oyundan \xC7\u0131k"
+  - m_Language: 34
+    m_Value: Salir del juego
+  - m_Language: 15
+    m_Value: Spiel verlassen
+  - m_Language: 40
+    m_Value: "\u9000\u51FA\u6E38\u620F"
+  - m_Language: 30
+    m_Value: "\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 \u0438\u0433\u0440\u044B"
+  - m_Language: 1
+    m_Value: "\u0625\u0646\u0647\u0627\u0621 \u0644\u0639\u0628\u0629"

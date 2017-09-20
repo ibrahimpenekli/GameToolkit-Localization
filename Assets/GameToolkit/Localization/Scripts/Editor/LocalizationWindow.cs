@@ -10,7 +10,6 @@ namespace GameToolkit.Localization.Editor
 {
     public class LocalizationWindow : EditorWindow
     {
-        private const string ParentMenu = "GameToolkit/Localization/";
         private const string WindowName = "Localization Explorer";
 
         [NonSerialized]
@@ -29,7 +28,7 @@ namespace GameToolkit.Localization.Editor
         Rect BodyViewRect { get { return new Rect(20, 30, position.width - 40, position.height - 60); } }
         Rect BottomToolbarRect { get { return new Rect(20f, position.height - 18f, position.width - 40f, 16f); } }
 
-        [MenuItem(ParentMenu + WindowName)]
+        [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName)]
         public static LocalizationWindow GetWindow()
         {
             var window = GetWindow<LocalizationWindow>();
@@ -133,8 +132,8 @@ namespace GameToolkit.Localization.Editor
         {
             if (GUILayout.Button(new GUIContent("Create", "Create a new localized asset."), "miniButtonLeft"))
             {
-                var mousePosition = Event.current.mousePosition;
-                var popupPosition = new Rect(mousePosition.x, mousePosition.y, 0, 0);
+                var rect = GUILayoutUtility.GetLastRect();
+                var popupPosition = new Rect(rect.x + 30, rect.y, 0, 0);
                 EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/GameToolkit/Localization/", null);
             }
 
@@ -158,43 +157,75 @@ namespace GameToolkit.Localization.Editor
             var selectedItem = m_TreeView.GetSelectedItem();
             if (selectedItem != null)
             {
-                var assetItem = selectedItem as AssetTreeViewItem;
-                if (assetItem == null)
+                var assetTreeViewItem = selectedItem as AssetTreeViewItem;
+                var localeTreeViewItem = selectedItem as LocaleTreeViewItem;
+
+                if (assetTreeViewItem == null)
                 {
-                    assetItem = ((LocaleTreeViewItem)selectedItem).Parent;
+                    assetTreeViewItem = ((LocaleTreeViewItem)selectedItem).Parent;
                 }
 
-                GUI.enabled = assetItem != null;
+                // First element is already default.
+                GUI.enabled = localeTreeViewItem != null;
+                if (GUILayout.Button(new GUIContent("Make Default", "Make selected locale as default."), "miniButton"))
+                {
+                    MakeLocaleDefault(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
+                }
+
+                GUI.enabled = assetTreeViewItem != null;
                 if (GUILayout.Button(new GUIContent("+", "Adds locale for selected asset."), "miniButtonLeft"))
                 {
-                    var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
-                    serializedObject.Update();
-                    var elements = serializedObject.FindProperty("m_LocaleItems");
-                    if (elements != null)
-                    {
-                        elements.arraySize += 1;
-                        serializedObject.ApplyModifiedProperties();
-                        m_TreeView.Reload();
-                    }
+                    AddLocale(assetTreeViewItem.LocalizedAsset);
                 }
 
-                var localeItem = selectedItem as LocaleTreeViewItem;
-                GUI.enabled = localeItem != null;
+
+                GUI.enabled = localeTreeViewItem != null;
                 if (GUILayout.Button(new GUIContent("-", "Removes selected locale."), "miniButtonRight"))
                 {
-                    var serializedObject = new SerializedObject(assetItem.LocalizedAsset);
-                    serializedObject.Update();
-                    var elements = serializedObject.FindProperty("m_LocaleItems");
-                    if (elements != null && elements.arraySize > 1)
-                    {
-                        var localizedAsset = assetItem.LocalizedAsset;
-                        var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem.LocaleItem);
-                        elements.DeleteArrayElementAtIndex(localeItemIndex);
-                        serializedObject.ApplyModifiedProperties();
-                        m_TreeView.Reload();
-                    }
+                    RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
                 }
                 GUI.enabled = true;
+            }
+        }
+
+        private void MakeLocaleDefault(LocalizedAssetBase localizedAsset, LocaleItemBase localeItem)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            if (elements != null && elements.arraySize > 1)
+            {
+                var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
+                elements.MoveArrayElement(localeItemIndex, 0);
+                serializedObject.ApplyModifiedProperties();
+                m_TreeView.Reload();
+            }
+        }
+
+        private void AddLocale(LocalizedAssetBase localizedAsset)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            if (elements != null)
+            {
+                elements.arraySize += 1;
+                serializedObject.ApplyModifiedProperties();
+                m_TreeView.Reload();
+            }
+        }
+
+        private void RemoveLocale(LocalizedAssetBase localizedAsset, LocaleItemBase localeItem)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            if (elements != null && elements.arraySize > 1)
+            {
+                var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
+                elements.DeleteArrayElementAtIndex(localeItemIndex);
+                serializedObject.ApplyModifiedProperties();
+                m_TreeView.Reload();
             }
         }
     }

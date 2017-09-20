@@ -11,7 +11,7 @@ namespace GameToolkit.Localization.Editor
 	/// </summary>
     public static class LocalizationMenu
     {
-        private const string ParentMenu = "GameToolkit/Localization/Set Locale/";
+        private const string ParentMenu = LocalizationEditorHelper.LocalizationMenu + "Set Locale/";
 
         [MenuItem(ParentMenu + "Afrikaans")]
         static void ChangeToAfrikaans()
