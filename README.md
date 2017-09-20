@@ -7,3 +7,5 @@ Features:
 * Easy-to-use localized asset editor
 
 Available on Asset Store: http://u3d.as/XhJ
+
+![alt text](https://github.com/ibrahimpenekli/GameToolkit-Localization/ReadMeImages/Preview.gif "Preview")
