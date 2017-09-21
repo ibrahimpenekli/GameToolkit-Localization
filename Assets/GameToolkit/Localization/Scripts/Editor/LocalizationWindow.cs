@@ -2,9 +2,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
+using GameToolkit.Localization.Utilities;
 
 namespace GameToolkit.Localization.Editor
 {
@@ -132,8 +135,8 @@ namespace GameToolkit.Localization.Editor
         {
             if (GUILayout.Button(new GUIContent("Create", "Create a new localized asset."), "miniButtonLeft"))
             {
-                var rect = GUILayoutUtility.GetLastRect();
-                var popupPosition = new Rect(rect.x + 30, rect.y, 0, 0);
+                var mousePosition = Event.current.mousePosition;
+                var popupPosition = new Rect(mousePosition.x, mousePosition.y, 0, 0);
                 EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/GameToolkit/Localization/", null);
             }
 
@@ -165,6 +168,12 @@ namespace GameToolkit.Localization.Editor
                     assetTreeViewItem = ((LocaleTreeViewItem)selectedItem).Parent;
                 }
 
+                GUI.enabled = assetTreeViewItem != null && assetTreeViewItem.LocalizedAsset.ValueType == typeof(string);
+                if (GUILayout.Button(new GUIContent("Translate By", "Translate missing locales."), "miniButton"))
+                {
+                    TranslateMissingLocales(assetTreeViewItem.LocalizedAsset);
+                }
+
                 // First element is already default.
                 GUI.enabled = localeTreeViewItem != null;
                 if (GUILayout.Button(new GUIContent("Make Default", "Make selected locale as default."), "miniButton"))
@@ -178,13 +187,56 @@ namespace GameToolkit.Localization.Editor
                     AddLocale(assetTreeViewItem.LocalizedAsset);
                 }
 
-
                 GUI.enabled = localeTreeViewItem != null;
                 if (GUILayout.Button(new GUIContent("-", "Removes selected locale."), "miniButtonRight"))
                 {
                     RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
                 }
                 GUI.enabled = true;
+            }
+        }
+
+        private GoogleTranslator m_Translator;
+
+        private void TranslateMissingLocales(LocalizedAssetBase localizedAsset)
+        {
+            m_Translator = new GoogleTranslator(LocalizationSettings.Instance.GoogleAuthenticationFile);
+            var localizedText = localizedAsset as LocalizedText;
+            var options = new List<GUIContent>();
+            foreach (var locale in localizedText.TypedLocaleItems)
+            {
+                if (!string.IsNullOrEmpty(locale.Value))
+                {
+                    options.Add(new GUIContent(locale.Language.ToString()));
+                }
+            }
+
+            var mousePosition = Event.current.mousePosition;
+            var popupPosition = new Rect(mousePosition.x, mousePosition.y, 0, 0);
+            EditorUtility.DisplayCustomMenu(popupPosition, options.ToArray(), -1, TranslateSelected, localizedText);
+        }
+
+        private void TranslateSelected(object userData, string[] options, int selected)
+        {
+            var localizedText = userData as LocalizedText;
+            var selectedLanguage = (SystemLanguage)Enum.Parse(typeof(SystemLanguage), options[selected]);
+            var selectedValue = localizedText.TypedLocaleItems.FirstOrDefault(x => x.Language == selectedLanguage).Value;
+
+            foreach (var locale in localizedText.TypedLocaleItems)
+            {
+                if (string.IsNullOrEmpty(locale.Value))
+                {
+                    m_Translator.Translate(new GoogleTranslateRequest(selectedLanguage, locale.Language, selectedValue),
+                        (TranslationCompletedEventArgs e) =>
+                        {
+                            locale.Value = e.Responses.FirstOrDefault().TranslatedText;
+                        },
+                        (TranslationErrorEventArgs e) =>
+                        {
+                            Debug.LogError(e.Message);
+                        }
+                    );
+                }
             }
         }
 

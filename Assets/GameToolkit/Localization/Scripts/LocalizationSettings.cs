@@ -14,7 +14,7 @@ namespace GameToolkit.Localization
         private static LocalizationSettings s_Instance = null;
 
         [Header("Google Translate")]
-        [Tooltip("If you want to use Google Translate, attach the service account file claimed from Google Cloud Console.")]
+        [Tooltip("If you want to use Google Translate, attach the service account or API key file claimed from Google Cloud Console.")]
         public TextAsset GoogleAuthenticationFile;
 
         /// <summary>

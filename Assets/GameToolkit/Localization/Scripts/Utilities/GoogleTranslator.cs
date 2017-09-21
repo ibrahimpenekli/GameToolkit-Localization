@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace GameToolkit.Localization.Utilities
 {
@@ -26,7 +27,47 @@ namespace GameToolkit.Localization.Utilities
             AuthenticationFile = authFile;
         }
 
-        public IEnumerator Translate(GoogleTranslateRequest request)
+        /// <summary>
+        /// Performs translation with given translate request asynchronous.
+        /// </summary>
+        /// <param name="request">Translate request.</param>
+        /// <param name="onCompleted">Completed action.</param>
+        /// <param name="onError">Error action.</param>
+        public IEnumerator TranslateAsync(GoogleTranslateRequest request,
+                                          Action<TranslationCompletedEventArgs> onCompleted = null,
+                                          Action<TranslationErrorEventArgs> onError = null)
+        {
+            using (UnityWebRequest www = PrepareRequest(request))
+            {
+                yield return www.Send();
+                ProcessResponse(request, www, onCompleted, onError);
+            }
+        }
+
+        /// <summary>
+        /// Useful for Editor scripts. Otherwise, recommended to use <see cref="TranslateAsync"/>.
+        /// </summary>
+        /// <param name="request">Translate request.</param>
+        /// <param name="onCompleted">Completed action.</param>
+        /// <param name="onError">Error action.</param>
+        public void Translate(GoogleTranslateRequest request,
+                              Action<TranslationCompletedEventArgs> onCompleted = null,
+                              Action<TranslationErrorEventArgs> onError = null)
+        {
+            using (UnityWebRequest www = PrepareRequest(request))
+            {
+                www.Send();
+
+                // Wait request completion.
+                while (!www.isDone && !www.isNetworkError && !www.isHttpError)
+                {
+                }
+
+                ProcessResponse(request, www, onCompleted, onError);
+            }
+        }
+
+        private UnityWebRequest PrepareRequest(GoogleTranslateRequest request)
         {
             if (request == null)
             {
@@ -44,12 +85,23 @@ namespace GameToolkit.Localization.Utilities
             form.AddField(RequestKeyTargetLanguage, Localization.GetLanguageCode(request.Target));
 
             var url = string.Format(RequestUrlFormat, AuthenticationFile.text);
-            WWW www = new WWW(url, form);
-            yield return www;
+            return UnityWebRequest.Post(url, form);
+        }
 
-            if (www.error == null)
+        private void ProcessResponse(GoogleTranslateRequest request, UnityWebRequest www,
+                                     Action<TranslationCompletedEventArgs> onCompleted,
+                                     Action<TranslationErrorEventArgs> onError)
+        {
+            if (www.isNetworkError || www.isHttpError)
             {
-                var response = JsonUtility.FromJson<JsonResponse>(www.text);
+                if (onError != null)
+                {
+                    onError.Invoke(new TranslationErrorEventArgs(www.error));
+                }
+            }
+            else
+            {
+                var response = JsonUtility.FromJson<JsonResponse>(www.downloadHandler.text);
                 if (response != null && response.data != null && response.data.translations != null &&
                     response.data.translations.Length > 0)
                 {
@@ -59,48 +111,18 @@ namespace GameToolkit.Localization.Utilities
                     translateResponse.TranslatedText = response.data.translations[0].translatedText;
                     var responses = new GoogleTranslateResponse[] { translateResponse };
 
-                    OnTranslationCompleted(new TranslationCompletedEventArgs(requests, responses));
+                    if (onCompleted != null)
+                    {
+                        onCompleted.Invoke(new TranslationCompletedEventArgs(requests, responses));
+                    }
                 }
                 else
                 {
-                    OnTranslationError(new TranslationErrorEventArgs("Response data could not be read."));
+                    if (onError != null)
+                    {
+                        onError.Invoke(new TranslationErrorEventArgs("Response data could not be read."));
+                    }
                 }
-            }
-            else
-            {
-                OnTranslationError(new TranslationErrorEventArgs(www.error));
-            }
-        }
-
-        // TODO: Implement.
-        public IEnumerator Translate(IEnumerable<GoogleTranslateRequest> requests)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Raises the <see cref="TranslationError"/> event.
-        /// </summary>
-        /// <param name="e"><see cref="TranslationErrorEventArgs"/></param>
-        private void OnTranslationError(TranslationErrorEventArgs e)
-        {
-            var handler = TranslationError;
-            if (handler != null)
-            {
-                handler.Invoke(this, e);
-            }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="TranslationCompleted"/> event.
-        /// </summary>
-        /// <param name="e"><see cref="TranslationCompletedEventArgs"/></param>
-        private void OnTranslationCompleted(TranslationCompletedEventArgs e)
-        {
-            var handler = TranslationCompleted;
-            if (handler != null)
-            {
-                handler.Invoke(this, e);
             }
         }
 
@@ -122,16 +144,6 @@ namespace GameToolkit.Localization.Utilities
             public string translatedText;
             public string detectedSourceLanguage;
         }
-
-        /// <summary>
-        /// Raised when translation requests performed. 
-        /// </summary>
-        public event EventHandler<TranslationCompletedEventArgs> TranslationCompleted;
-
-        /// <summary>
-        /// Raised when translation error ocurred.
-        /// </summary>
-        public event EventHandler<TranslationErrorEventArgs> TranslationError;
     }
 
     /// <summary>
