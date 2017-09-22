@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace GameToolkit.Localization
@@ -43,7 +44,7 @@ namespace GameToolkit.Localization
                 if (s_Instance == null)
                 {
                     s_Instance = new Localization();
-                    s_Instance.SetSystemLanguage();
+                    s_Instance.SetDefaultLanguage();
                 }
                 return s_Instance;
             }
@@ -55,6 +56,14 @@ namespace GameToolkit.Localization
         public void SetSystemLanguage()
         {
             CurrentLanguage = Application.systemLanguage;
+        }
+
+        /// <summary>
+        /// Sets the <see cref="CurrentLanguage"/> to default language defined in <see cref="LocalizationSettings"/>.
+        /// </summary>
+        public void SetDefaultLanguage()
+        {
+            CurrentLanguage = LocalizationSettings.Instance.AvailableLanguages.FirstOrDefault();
         }
 
         /// <summary>

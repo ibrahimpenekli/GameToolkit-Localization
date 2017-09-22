@@ -2,19 +2,25 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	[CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 0)]
+    [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 0)]
     public sealed class LocalizationSettings : ScriptableObject
     {
         private const string AssetName = "LocalizationSettings";
         private static LocalizationSettings s_Instance = null;
 
-        [Header("Google Translate")]
-        [Tooltip("If you want to use Google Translate, attach the service account or API key file claimed from Google Cloud Console.")]
+        [SerializeField, Tooltip("Enabled languages for the application.")]
+        private List<SystemLanguage> m_AvailableLanguages = new List<SystemLanguage>(1)
+        {
+            SystemLanguage.English
+        };
+
+        [Tooltip("Google Cloud authentication file.")]
         public TextAsset GoogleAuthenticationFile;
 
         /// <summary>
@@ -43,6 +49,14 @@ namespace GameToolkit.Localization
                 }
                 return s_Instance;
             }
+        }
+
+        /// <summary>
+        /// Enabled languages for the application.
+        /// </summary>
+        public List<SystemLanguage> AvailableLanguages
+        {
+            get { return m_AvailableLanguages; }
         }
 
         private static LocalizationSettings FindByResources()

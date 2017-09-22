@@ -11,5 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e72a78e706e394b997a151fb0cec3f, type: 3}
   m_Name: LocalizationSettings
   m_EditorClassIdentifier: 
+  m_AvailableLanguages: 0a00000025000000220000000f000000280000001e00000001000000
   GoogleAuthenticationFile: {fileID: 4900000, guid: 791cf435e0c40814eb1dc541785c2d84,
     type: 3}
