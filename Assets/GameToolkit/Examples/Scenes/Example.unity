@@ -1560,6 +1560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5572780d3f1d14aa93eb3d1fb6acbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Languages: {fileID: 11400000, guid: 290b78dfd42cbc944b6f9eb933a9d992, type: 2}
 --- !u!1 &1382986234
 GameObject:
   m_ObjectHideFlags: 0
