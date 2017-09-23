@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af65ee6b0f35f974dba93979a07edbce, type: 3}
+  m_Name: Locale_Text_Languages
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: 0
+    m_Value: Afrikaans
+  - m_Language: 1
+    m_Value: "\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629"
+  - m_Language: 2
+    m_Value: Euskara
+  - m_Language: 3
+    m_Value: "\u0411\u0435\u043B\u0430\u0440\u0443\u0441\u043A\u0430\u044F"
+  - m_Language: 4
+    m_Value: "\u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A"
+  - m_Language: 5
+    m_Value: "Catal\xE0"
+  - m_Language: 6
+    m_Value: "\u6C49\u8BED"
+  - m_Language: 7
+    m_Value: "\u010Ce\u0161tina"
+  - m_Language: 8
+    m_Value: Dansk
+  - m_Language: 9
+    m_Value: Nederlands
+  - m_Language: 10
+    m_Value: English
+  - m_Language: 11
+    m_Value: Eesti
+  - m_Language: 12
+    m_Value: "F\xF8royskt"
+  - m_Language: 13
+    m_Value: Suomi
+  - m_Language: 14
+    m_Value: "Fran\xE7ais"
+  - m_Language: 15
+    m_Value: Deutsch
+  - m_Language: 16
+    m_Value: "\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC"
+  - m_Language: 17
+    m_Value: "\u05E2\u05D1\u05E8\u05D9\u05EA\u200E"
+  - m_Language: 18
+    m_Value: Magyar
+  - m_Language: 19
+    m_Value: "\xCDslenska"
+  - m_Language: 20
+    m_Value: Bahasa Indonesia
+  - m_Language: 21
+    m_Value: Italiano
+  - m_Language: 22
+    m_Value: "\u65E5\u672C\u8A9E"
+  - m_Language: 23
+    m_Value: "\uC870\uC120\uB9D0"
+  - m_Language: 24
+    m_Value: "Latvie\u0161u"
+  - m_Language: 25
+    m_Value: "Lietuvi\u0173"
+  - m_Language: 26
+    m_Value: Norsk
+  - m_Language: 27
+    m_Value: Polski
+  - m_Language: 28
+    m_Value: "Portugu\xEAs"
+  - m_Language: 29
+    m_Value: "Rom\xE2n\u0103"
+  - m_Language: 30
+    m_Value: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
+  - m_Language: 31
+    m_Value: Hrvatski
+  - m_Language: 32
+    m_Value: "Sloven\u010Dina"
+  - m_Language: 33
+    m_Value: Slovenian
+  - m_Language: 34
+    m_Value: Ladino
+  - m_Language: 35
+    m_Value: Svenska
+  - m_Language: 36
+    m_Value: "\u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22"
+  - m_Language: 37
+    m_Value: "T\xFCrk\xE7e"
+  - m_Language: 38
+    m_Value: "\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"
+  - m_Language: 39
+    m_Value: "Ti\u1EBFng Vi\u1EC7t Nam"
+  - m_Language: 40
+    m_Value: "\u6C49\u8BED"
+  - m_Language: 41
+    m_Value: "\u6C49\u8BED"
