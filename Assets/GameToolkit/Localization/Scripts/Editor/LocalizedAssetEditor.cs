@@ -122,15 +122,6 @@ namespace GameToolkit.Localization.Editor
                 uniqueLanguages.Add(lang);
             }
 
-            var localizedAssets = Localization.Instance.FindAllLocalizedAssets();
-            foreach (var localizedAsset in localizedAssets)
-            {
-                foreach (var locale in localizedAsset.LocaleItems)
-                {
-                    uniqueLanguages.Add(locale.Language);
-                }
-            }
-
             var languages = new List<SystemLanguage>(uniqueLanguages);
             m_LocaleItems.arraySize = languages.Count;
             var size = m_LocaleItems.arraySize;
