@@ -8,25 +8,33 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class
     {
         /// <summary>
         /// Gets the value type.
         /// </summary>
-        public override Type ValueType 
-        { 
-            get { return typeof(T); }
+        public override Type ValueType
+        {
+            get { return GetValueType(); }
+        }
+
+        /// <summary>
+        /// Gets the value type.
+        /// </summary>
+        public static Type GetValueType()
+        {
+            return typeof(T);
         }
 
         /// <summary>
         /// Gets the defined locale items of the localized asset with concrete type.
         /// </summary>
-        public LocaleItem<T>[] TypedLocaleItems 
-        { 
-            get { return (LocaleItem<T>[]) LocaleItems; }
+        public LocaleItem<T>[] TypedLocaleItems
+        {
+            get { return (LocaleItem<T>[])LocaleItems; }
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace GameToolkit.Localization
     /// <summary>
     /// 
     /// </summary>
-    public class LocalizedTextBehaviour : LocalizedGenericAssetBehaviour<LocalizedText, string>
+    public class LocalizedSpriteBehaviour : LocalizedGenericAssetBehaviour<LocalizedSprite, Sprite>
     {
     }
 }
