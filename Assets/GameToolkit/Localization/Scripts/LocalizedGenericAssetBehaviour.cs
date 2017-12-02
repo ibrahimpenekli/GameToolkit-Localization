@@ -1,6 +1,7 @@
 // Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -14,13 +15,23 @@ namespace GameToolkit.Localization
                     where TLocalizedAsset : LocalizedAsset<T> where T : class
     {
         [SerializeField, Tooltip("Text is used when text asset not attached.")]
-        private TLocalizedAsset m_LocalizedAsset;
+        protected TLocalizedAsset m_LocalizedAsset;
+
+        protected virtual Type GetValueType()
+        {
+            return typeof(T);
+        }
+
+        protected virtual object GetLocalizedValue()
+        {
+            return m_LocalizedAsset ? m_LocalizedAsset.Value : default(T);
+        }
 
         protected override void UpdateComponentValue()
         {
             if (m_LocalizedAsset && m_PropertyInfo != null)
             {
-                m_PropertyInfo.SetValue(m_Component, m_LocalizedAsset.Value, null);
+                m_PropertyInfo.SetValue(m_Component, GetLocalizedValue(), null);
             }
         }
 
@@ -31,13 +42,14 @@ namespace GameToolkit.Localization
 
         public override List<PropertyInfo> FindProperties(Component component)
         {
-            var type = component.GetType();
-            var allProperties = type.GetProperties();
+
+            var valueType = GetValueType();
+            var allProperties = component.GetType().GetProperties();
             var properties = new List<PropertyInfo>();
             foreach (var property in allProperties)
             {
 
-                if (property.CanWrite && typeof(T).IsAssignableFrom(property.PropertyType))
+                if (property.CanWrite && valueType.IsAssignableFrom(property.PropertyType))
                 {
                     properties.Add(property);
                 }

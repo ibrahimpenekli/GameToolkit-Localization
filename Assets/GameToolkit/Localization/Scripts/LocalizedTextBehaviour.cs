@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameToolkit.Localization
 {
@@ -10,5 +11,13 @@ namespace GameToolkit.Localization
     /// </summary>
     public class LocalizedTextBehaviour : LocalizedGenericAssetBehaviour<LocalizedText, string>
     {
+        private void Reset()
+        {
+            m_Component = GetComponent<Text>();
+            if (m_Component)
+            {
+                m_Property = "text";
+            }
+        }
     }
 }
