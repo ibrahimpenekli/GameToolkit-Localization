@@ -13,10 +13,13 @@ namespace GameToolkit.Localization
     {
         private void Reset()
         {
-            m_Component = GetComponent<Text>();
-            if (m_Component)
+            if (!m_Component)
             {
-                m_Property = "text";
+                m_Component = GetComponent<Text>();
+                if (m_Component)
+                {
+                    m_Property = "text";
+                }
             }
         }
     }
