@@ -17,6 +17,19 @@ namespace GameToolkit.Localization
         [SerializeField, Tooltip("Text is used when text asset not attached.")]
         protected TLocalizedAsset m_LocalizedAsset;
 
+        public virtual TLocalizedAsset LocalizedAsset
+        {
+            get
+            {
+                return m_LocalizedAsset;
+            }
+            set
+            {
+                m_LocalizedAsset = value;
+                UpdateComponentValue();
+            }
+        }
+
         protected virtual Type GetValueType()
         {
             return typeof(T);

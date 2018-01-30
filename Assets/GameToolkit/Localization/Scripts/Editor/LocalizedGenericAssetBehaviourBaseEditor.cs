@@ -14,7 +14,6 @@ namespace GameToolkit.Localization.Editor
     {
         private SerializedProperty m_Component;
         private SerializedProperty m_Property;
-        private SerializedProperty m_LocalizedAsset;
 
         private List<PropertyInfo> m_Properties;
         private string[] m_PropertieNames = new string[0];
@@ -24,7 +23,6 @@ namespace GameToolkit.Localization.Editor
         {
             m_Component = serializedObject.FindProperty("m_Component");
             m_Property = serializedObject.FindProperty("m_Property");
-            m_LocalizedAsset = serializedObject.FindProperty("m_LocalizedAsset");
 
             FindComponentProperties();
 
@@ -52,8 +50,8 @@ namespace GameToolkit.Localization.Editor
                 m_SelectedPropertyIdx = selectedPropertyIdx;
             }
 
-            EditorGUILayout.PropertyField(m_LocalizedAsset);
-
+            // Draw other properties.
+            DrawPropertiesExcluding(serializedObject, new string[] { m_Component.name, m_Property.name });
             serializedObject.ApplyModifiedProperties();
         }
 
