@@ -39,7 +39,11 @@ namespace GameToolkit.Localization.Utilities
         {
             using (UnityWebRequest www = PrepareRequest(request))
             {
+#if UNITY_2017_2_OR_NEWER
+                yield return www.SendWebRequest();
+#else
                 yield return www.Send();
+#endif
                 ProcessResponse(request, www, onCompleted, onError);
             }
         }
@@ -56,7 +60,11 @@ namespace GameToolkit.Localization.Utilities
         {
             using (UnityWebRequest www = PrepareRequest(request))
             {
+#if UNITY_2017_2_OR_NEWER
+                www.SendWebRequest();
+#else
                 www.Send();
+#endif
 
                 // Wait request completion.
                 while (!www.isDone && !www.isNetworkError && !www.isHttpError)
@@ -129,20 +137,20 @@ namespace GameToolkit.Localization.Utilities
         [Serializable]
         private class JsonResponse
         {
-            public JsonData data;
+            public JsonData data = null;
         }
 
         [Serializable]
         private class JsonData
         {
-            public JsonTranslation[] translations;
+            public JsonTranslation[] translations = null;
         }
 
         [Serializable]
         private class JsonTranslation
         {
-            public string translatedText;
-            public string detectedSourceLanguage;
+            public string translatedText = "";
+            public string detectedSourceLanguage = "";
         }
     }
 

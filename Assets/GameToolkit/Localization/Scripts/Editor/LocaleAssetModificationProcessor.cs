@@ -9,7 +9,7 @@ namespace GameToolkit.Localization.Editor
     /// <summary>
     /// Refreshes <see cref="LocalizationWindow"> if opened.
     /// </summary>
-    public class LocaleAssetModificationProcessor : AssetModificationProcessor
+    public class LocaleAssetModificationProcessor : UnityEditor.AssetModificationProcessor
     {
         private static string[] OnWillSaveAssets(string[] paths)
         {
