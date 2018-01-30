@@ -29,7 +29,7 @@ namespace GameToolkit.Localization.Editor
 
         Rect ToolbarRect { get { return new Rect(20f, 10f, position.width - 40f, 20f); } }
         Rect BodyViewRect { get { return new Rect(20, 30, position.width - 40, position.height - 60); } }
-        Rect BottomToolbarRect { get { return new Rect(20f, position.height - 18f, position.width - 40f, 16f); } }
+        Rect BottomToolbarRect { get { return new Rect(20f, position.height - 22f, position.width - 40f, 20f); } }
 
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName)]
         public static LocalizationWindow GetWindow()
@@ -128,6 +128,7 @@ namespace GameToolkit.Localization.Editor
 
         private void TreeViewControls()
         {
+
             if (GUILayout.Button("Refresh", "miniButtonLeft"))
             {
                 Refresh();
