@@ -146,6 +146,7 @@ namespace GameToolkit.Localization.Editor
                             }
                             if (EditorGUI.EndChangeCheck())
                             {
+                                treeViewItem.Parent.IsDirty = true;
                                 EditorUtility.SetDirty(treeViewItem.Parent.LocalizedAsset);
                             }
 

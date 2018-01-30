@@ -51,6 +51,14 @@ namespace GameToolkit.Localization.Editor
             m_Initialized = false;
         }
 
+        public void Refresh()
+        {
+            if (m_TreeView != null)
+            {
+                m_TreeView.Reload();
+            }
+        }
+
         private void InitializeIfNeeded()
         {
             if (!m_Initialized)
@@ -120,7 +128,12 @@ namespace GameToolkit.Localization.Editor
 
         private void TreeViewControls()
         {
-            if (GUILayout.Button("Expand All", "miniButtonLeft"))
+            if (GUILayout.Button("Refresh", "miniButtonLeft"))
+            {
+                Refresh();
+            }
+
+            if (GUILayout.Button("Expand All", "miniButtonMid"))
             {
                 m_TreeView.ExpandAll();
             }
