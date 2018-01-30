@@ -130,6 +130,8 @@ namespace GameToolkit.Localization.Editor
                         {
                             var localeItem = treeViewItem.LocaleItem;
                             var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
+
+                            EditorGUI.BeginChangeCheck();
                             if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
                             {
                                 localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object)localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
@@ -142,6 +144,11 @@ namespace GameToolkit.Localization.Editor
                             {
                                 EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
                             }
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                EditorUtility.SetDirty(treeViewItem.Parent.LocalizedAsset);
+                            }
+
                         }
                     }
                     break;

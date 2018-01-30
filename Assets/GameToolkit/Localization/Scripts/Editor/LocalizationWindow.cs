@@ -230,6 +230,7 @@ namespace GameToolkit.Localization.Editor
                         (TranslationCompletedEventArgs e) =>
                         {
                             locale.Value = e.Responses.FirstOrDefault().TranslatedText;
+                            EditorUtility.SetDirty(localizedText);
                         },
                         (TranslationErrorEventArgs e) =>
                         {
