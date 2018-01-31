@@ -103,7 +103,10 @@ namespace GameToolkit.Localization.Editor
                                     icon = EditorGUIUtility.FindTexture("DefaultAsset Icon");
                                 }
                             }
-                            GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
+                            if (icon)
+                            {
+                                GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
+                            }
                         }
                     }
                     break;

@@ -15,6 +15,8 @@ namespace GameToolkit.Localization.Editor
     {
         private const string WindowName = "Localization Explorer";
 
+        private static LocalizationWindow s_Instance;
+
         [NonSerialized]
         private bool m_Initialized;
 
@@ -34,11 +36,16 @@ namespace GameToolkit.Localization.Editor
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName)]
         public static LocalizationWindow GetWindow()
         {
-            var window = GetWindow<LocalizationWindow>();
-            window.titleContent = new GUIContent(WindowName);
-            window.Focus();
-            window.Repaint();
-            return window;
+            s_Instance = GetWindow<LocalizationWindow>();
+            s_Instance.titleContent = new GUIContent(WindowName);
+            s_Instance.Focus();
+            s_Instance.Repaint();
+            return s_Instance;
+        }
+
+        public static LocalizationWindow Instance
+        {
+            get { return s_Instance; }
         }
 
         private void Awake()

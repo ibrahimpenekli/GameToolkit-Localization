@@ -1,7 +1,6 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using UnityEngine;
 using UnityEditor;
 
 namespace GameToolkit.Localization.Editor
@@ -14,10 +13,10 @@ namespace GameToolkit.Localization.Editor
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets,
                                                    string[] movedAssets, string[] movedFromAssetPaths)
         {
-            var window = EditorWindow.GetWindow<LocalizationWindow>();
-            if (window)
+            var localizationWindow = LocalizationWindow.Instance;
+            if (localizationWindow)
             {
-                window.Refresh();
+                localizationWindow.Refresh();
             }
         }
     }
