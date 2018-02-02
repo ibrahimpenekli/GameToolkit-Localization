@@ -94,7 +94,7 @@ namespace GameToolkit.Localization
             UnityEditor.AssetDatabase.CreateAsset(localizationSettings, uniqueAssetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
-            Debug.Log(AssetName + " has been created.");
+            Debug.Log(AssetName + " has been created: " + assetPath);
         }
 #endif
     }
