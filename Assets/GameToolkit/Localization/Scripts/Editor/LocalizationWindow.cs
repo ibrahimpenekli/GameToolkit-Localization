@@ -122,6 +122,12 @@ namespace GameToolkit.Localization.Editor
         private void BodyView(Rect rect)
         {
             m_TreeView.OnGUI(rect);
+            OnContextMenu(rect);
+        }
+
+        void YourCallback()
+        {
+            Debug.Log("Hi there");
         }
 
         private void SearchBarView(Rect rect)
@@ -164,35 +170,158 @@ namespace GameToolkit.Localization.Editor
             if (GUILayout.Button(new GUIContent("Create", "Create a new localized asset."), EditorStyles.toolbarDropDown))
             {
                 var mousePosition = Event.current.mousePosition;
-                var popupPosition = new Rect(mousePosition.x, mousePosition.y, 0, 0);
-                EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/GameToolkit/Localization/", null);
+                CreateLocalizedAssetPopup(mousePosition);
             }
 
             var selectedItem = m_TreeView.GetSelectedItem() as AssetTreeViewItem;
             GUI.enabled = selectedItem != null;
-
             if (GUILayout.Button(new GUIContent("Rename", "Rename the selected localized asset."), EditorStyles.toolbarButton))
             {
-                m_TreeView.BeginRename(selectedItem);
+                RenameLocalizedAsset(selectedItem);
             }
+
             if (GUILayout.Button(new GUIContent("Delete", "Delete the selected localized asset."), EditorStyles.toolbarButton))
             {
-                var assetPath = AssetDatabase.GetAssetPath(selectedItem.LocalizedAsset.GetInstanceID());
-                AssetDatabase.DeleteAsset(assetPath);
+                DeleteLocalizedAsset(selectedItem);
             }
             GUI.enabled = true;
         }
 
+        private void CreateLocalizedAssetPopup(Vector2 mousePosition)
+        {
+            var popupPosition = new Rect(mousePosition, Vector2.zero);
+            EditorUtility.DisplayPopupMenu(popupPosition, "Assets/Create/GameToolkit/Localization/", null);
+        }
+
+        private void RevealLocalizedAsset(AssetTreeViewItem assetTreeViewItem)
+        {
+            Debug.Assert(assetTreeViewItem != null);
+            EditorGUIUtility.PingObject(assetTreeViewItem.LocalizedAsset);
+        }
+
+        private void RenameLocalizedAsset(AssetTreeViewItem assetTreeViewItem)
+        {
+            Debug.Assert(assetTreeViewItem != null);
+            m_TreeView.BeginRename(assetTreeViewItem);
+        }
+
+        private void DeleteLocalizedAsset(AssetTreeViewItem assetTreeViewItem)
+        {
+            Debug.Assert(assetTreeViewItem != null);
+            var assetPath = AssetDatabase.GetAssetPath(assetTreeViewItem.LocalizedAsset.GetInstanceID());
+            AssetDatabase.DeleteAsset(assetPath);
+        }
+
+        private void OnContextMenu(Rect rect)
+        {
+            var currentEvent = Event.current;
+            var mousePosition = currentEvent.mousePosition;
+            if (rect.Contains(mousePosition) && currentEvent.type == EventType.ContextClick)
+            {
+                AssetTreeViewItem assetTreeViewItem;
+                LocaleTreeViewItem localeTreeViewItem;
+                TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
+
+                if (assetTreeViewItem != null && localeTreeViewItem != null)
+                {
+                    OnLocaleItemContextMenu(assetTreeViewItem, localeTreeViewItem);
+                    currentEvent.Use();
+                }
+                else
+                {
+                    OnAssetItemContextMenu(assetTreeViewItem, mousePosition);
+                    currentEvent.Use();
+                }
+            }
+        }
+
+        private void OnAssetItemContextMenu(AssetTreeViewItem assetTreeViewItem, Vector2 mousePosition)
+        {
+            string itemCreate = "Create";
+            string itemReveal = "Reveal";
+            string itemRename = "Rename";
+            string itemDelete = "Delete";
+
+            if (Event.current != null)
+            {
+                mousePosition = Event.current.mousePosition;
+            }
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent(itemCreate), false, AssetItemContextMenu_Create, mousePosition);
+
+            if (assetTreeViewItem == null)
+            {
+                menu.AddDisabledItem(new GUIContent(itemReveal));
+                menu.AddDisabledItem(new GUIContent(itemRename));
+                menu.AddDisabledItem(new GUIContent(itemDelete));
+            }
+            else
+            {
+                menu.AddItem(new GUIContent(itemReveal), false, AssetItemContextMenu_Select, assetTreeViewItem);
+                menu.AddItem(new GUIContent(itemRename), false, AssetItemContextMenu_Rename);
+                menu.AddItem(new GUIContent(itemDelete), false, AssetItemContextMenu_Delete);
+            }
+            menu.ShowAsContext();
+        }
+
+        private void AssetItemContextMenu_Select(object assetTreeViewItemObject)
+        {
+            var assetTreeViewItem = (AssetTreeViewItem)assetTreeViewItemObject;
+            RevealLocalizedAsset(assetTreeViewItem);
+        }
+
+        private void AssetItemContextMenu_Create(object mousePosition)
+        {
+            CreateLocalizedAssetPopup((Vector2)mousePosition);
+        }
+
+        private void AssetItemContextMenu_Rename()
+        {
+            AssetTreeViewItem assetTreeViewItem;
+            LocaleTreeViewItem localeTreeViewItem;
+            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
+            RenameLocalizedAsset(assetTreeViewItem);
+        }
+
+        private void AssetItemContextMenu_Delete()
+        {
+            AssetTreeViewItem assetTreeViewItem;
+            LocaleTreeViewItem localeTreeViewItem;
+            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
+            DeleteLocalizedAsset(assetTreeViewItem);
+        }
+
+        private void OnLocaleItemContextMenu(AssetTreeViewItem assetTreeViewItem, LocaleTreeViewItem localeTreeViewItem)
+        {
+            Debug.Assert(assetTreeViewItem != null);
+            Debug.Assert(localeTreeViewItem != null);
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Make default"), false, LocaleItemContextMenu_MakeDefault);
+            menu.AddItem(new GUIContent("Remove"), false, LocaleItemContextMenu_Remove);
+            menu.ShowAsContext();
+        }
+
+        private void LocaleItemContextMenu_MakeDefault()
+        {
+            AssetTreeViewItem assetTreeViewItem;
+            LocaleTreeViewItem localeTreeViewItem;
+            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
+            MakeLocaleDefault(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
+        }
+
+        private void LocaleItemContextMenu_Remove()
+        {
+            AssetTreeViewItem assetTreeViewItem;
+            LocaleTreeViewItem localeTreeViewItem;
+            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
+            RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
+        }
+
         private void LocaleItemControls()
         {
-            var selectedItem = m_TreeView.GetSelectedItem();
-            var assetTreeViewItem = selectedItem as AssetTreeViewItem;
-            var localeTreeViewItem = selectedItem as LocaleTreeViewItem;
-
-            if (assetTreeViewItem == null && selectedItem != null)
-            {
-                assetTreeViewItem = ((LocaleTreeViewItem)selectedItem).Parent;
-            }
+            AssetTreeViewItem assetTreeViewItem;
+            LocaleTreeViewItem localeTreeViewItem;
+            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
 
             GUI.enabled = assetTreeViewItem != null && assetTreeViewItem.LocalizedAsset.ValueType == typeof(string);
             if (GUILayout.Button(new GUIContent("Translate By", "Translate missing locales."), EditorStyles.toolbarButton))
@@ -220,6 +349,19 @@ namespace GameToolkit.Localization.Editor
                 RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
             }
             GUI.enabled = true;
+        }
+
+        private void TryGetSelectedTreeViewItem(out AssetTreeViewItem assetTreeViewItem,
+                                                out LocaleTreeViewItem localeTreeViewItem)
+        {
+            var selectedItem = m_TreeView.GetSelectedItem();
+            assetTreeViewItem = selectedItem as AssetTreeViewItem;
+            localeTreeViewItem = selectedItem as LocaleTreeViewItem;
+
+            if (assetTreeViewItem == null && selectedItem != null)
+            {
+                assetTreeViewItem = ((LocaleTreeViewItem)selectedItem).Parent;
+            }
         }
 
         private static GUIContent IconOrText(string iconName, string text, string tooltip)
@@ -285,10 +427,12 @@ namespace GameToolkit.Localization.Editor
             var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
             if (elements != null && elements.arraySize > 1)
             {
+                var defaultLanguage = localeItem.Language;
                 var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
                 elements.MoveArrayElement(localeItemIndex, 0);
                 serializedObject.ApplyModifiedProperties();
                 m_TreeView.Reload();
+                Debug.Log(localizedAsset.name + ":" + defaultLanguage + " was set as the default language.");
             }
         }
 
