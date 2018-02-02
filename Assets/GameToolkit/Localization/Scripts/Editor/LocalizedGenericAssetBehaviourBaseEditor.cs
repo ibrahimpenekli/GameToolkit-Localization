@@ -51,7 +51,7 @@ namespace GameToolkit.Localization.Editor
             }
 
             // Draw other properties.
-            DrawPropertiesExcluding(serializedObject, new string[] { m_Component.name, m_Property.name });
+            DrawPropertiesExcluding(serializedObject, new string[] { "m_Script", m_Component.name, m_Property.name });
             serializedObject.ApplyModifiedProperties();
         }
 
