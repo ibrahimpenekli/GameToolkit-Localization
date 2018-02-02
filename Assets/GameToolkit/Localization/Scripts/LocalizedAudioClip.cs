@@ -2,14 +2,13 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedAudioClip", menuName = "GameToolkit/Localization/AudioClip")]
     public class LocalizedAudioClip : LocalizedAsset<AudioClip>
     {

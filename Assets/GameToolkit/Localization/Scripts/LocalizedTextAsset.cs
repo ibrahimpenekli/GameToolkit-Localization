@@ -2,14 +2,13 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedTextAsset", menuName = "GameToolkit/Localization/Text Asset")]
     public class LocalizedTextAsset : LocalizedAsset<TextAsset>
     {
@@ -18,7 +17,7 @@ namespace GameToolkit.Localization
 
         [SerializeField]
         private TextAssetLocaleItem[] m_LocaleItems = new TextAssetLocaleItem[1];
-        
+
         public override LocaleItemBase[] LocaleItems { get { return m_LocaleItems; } }
     }
 }
