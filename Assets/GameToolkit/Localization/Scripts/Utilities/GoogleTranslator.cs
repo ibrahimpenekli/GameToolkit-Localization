@@ -67,7 +67,11 @@ namespace GameToolkit.Localization.Utilities
 #endif
 
                 // Wait request completion.
+#if UNITY_2017_1_OR_NEWER
                 while (!www.isDone && !www.isNetworkError && !www.isHttpError)
+#else
+                while (!www.isDone && !www.isError)
+#endif
                 {
                 }
 
@@ -100,7 +104,11 @@ namespace GameToolkit.Localization.Utilities
                                      Action<TranslationCompletedEventArgs> onCompleted,
                                      Action<TranslationErrorEventArgs> onError)
         {
+#if UNITY_2017_1_OR_NEWER
             if (www.isNetworkError || www.isHttpError)
+#else
+            if (www.isError)
+#endif
             {
                 if (onError != null)
                 {
