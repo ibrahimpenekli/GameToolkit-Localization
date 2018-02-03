@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Name: LocalizationSettings
   m_EditorClassIdentifier: 
   m_AvailableLanguages: 0a00000025000000010000000f000000280000001e00000022000000
-  GoogleAuthenticationFile: {fileID: 4900000, guid: 791cf435e0c40814eb1dc541785c2d84,
-    type: 3}
+  GoogleAuthenticationFile: {fileID: 0}
