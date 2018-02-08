@@ -89,19 +89,23 @@ namespace GameToolkit.Localization.Editor
                         var treeViewItem = item as AssetTreeViewItem;
                         if (treeViewItem != null)
                         {
-                            Texture2D icon;
+                            Texture icon;
+
+                            // Set icon by localized asset value type.
                             var valueType = treeViewItem.LocalizedAsset.ValueType;
                             if (valueType == typeof(string))
                             {
-                                icon = EditorGUIUtility.FindTexture("TextAsset Icon");
+                                icon = EditorGUIUtility.ObjectContent(null, typeof(TextAsset)).image;
                             }
                             else
                             {
-                                icon = EditorGUIUtility.FindTexture(valueType.Name + " Icon");
-                                if (!icon)
-                                {
-                                    icon = EditorGUIUtility.FindTexture("DefaultAsset Icon");
-                                }
+                                icon = EditorGUIUtility.ObjectContent(null, valueType).image;
+                            }
+
+                            // Set default icon if not exist.
+                            if (!icon)
+                            {
+                                icon = EditorGUIUtility.ObjectContent(null, typeof(ScriptableObject)).image;
                             }
                             if (icon)
                             {
