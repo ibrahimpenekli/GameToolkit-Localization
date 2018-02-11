@@ -3,13 +3,18 @@ Easy-to-use and generic asset localization system for Unity.
 
 ## Features: 
 * Built-in Text, [TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html), [AudioClip](https://docs.unity3d.com/Manual/class-AudioClip.html), [Sprite](https://docs.unity3d.com/Manual/Sprites.html), [Texture](https://docs.unity3d.com/ScriptReference/Texture.html), [Font](https://docs.unity3d.com/Manual/class-Font.html) and [Prefab](https://docs.unity3d.com/Manual/Prefabs.html) localization
-* Edit everything through Localization Explorer window
-* Quick text translation inside Editor with [Google Translate](https://cloud.google.com/translate/) engine
-* Extensible localized asset support
+* Edit everything through [Localization Explorer](https://github.com/ibrahimpenekli/GameToolkit-Localization/wiki/Localization-Explorer) window
+* [Quick text translation](https://github.com/ibrahimpenekli/GameToolkit-Localization/wiki/Localization-Explorer#3-quick-translate-missing-locales) inside the Editor with [Google Translate](https://cloud.google.com/translate/) engine
+* [Extensible localized asset](https://github.com/ibrahimpenekli/GameToolkit-Localization/wiki/Scripting-Reference#extending-custom-localized-asset-behaviour) support
 * Lightweight and easy to use
 * No coding required
 
-Available on Asset Store: http://u3d.as/XhJ
+## Documentation
+See [documentation](wiki) for getting started and detailed explanation.
+
+Available on [Asset Store](http://u3d.as/XhJ).
+
+## Preview
 
 ![Gif](/ReadMeImages/Preview.gif?raw=true "Preview") 
 ![Gif](/ReadMeImages/Translate.gif?raw=true "Quick Translate")
