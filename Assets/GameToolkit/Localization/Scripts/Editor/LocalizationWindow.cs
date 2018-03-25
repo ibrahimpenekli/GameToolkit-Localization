@@ -28,20 +28,22 @@ namespace GameToolkit.Localization.Editor
 
         private SearchField m_SearchField;
         private LocalizationTreeView m_TreeView;
+        private GUIStyle m_BottomToolbarBackgroundStyle;
+        private GUIStyle m_BottomToolbarStyle;
 
         private Rect ToolbarRect
         {
-            get { return new Rect(Padding, 10f, position.width - 2 * Padding, 20f); }
+            get { return new Rect(Padding, 10, position.width - 2 * Padding, 20); }
         }
 
         private Rect BodyViewRect
         {
-            get { return new Rect(Padding, 30, position.width - 2 * Padding, position.height - 36); }
+            get { return new Rect(Padding, 30, position.width - 2 * Padding, position.height - 58); }
         }
 
         private Rect BottomToolbarRect
         {
-            get { return new Rect(Padding, position.height - 24f, position.width - 2 * Padding - 1, 20f); }
+            get { return new Rect(Padding, position.height - 24, position.width - 2 * Padding, 20); }
         }
 
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName)]
@@ -125,11 +127,6 @@ namespace GameToolkit.Localization.Editor
             OnContextMenu(rect);
         }
 
-        void YourCallback()
-        {
-            Debug.Log("Hi there");
-        }
-
         private void SearchBarView(Rect rect)
         {
             m_TreeView.searchString = m_SearchField.OnGUI(rect, m_TreeView.searchString);
@@ -137,23 +134,48 @@ namespace GameToolkit.Localization.Editor
 
         private void BottomToolbarView(Rect rect)
         {
-            GUILayout.BeginArea(rect);
+            if (m_BottomToolbarBackgroundStyle == null)
+            {
+                m_BottomToolbarBackgroundStyle = new GUIStyle(GUI.skin.box);
+                m_BottomToolbarBackgroundStyle.normal.background = MakeSingleColorTexture(2, 2, new Color(0.55f, 0.55f, 0.55f, 1f));
+            }
 
-            var style = new GUIStyle(EditorStyles.toolbar);
-            var padding = style.padding;
-            padding.left = 0;
-            padding.right = 0;
-            style.padding = padding;
+            if (m_BottomToolbarStyle == null)
+            {
+                m_BottomToolbarStyle = new GUIStyle(EditorStyles.toolbar);
+                var padding = m_BottomToolbarStyle.padding;
+                padding.left = 0;
+                padding.right = 0;
+                m_BottomToolbarStyle.padding = padding;
+            }
 
-            using (new EditorGUILayout.HorizontalScope(style))
+            // Toolbar background.
+            GUI.Box(new Rect(rect.x, rect.y, rect.width, rect.height - 1), GUIContent.none, m_BottomToolbarBackgroundStyle);
+
+            // Toolbar itself.
+            GUILayout.BeginArea(new Rect(rect.x, rect.y + 1, rect.width - 1, rect.height));
+            using (new EditorGUILayout.HorizontalScope(m_BottomToolbarStyle))
             {
                 TreeViewControls();
                 LocalizedAssetControls();
                 GUILayout.FlexibleSpace();
                 LocaleItemControls();
             }
-
             GUILayout.EndArea();
+        }
+
+        private static Texture2D MakeSingleColorTexture(int width, int height, Color color)
+        {
+            var pixels = new Color[width * height];
+            for (int i = 0; i < pixels.Length; ++i)
+            {
+                pixels[i] = color;
+            }
+
+            var texture = new Texture2D(width, height);
+            texture.SetPixels(pixels);
+            texture.Apply();
+            return texture;
         }
 
         private void TreeViewControls()
