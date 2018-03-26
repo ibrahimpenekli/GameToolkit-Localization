@@ -13,9 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LocaleItems:
   - m_Language: 10
-    m_Value: 'Settings
-
-'
+    m_Value: Settings
   - m_Language: 37
     m_Value: Ayarlar
   - m_Language: 34
