@@ -14,10 +14,11 @@ namespace GameToolkit.Localization.Editor
     {
         private const float RowHeight = 20f;
         private const float ToggleWidth = 18f;
+        private const float MaxTextAreaHeight = 100f;
         private const int FirstElementId = 1;
 
-        // TreeView columns.
-        private enum Columns
+        // TreeView column types.
+        private enum ColumnType
         {
             Type,
             Name,
@@ -26,9 +27,14 @@ namespace GameToolkit.Localization.Editor
         }
 
         private int m_ElementId = FirstElementId;
+        private float m_ValueColumnWidth = 0;
+        private GUIStyle m_TextAreaStyle;
 
         public LocalizationTreeView(TreeViewState state, MultiColumnHeader multiColumnHeader) : base(state, multiColumnHeader)
         {
+            m_TextAreaStyle = new GUIStyle(EditorStyles.textArea);
+            m_TextAreaStyle.wordWrap = true;
+
             rowHeight = RowHeight;
             columnIndexForTreeFoldouts = 1;
             showAlternatingRowBackgrounds = true;
@@ -47,7 +53,6 @@ namespace GameToolkit.Localization.Editor
             // This section illustrates that IDs should be unique. The root item is required to 
             // have a depth of -1, and the rest of the items increment from that.
             var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
-
             var localizedAssets = Localization.Instance.FindAllLocalizedAssets();
             var allItems = new List<TreeViewItem>();
 
@@ -74,92 +79,145 @@ namespace GameToolkit.Localization.Editor
         {
             for (int i = 0; i < args.GetNumVisibleColumns(); ++i)
             {
-                CellGUI(args.GetCellRect(i), args.item, (Columns)args.GetColumn(i), ref args);
+                var columnType = (ColumnType)args.GetColumn(i);
+                var cellRect = args.GetCellRect(i);
+                CellGUI(cellRect, args.item, columnType, ref args);
+
+                // Refresh row heights if the Value column width is changed.
+                if (columnType == ColumnType.Value && cellRect.width != m_ValueColumnWidth)
+                {
+                    m_ValueColumnWidth = cellRect.width;
+                    RefreshCustomRowHeights();
+                }
             }
         }
 
-        void CellGUI(Rect cellRect, TreeViewItem item, Columns column, ref RowGUIArgs args)
+        /// <summary>
+        /// Make TextArea as expandable as possible.
+        /// </summary>
+        protected override float GetCustomRowHeight(int row, TreeViewItem item)
         {
-            // Center cell rect vertically (makes it easier to place controls, icons etc in the cells).
-            CenterRectUsingSingleLineHeight(ref cellRect);
+            var rowHeight = base.GetCustomRowHeight(row, item);
+            var localeItem = item as LocaleTreeViewItem;
+            if (localeItem != null)
+            {
+                var assetItem = localeItem.Parent;
+                if (assetItem.LocalizedAsset.ValueType == typeof(string))
+                {
+                    var column = multiColumnHeader.GetColumn(3);
+                    if (column != null)
+                    {
+                        var stringValue = (string)localeItem.LocaleItem.ObjectValue;
+                        var calculatedRowHeight = m_TextAreaStyle.CalcHeight(new GUIContent(stringValue), column.width) + 4;
+                        rowHeight = Mathf.Clamp(calculatedRowHeight, rowHeight, MaxTextAreaHeight);
+                    }
+                }
+            }
+            return rowHeight;
+        }
+
+        private Rect m_CellRect;
+        void CellGUI(Rect cellRect, TreeViewItem item, ColumnType column, ref RowGUIArgs args)
+        {
             switch (column)
             {
-                case Columns.Type:
-                    {
-                        var treeViewItem = item as AssetTreeViewItem;
-                        if (treeViewItem != null)
-                        {
-                            Texture icon;
-
-                            // Set icon by localized asset value type.
-                            var valueType = treeViewItem.LocalizedAsset.ValueType;
-                            if (valueType == typeof(string))
-                            {
-                                icon = EditorGUIUtility.ObjectContent(null, typeof(TextAsset)).image;
-                            }
-                            else
-                            {
-                                icon = EditorGUIUtility.ObjectContent(null, valueType).image;
-                            }
-
-                            // Set default icon if not exist.
-                            if (!icon)
-                            {
-                                icon = EditorGUIUtility.ObjectContent(null, typeof(ScriptableObject)).image;
-                            }
-                            if (icon)
-                            {
-                                GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
-                            }
-                        }
-                    }
+                case ColumnType.Type:
+                    DrawTypeCell(cellRect, item);
                     break;
-                case Columns.Name:
-                    {
-                        // Default icon and label
-                        args.rowRect = cellRect;
-                        base.RowGUI(args);
-                    }
+                case ColumnType.Name:
+                    DrawNameCell(cellRect, item, ref args);
                     break;
-                case Columns.Language:
-                    {
-                        var localeItem = item as LocaleTreeViewItem;
-                        if (localeItem != null)
-                        {
-                            localeItem.LocaleItem.Language = (SystemLanguage)EditorGUI.EnumPopup(cellRect, localeItem.LocaleItem.Language);
-                        }
-                    }
+                case ColumnType.Language:
+                    DrawLanguageCell(cellRect, item);
                     break;
-                case Columns.Value:
-                    {
-                        var treeViewItem = item as LocaleTreeViewItem;
-                        if (treeViewItem != null)
-                        {
-                            var localeItem = treeViewItem.LocaleItem;
-                            var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
+                case ColumnType.Value:
+                    DrawValueCell(cellRect, item);
+                    break;
+            }
+        }
 
-                            EditorGUI.BeginChangeCheck();
-                            if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
-                            {
-                                localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object)localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
-                            }
-                            else if (valueType == typeof(string))
-                            {
-                                localeItem.ObjectValue = EditorGUI.TextArea(cellRect, (string)localeItem.ObjectValue);
-                            }
-                            else
-                            {
-                                EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
-                            }
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                treeViewItem.Parent.IsDirty = true;
-                                EditorUtility.SetDirty(treeViewItem.Parent.LocalizedAsset);
-                            }
+        private void DrawTypeCell(Rect cellRect, TreeViewItem item)
+        {
+            CenterRectUsingSingleLineHeight(ref cellRect);
+            var treeViewItem = item as AssetTreeViewItem;
+            if (treeViewItem != null)
+            {
+                Texture icon;
 
-                        }
+                // Set icon by localized asset value type.
+                var valueType = treeViewItem.LocalizedAsset.ValueType;
+                if (valueType == typeof(string))
+                {
+                    icon = EditorGUIUtility.ObjectContent(null, typeof(TextAsset)).image;
+                }
+                else
+                {
+                    icon = EditorGUIUtility.ObjectContent(null, valueType).image;
+                }
+
+                // Set default icon if not exist.
+                if (!icon)
+                {
+                    icon = EditorGUIUtility.ObjectContent(null, typeof(ScriptableObject)).image;
+                }
+                if (icon)
+                {
+                    GUI.DrawTexture(cellRect, icon, ScaleMode.ScaleToFit);
+                }
+            }
+        }
+
+        private void DrawNameCell(Rect cellRect, TreeViewItem item, ref RowGUIArgs args)
+        {
+            CenterRectUsingSingleLineHeight(ref cellRect);
+            args.rowRect = cellRect;
+            base.RowGUI(args);
+        }
+
+        private void DrawLanguageCell(Rect cellRect, TreeViewItem item)
+        {
+            cellRect.y += 2;
+            cellRect.height -= 4;
+            var localeItem = item as LocaleTreeViewItem;
+            if (localeItem != null)
+            {
+                localeItem.LocaleItem.Language = (SystemLanguage)EditorGUI.EnumPopup(cellRect, localeItem.LocaleItem.Language);
+            }
+        }
+
+        private void DrawValueCell(Rect cellRect, TreeViewItem item)
+        {
+            cellRect.y += 2;
+            cellRect.height -= 4;
+            var treeViewItem = item as LocaleTreeViewItem;
+            if (treeViewItem != null)
+            {
+                var localeItem = treeViewItem.LocaleItem;
+                var valueType = treeViewItem.Parent.LocalizedAsset.ValueType;
+
+                EditorGUI.BeginChangeCheck();
+                if (valueType.IsSubclassOf(typeof(UnityEngine.Object)))
+                {
+                    localeItem.ObjectValue = EditorGUI.ObjectField(cellRect, (UnityEngine.Object)localeItem.ObjectValue, localeItem.ObjectValue.GetType(), false);
+                }
+                else if (valueType == typeof(string))
+                {
+                    EditorGUI.BeginChangeCheck();
+                    localeItem.ObjectValue = EditorGUI.TextArea(cellRect, (string)localeItem.ObjectValue, m_TextAreaStyle);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        RefreshCustomRowHeights();
                     }
-                    break;
+                }
+                else
+                {
+                    EditorGUI.LabelField(cellRect, valueType + " value type not supported.");
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    treeViewItem.Parent.IsDirty = true;
+                    EditorUtility.SetDirty(treeViewItem.Parent.LocalizedAsset);
+                }
             }
         }
 
@@ -262,7 +320,7 @@ namespace GameToolkit.Localization.Editor
                 }
             };
 
-            Assert.AreEqual(columns.Length, Enum.GetValues(typeof(Columns)).Length,
+            Assert.AreEqual(columns.Length, Enum.GetValues(typeof(ColumnType)).Length,
                             "Number of columns should match number of enum values: You probably forgot to update one of them.");
 
             var state = new MultiColumnHeaderState(columns);
