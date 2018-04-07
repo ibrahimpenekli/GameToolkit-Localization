@@ -3,21 +3,22 @@
 
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+
+#if UNITY_IOS
+using UnityEditor.iOS.Xcode;
+#endif
 
 namespace GameToolkit.Localization.Editor
 {
     public class LocalizationBuildPostprocessor
     {
-        private const string InfoPlistFile = "Info.plist";
-
         [PostProcessBuild(9999)]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
         {
-#if UNITY_IOS || UNITY_EDITOR
+#if UNITY_IOS
             if (buildTarget == BuildTarget.iOS)
             {
                 // Continue if any localization info exists.
@@ -27,39 +28,24 @@ namespace GameToolkit.Localization.Editor
                     return;
                 }
 
-                var infoPList = Path.Combine(pathToBuiltProject, InfoPlistFile);
-                if (!File.Exists(infoPList))
-                {
-                    Debug.LogError("Could not add localizations to Info.plist file: Info.plist not exist.");
-                    return;
-                }
+                // Get plist.
+                var plistPath = pathToBuiltProject + "/Info.plist";
+                var plist = new PlistDocument();
+                plist.ReadFromString(File.ReadAllText(plistPath));
 
-                var xmlDocument = new XmlDocument();
-                xmlDocument.Load(infoPList);
-
-                var plistDictionary = xmlDocument.SelectSingleNode("plist/dict");
-                if (plistDictionary == null)
-                {
-                    Debug.LogError("Could not add localizations to Info.plist file.");
-                    return;
-                }
-
-                var localizationsKey = xmlDocument.CreateElement("key");
-                localizationsKey.InnerText = "CFBundleLocalizations";
-                plistDictionary.AppendChild(localizationsKey);
+                // Get root of plist/dict.
+                var rootDict = plist.root;
+                var plistLocalizations = rootDict.CreateArray("CFBundleLocalizations");
 
                 // Add localizations.
-                var localizationsArray = xmlDocument.CreateElement("array");
                 foreach (string locale in localizations)
                 {
-                    var localizationElement = xmlDocument.CreateElement("string");
-                    localizationElement.InnerText = locale;
-                    localizationsArray.AppendChild(localizationElement);
+                    plistLocalizations.AddString(locale);
                     Debug.Log("[LocalizationBuildPostprocessor] Localization added: " + locale);
                 }
 
-                plistDictionary.AppendChild(localizationsArray);
-                xmlDocument.Save(infoPList);
+                // Save all changes.
+                File.WriteAllText(plistPath, plist.WriteToString());
             }
 #endif
         }
