@@ -6,6 +6,7 @@ Easy-to-use and generic asset localization system for Unity.
 * Edit everything through [Localization Explorer](../../wiki/Localization-Explorer) window
 * [Quick text translation](../../wiki/Localization-Explorer#3-quick-translate-missing-locales) inside the Editor with [Google Translate](https://cloud.google.com/translate/) engine
 * [Extensible localized asset](../../wiki/Scripting-Reference#extending-custom-localized-asset-behaviour) support
+* Used locales automatically added to Info.plist on iOS build
 * Lightweight and easy to use
 * No coding required
 
