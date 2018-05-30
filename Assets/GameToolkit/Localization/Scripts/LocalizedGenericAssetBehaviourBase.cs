@@ -22,7 +22,12 @@ namespace GameToolkit.Localization
 
         protected virtual void Awake()
         {
-            if (m_Component)
+            InitializePropertyIfNeeded();
+        }
+
+        protected virtual void InitializePropertyIfNeeded()
+        {
+            if (m_PropertyInfo == null && m_Component)
             {
                 m_PropertyInfo = FindProperty(m_Component, m_Property);
             }

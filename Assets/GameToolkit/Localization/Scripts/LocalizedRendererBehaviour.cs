@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	[RequireComponent(typeof(Renderer))]
+    [RequireComponent(typeof(Renderer))]
     public class LocalizedRendererBehaviour : LocalizedAssetBehaviour
     {
         public int MaterialIndex = 0;
@@ -18,13 +18,37 @@ namespace GameToolkit.Localization
         {
             if (LocalizedTexture)
             {
-                GetComponent<Renderer>().materials[MaterialIndex].SetTexture(PropertyName, LocalizedTexture.Value);
+                var materials = GetMaterials();
+                if (MaterialIndex < materials.Length)
+                {
+                    materials[MaterialIndex].SetTexture(PropertyName, LocalizedTexture.Value);
+                }
+                else
+                {
+                    Debug.LogWarning(name + ": Material index out of bounds!");
+                }
             }
         }
 
-		private void OnValidate()
-		{
-			MaterialIndex = Mathf.Max(0, MaterialIndex);
-		}
+        private void OnValidate()
+        {
+            MaterialIndex = Mathf.Max(0, MaterialIndex);
+        }
+
+        private Material[] GetMaterials()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                return GetComponent<Renderer>().sharedMaterials;
+            }
+            else
+            {
+#endif
+                return GetComponent<Renderer>().materials;
+#if UNITY_EDITOR
+            }
+#endif
+        }
     }
 }

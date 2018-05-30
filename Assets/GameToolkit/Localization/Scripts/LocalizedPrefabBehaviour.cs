@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public class LocalizedPrefabBehaviour : LocalizedAssetBehaviour
     {
         public LocalizedPrefab LocalizedPrefab;
@@ -16,16 +16,24 @@ namespace GameToolkit.Localization
 
         protected override void UpdateComponentValue()
         {
-            if (LocalizedPrefab)
+#if UNITY_EDITOR
+            // Disable on editor when not playing.
+            if (Application.isPlaying)
             {
-                if (m_PrefabInstance)
+#endif
+                if (LocalizedPrefab)
                 {
-                    Destroy(m_PrefabInstance);
-                }
+                    if (m_PrefabInstance)
+                    {
+                        Destroy(m_PrefabInstance);
+                    }
 
-                m_PrefabInstance = Instantiate(LocalizedPrefab.Value);
-                m_PrefabInstance.transform.SetParent(transform, false);
+                    m_PrefabInstance = Instantiate(LocalizedPrefab.Value);
+                    m_PrefabInstance.transform.SetParent(transform, false);
+                }
+#if UNITY_EDITOR
             }
+#endif
         }
     }
 }

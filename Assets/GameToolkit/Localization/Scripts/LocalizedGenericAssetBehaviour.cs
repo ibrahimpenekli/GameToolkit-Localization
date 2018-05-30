@@ -42,6 +42,13 @@ namespace GameToolkit.Localization
 
         protected override void UpdateComponentValue()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                InitializePropertyIfNeeded();
+            }
+#endif
+
             if (m_LocalizedAsset && m_PropertyInfo != null)
             {
                 m_PropertyInfo.SetValue(m_Component, GetLocalizedValue(), null);

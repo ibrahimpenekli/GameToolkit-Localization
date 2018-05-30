@@ -5,14 +5,15 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
+    [ExecuteInEditMode]
     public abstract class LocalizedAssetBehaviour : MonoBehaviour
     {
-		/// <summary>
-		/// 
-		/// </summary>
+        /// <summary>
+        /// 
+        /// </summary>
         protected abstract void UpdateComponentValue();
 
         protected virtual void OnEnable()
@@ -24,6 +25,11 @@ namespace GameToolkit.Localization
         protected virtual void OnDisable()
         {
             Localization.Instance.LocaleChanged -= Localization_LocaleChanged;
+        }
+
+        private void OnValidate()
+        {
+            UpdateComponentValue();
         }
 
         private void Localization_LocaleChanged(object sender, LocaleChangedEventArgs e)
