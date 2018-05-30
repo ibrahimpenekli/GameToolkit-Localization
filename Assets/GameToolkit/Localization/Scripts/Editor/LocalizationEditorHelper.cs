@@ -7,7 +7,7 @@ namespace GameToolkit.Localization.Editor
 {
     public static class LocalizationEditorHelper
     {
-        public const string LocalizationMenu = "GameToolkit/Localization/";
+        public const string LocalizationMenu = "Window/GameToolkit/Localization/";
         public const string LocalizedElementsSerializedProperty = "m_LocaleItems";
         public const string LocaleLanguageSerializedProperty = "m_Language";
         public const string LocaleValueSerializedProperty = "m_Value";
