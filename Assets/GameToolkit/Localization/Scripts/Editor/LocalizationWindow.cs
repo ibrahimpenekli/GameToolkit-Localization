@@ -127,7 +127,7 @@ namespace GameToolkit.Localization.Editor
 
         private void HandleEditorCommands()
         {
-            var selectedItems = GetSelectedTreeViewItems();
+            var selectedItems = GetSelectedAssetItems();
             if (selectedItems.Any())
             {
                 var e = Event.current;
@@ -144,10 +144,10 @@ namespace GameToolkit.Localization.Editor
                     switch (e.commandName)
                     {
                         case EditorCommands.Delete:
-                            DeleteLocalizedAsset(selectedItems);
+                            DeleteAssetItems(selectedItems);
                             break;
                         case EditorCommands.Duplicate:
-                            DuplicateLocalizedAsset(selectedItems);
+                            DuplicateAssetItems(selectedItems);
                             break;
                         case EditorCommands.FrameSelected:
                             RevealLocalizedAsset(selectedItems.FirstOrDefault());
@@ -243,7 +243,7 @@ namespace GameToolkit.Localization.Editor
 
             if (GUILayout.Button(new GUIContent("Delete", "Delete the selected localized asset."), EditorStyles.toolbarButton))
             {
-                DeleteLocalizedAsset(new[] { selectedItem });
+                DeleteAssetItems(new[] { selectedItem });
             }
             GUI.enabled = true;
         }
@@ -266,7 +266,7 @@ namespace GameToolkit.Localization.Editor
             m_TreeView.BeginRename(assetTreeViewItem);
         }
 
-        private void DuplicateLocalizedAsset(IEnumerable<AssetTreeViewItem> items)
+        private void DuplicateAssetItems(IEnumerable<AssetTreeViewItem> items)
         {
             foreach (var item in items)
             {
@@ -276,12 +276,20 @@ namespace GameToolkit.Localization.Editor
             }
         }
 
-        private void DeleteLocalizedAsset(IEnumerable<AssetTreeViewItem> items)
+        private void DeleteAssetItems(IEnumerable<AssetTreeViewItem> items)
         {
             foreach (var item in items)
             {
                 var assetPath = AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
                 AssetDatabase.MoveAssetToTrash(assetPath);
+            }
+        }
+
+        private void DeleteLocaleItems(IEnumerable<LocaleTreeViewItem> items)
+        {
+            foreach (var item in items)
+            {
+                RemoveLocale(item.Parent.LocalizedAsset, item.LocaleItem);
             }
         }
 
@@ -349,7 +357,7 @@ namespace GameToolkit.Localization.Editor
 
         private void AssetItemContextMenu_Delete()
         {
-            DeleteLocalizedAsset(GetSelectedTreeViewItems());
+            DeleteAssetItems(GetSelectedAssetItems());
         }
 
         private void OnLocaleItemContextMenu(AssetTreeViewItem assetTreeViewItem, LocaleTreeViewItem localeTreeViewItem)
@@ -412,11 +420,22 @@ namespace GameToolkit.Localization.Editor
             GUI.enabled = true;
         }
 
-        private IEnumerable<AssetTreeViewItem> GetSelectedTreeViewItems()
+        private IEnumerable<AssetTreeViewItem> GetSelectedAssetItems()
+        {
+            return GetSelectedItemsAs<AssetTreeViewItem>();
+        }
+
+        private IEnumerable<LocaleTreeViewItem> GetSelectedLocaleItems()
+        {
+            return GetSelectedItemsAs<LocaleTreeViewItem>();
+        }
+
+        private IEnumerable<T> GetSelectedItemsAs<T>() where T : TreeViewItem
         {
             var selection = m_TreeView.GetSelection();
-            var items = m_TreeView.GetRows();
-            return items.Where(item => item as AssetTreeViewItem != null && selection.Contains(item.id)).Cast<AssetTreeViewItem>();
+            var items = m_TreeView.GetRows()
+                .Where(item => item as T != null && selection.Contains(item.id));
+            return items.Cast<T>();
         }
 
         private void TryGetSelectedTreeViewItem(out AssetTreeViewItem assetTreeViewItem,
