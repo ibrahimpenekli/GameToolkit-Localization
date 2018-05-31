@@ -11,12 +11,19 @@ namespace GameToolkit.Localization.Editor
     {
         static UnityPackageInitializer()
         {
+            // Wait untill asset database are ready.
+            EditorApplication.update += EditorApplication_Update;
+        }
+
+        private static void EditorApplication_Update()
+        {
             // This will create settings if not exist.
             var localizationSettings = LocalizationSettings.Instance;
             if (!localizationSettings)
             {
                 Debug.LogWarning("LocalizationSettings not found. Please create manually.");
             }
+            EditorApplication.update -= EditorApplication_Update;
         }
     }
 }
