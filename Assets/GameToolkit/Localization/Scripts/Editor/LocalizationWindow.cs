@@ -219,10 +219,23 @@ namespace GameToolkit.Localization.Editor
 
         private void TreeViewControls()
         {
+            if (GUILayout.Button(IconOrText("audio mixer", "Settings", "Open settings"), EditorStyles.toolbarButton))
+            {
+                OpenSettings();
+            }
 
-            if (GUILayout.Button(IconOrText("TreeEditor.Refresh", "Refresh", "Refresh the window"), EditorStyles.toolbarButton))
+            if (GUILayout.Button(IconOrText("refresh", "Refresh", "Refresh the window"), EditorStyles.toolbarButton))
             {
                 Refresh();
+            }
+        }
+
+        private void OpenSettings()
+        {
+            var settings = LocalizationSettings.Instance;
+            if (settings)
+            {
+                Selection.activeObject = settings;
             }
         }
 
