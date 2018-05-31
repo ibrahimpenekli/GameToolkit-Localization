@@ -415,8 +415,8 @@ namespace GameToolkit.Localization.Editor
         private IEnumerable<AssetTreeViewItem> GetSelectedTreeViewItems()
         {
             var selection = m_TreeView.GetSelection();
-            var items = m_TreeView.GetRows().Cast<AssetTreeViewItem>();
-            return items.Where(item => item != null && selection.Contains(item.id));
+            var items = m_TreeView.GetRows();
+            return items.Where(item => item as AssetTreeViewItem != null && selection.Contains(item.id)).Cast<AssetTreeViewItem>();
         }
 
         private void TryGetSelectedTreeViewItem(out AssetTreeViewItem assetTreeViewItem,
