@@ -46,7 +46,7 @@ namespace GameToolkit.Localization.Editor
             get { return new Rect(Padding, position.height - 24, position.width - 2 * Padding, 20); }
         }
 
-        [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName)]
+        [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName, false, 0)]
         public static LocalizationWindow GetWindow()
         {
             s_Instance = GetWindow<LocalizationWindow>();
