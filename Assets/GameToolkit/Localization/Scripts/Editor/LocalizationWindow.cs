@@ -116,9 +116,48 @@ namespace GameToolkit.Localization.Editor
         {
             InitializeIfNeeded();
 
+            // Handle editor commands.
+            HandleEditorCommands();
+
+            // Draw views.
             SearchBarView(ToolbarRect);
             BodyView(BodyViewRect);
             BottomToolbarView(BottomToolbarRect);
+        }
+
+        private void HandleEditorCommands()
+        {
+            var selectedItems = GetSelectedTreeViewItems();
+            if (selectedItems.Any())
+            {
+                var e = Event.current;
+                if (e.type == EventType.ValidateCommand &&
+                    (e.commandName == EditorCommands.Delete ||
+                     e.commandName == EditorCommands.Duplicate ||
+                     e.commandName == EditorCommands.FrameSelected))
+                {
+                    e.Use();
+                }
+
+                if (e.type == EventType.ExecuteCommand)
+                {
+                    switch (e.commandName)
+                    {
+                        case EditorCommands.Delete:
+                            DeleteLocalizedAsset(selectedItems);
+                            break;
+                        case EditorCommands.Duplicate:
+                            DuplicateLocalizedAsset(selectedItems);
+                            break;
+                        case EditorCommands.FrameSelected:
+                            RevealLocalizedAsset(selectedItems.FirstOrDefault());
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         private void BodyView(Rect rect)
@@ -204,7 +243,7 @@ namespace GameToolkit.Localization.Editor
 
             if (GUILayout.Button(new GUIContent("Delete", "Delete the selected localized asset."), EditorStyles.toolbarButton))
             {
-                DeleteLocalizedAsset(selectedItem);
+                DeleteLocalizedAsset(new[] { selectedItem });
             }
             GUI.enabled = true;
         }
@@ -227,11 +266,23 @@ namespace GameToolkit.Localization.Editor
             m_TreeView.BeginRename(assetTreeViewItem);
         }
 
-        private void DeleteLocalizedAsset(AssetTreeViewItem assetTreeViewItem)
+        private void DuplicateLocalizedAsset(IEnumerable<AssetTreeViewItem> items)
         {
-            Debug.Assert(assetTreeViewItem != null);
-            var assetPath = AssetDatabase.GetAssetPath(assetTreeViewItem.LocalizedAsset.GetInstanceID());
-            AssetDatabase.DeleteAsset(assetPath);
+            foreach (var item in items)
+            {
+                var assetPath = AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
+                var newPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
+                AssetDatabase.CopyAsset(assetPath, newPath);
+            }
+        }
+
+        private void DeleteLocalizedAsset(IEnumerable<AssetTreeViewItem> items)
+        {
+            foreach (var item in items)
+            {
+                var assetPath = AssetDatabase.GetAssetPath(item.LocalizedAsset.GetInstanceID());
+                AssetDatabase.MoveAssetToTrash(assetPath);
+            }
         }
 
         private void OnContextMenu(Rect rect)
@@ -260,7 +311,6 @@ namespace GameToolkit.Localization.Editor
         private void OnAssetItemContextMenu(AssetTreeViewItem assetTreeViewItem, Vector2 mousePosition)
         {
             string itemCreate = "Create";
-            string itemReveal = "Reveal";
             string itemRename = "Rename";
             string itemDelete = "Delete";
 
@@ -273,23 +323,15 @@ namespace GameToolkit.Localization.Editor
 
             if (assetTreeViewItem == null)
             {
-                menu.AddDisabledItem(new GUIContent(itemReveal));
                 menu.AddDisabledItem(new GUIContent(itemRename));
                 menu.AddDisabledItem(new GUIContent(itemDelete));
             }
             else
             {
-                menu.AddItem(new GUIContent(itemReveal), false, AssetItemContextMenu_Select, assetTreeViewItem);
                 menu.AddItem(new GUIContent(itemRename), false, AssetItemContextMenu_Rename);
                 menu.AddItem(new GUIContent(itemDelete), false, AssetItemContextMenu_Delete);
             }
             menu.ShowAsContext();
-        }
-
-        private void AssetItemContextMenu_Select(object assetTreeViewItemObject)
-        {
-            var assetTreeViewItem = (AssetTreeViewItem)assetTreeViewItemObject;
-            RevealLocalizedAsset(assetTreeViewItem);
         }
 
         private void AssetItemContextMenu_Create(object mousePosition)
@@ -307,10 +349,7 @@ namespace GameToolkit.Localization.Editor
 
         private void AssetItemContextMenu_Delete()
         {
-            AssetTreeViewItem assetTreeViewItem;
-            LocaleTreeViewItem localeTreeViewItem;
-            TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
-            DeleteLocalizedAsset(assetTreeViewItem);
+            DeleteLocalizedAsset(GetSelectedTreeViewItems());
         }
 
         private void OnLocaleItemContextMenu(AssetTreeViewItem assetTreeViewItem, LocaleTreeViewItem localeTreeViewItem)
@@ -371,6 +410,13 @@ namespace GameToolkit.Localization.Editor
                 RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
             }
             GUI.enabled = true;
+        }
+
+        private IEnumerable<AssetTreeViewItem> GetSelectedTreeViewItems()
+        {
+            var selection = m_TreeView.GetSelection();
+            var items = m_TreeView.GetRows().Cast<AssetTreeViewItem>();
+            return items.Where(item => item != null && selection.Contains(item.id));
         }
 
         private void TryGetSelectedTreeViewItem(out AssetTreeViewItem assetTreeViewItem,
@@ -483,6 +529,13 @@ namespace GameToolkit.Localization.Editor
                 serializedObject.ApplyModifiedProperties();
                 m_TreeView.Reload();
             }
+        }
+
+        private struct EditorCommands
+        {
+            public const string Duplicate = "Duplicate";
+            public const string Delete = "Delete";
+            public const string FrameSelected = "FrameSelected";
         }
     }
 }
