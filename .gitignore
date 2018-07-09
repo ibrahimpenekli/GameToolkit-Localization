@@ -5,6 +5,11 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 
+# Ignore JetBrains Rider
+/.idea/
+/Assets/Plugins/
+/Assets/Plugins.meta
+
 # Visual Studio 2015 cache directory
 /.vs/
 

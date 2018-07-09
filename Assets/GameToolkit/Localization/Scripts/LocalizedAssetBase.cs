@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class LocalizedAssetBase : ScriptableObject
     {
         /// <summary>

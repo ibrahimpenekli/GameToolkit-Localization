@@ -76,7 +76,7 @@ namespace GameToolkit.Localization
 #if UNITY_EDITOR
             var guids = UnityEditor.AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
             var assets = new T[guids.Length];
-            for (int i = 0; i < guids.Length; ++i)
+            for (var i = 0; i < guids.Length; ++i)
             {
                 var assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
                 assets[i] = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
