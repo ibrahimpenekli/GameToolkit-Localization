@@ -22,10 +22,5 @@ namespace GameToolkit.Localization
                 GetComponent<VideoPlayer>().clip = LocalizedTexture.Value;
             }
         }
-
-       /* private void OnValidate()
-        {
-            MaterialIndex = Mathf.Max(0, MaterialIndex);
-        }*/
     }
 }
