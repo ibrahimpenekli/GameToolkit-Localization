@@ -2,13 +2,12 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using UnityEngine;
-using UnityEditor;
 
 namespace GameToolkit.Localization.Editor
 {
     public static class LocalizationEditorHelper
     {
-        private const string HelpUrl = "https://github.com/ibrahimpenekli/GameToolkit-Localization/wiki";
+        private const string HelpUrl = "https://hibrahimpenekli.gitbook.io/gametoolkit-localization";
         public const string LocalizationMenu = "Window/GameToolkit/Localization/";
         public const string LocalizedElementsSerializedProperty = "m_LocaleItems";
         public const string LocaleLanguageSerializedProperty = "m_Language";

@@ -3,7 +3,6 @@
 
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace GameToolkit.Localization
@@ -45,7 +44,7 @@ namespace GameToolkit.Localization
                 if (!s_Instance)
                 {
                     Debug.LogWarning("No instance of " + AssetName + " found, using default values.");
-                    s_Instance = ScriptableObject.CreateInstance<LocalizationSettings>();
+                    s_Instance = CreateInstance<LocalizationSettings>();
                 }
                 return s_Instance;
             }
@@ -67,7 +66,7 @@ namespace GameToolkit.Localization
 #if UNITY_EDITOR
         private static LocalizationSettings CreateSettingsAndSave()
         {
-            var localizationSettings = ScriptableObject.CreateInstance<LocalizationSettings>();
+            var localizationSettings = CreateInstance<LocalizationSettings>();
 
             // Saving during Awake() will crash Unity, delay saving until next editor frame.
             if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)

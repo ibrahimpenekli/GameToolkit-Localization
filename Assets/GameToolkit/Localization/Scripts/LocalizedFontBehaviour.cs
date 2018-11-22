@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Font")]
     public class LocalizedFontBehaviour : LocalizedGenericAssetBehaviour<LocalizedFont, Font>
     {
     }

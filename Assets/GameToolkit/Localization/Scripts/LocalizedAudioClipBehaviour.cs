@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Audio Clip")]
     public class LocalizedAudioClipBehaviour : LocalizedGenericAssetBehaviour<LocalizedAudioClip, AudioClip>
     {
     }

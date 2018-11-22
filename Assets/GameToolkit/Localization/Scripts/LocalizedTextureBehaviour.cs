@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Texture")]
     public class LocalizedTextureBehaviour : LocalizedGenericAssetBehaviour<LocalizedTexture, Texture>
     {
     }

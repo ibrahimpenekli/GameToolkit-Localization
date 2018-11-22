@@ -1,15 +1,12 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Text")]
     public class LocalizedTextBehaviour : LocalizedGenericAssetBehaviour<LocalizedText, string>
     {
         [SerializeField]

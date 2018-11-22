@@ -11,277 +11,281 @@ namespace GameToolkit.Localization.Editor
     /// </summary>
     public static class LocalizationMenu
     {
-
         private const string ParentMenu = LocalizationEditorHelper.LocalizationMenu + "Set Locale/";
 
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + "Help", false, 1)]
-        static void OpenHelpUrl()
+        private static void OpenHelpUrl()
         {
             LocalizationEditorHelper.OpenHelpUrl();
         }
 
         [MenuItem(ParentMenu + "Afrikaans")]
-        static void ChangeToAfrikaans()
+        private static void ChangeToAfrikaans()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Afrikaans;
+            SetLanguage(SystemLanguage.Afrikaans);
         }
 
         [MenuItem(ParentMenu + "Arabic")]
-        static void ChangeToArabic()
+        private static void ChangeToArabic()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Arabic;
+            SetLanguage(SystemLanguage.Arabic);
         }
 
         [MenuItem(ParentMenu + "Basque")]
-        static void ChangeToBasque()
+        private static void ChangeToBasque()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Basque;
+            SetLanguage(SystemLanguage.Basque);
         }
 
         [MenuItem(ParentMenu + "Belarusian")]
-        static void ChangeToBelarusian()
+        private static void ChangeToBelarusian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Belarusian;
+            SetLanguage(SystemLanguage.Belarusian);
         }
 
         [MenuItem(ParentMenu + "Bulgarian")]
-        static void ChangeToBulgarian()
+        private static void ChangeToBulgarian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Bulgarian;
+            SetLanguage(SystemLanguage.Bulgarian);
         }
 
         [MenuItem(ParentMenu + "Catalan")]
-        static void ChangeToCatalan()
+        private static void ChangeToCatalan()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Catalan;
+            SetLanguage(SystemLanguage.Catalan);
         }
 
         [MenuItem(ParentMenu + "Chinese")]
-        static void ChangeToChinese()
+        private static void ChangeToChinese()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Chinese;
+            SetLanguage(SystemLanguage.Chinese);
         }
 
         [MenuItem(ParentMenu + "Czech")]
-        static void ChangeToCzech()
+        private static void ChangeToCzech()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Czech;
+            SetLanguage(SystemLanguage.Czech);
         }
 
         [MenuItem(ParentMenu + "Danish")]
-        static void ChangeToDanish()
+        private static void ChangeToDanish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Danish;
+            SetLanguage(SystemLanguage.Danish);
         }
 
         [MenuItem(ParentMenu + "Dutch")]
-        static void ChangeToDutch()
+        private static void ChangeToDutch()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Dutch;
+            SetLanguage(SystemLanguage.Dutch);
         }
 
         [MenuItem(ParentMenu + "English")]
-        static void ChangeToEnglish()
+        private static void ChangeToEnglish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.English;
+            SetLanguage(SystemLanguage.English);
         }
 
         [MenuItem(ParentMenu + "Estonian")]
-        static void ChangeToEstonian()
+        private static void ChangeToEstonian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Estonian;
+            SetLanguage(SystemLanguage.Estonian);
         }
 
         [MenuItem(ParentMenu + "Faroese")]
-        static void ChangeToFaroese()
+        private static void ChangeToFaroese()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Faroese;
+            SetLanguage(SystemLanguage.Faroese);
         }
 
         [MenuItem(ParentMenu + "Finnish")]
-        static void ChangeToFinnish()
+        private static void ChangeToFinnish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Finnish;
+            SetLanguage(SystemLanguage.Finnish);
         }
 
         [MenuItem(ParentMenu + "French")]
-        static void ChangeToFrench()
+        private static void ChangeToFrench()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.French;
+            SetLanguage(SystemLanguage.French);
         }
 
         [MenuItem(ParentMenu + "German")]
-        static void ChangeToGerman()
+        private static void ChangeToGerman()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.German;
+            SetLanguage(SystemLanguage.German);
         }
 
         [MenuItem(ParentMenu + "Greek")]
-        static void ChangeToGreek()
+        private static void ChangeToGreek()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Greek;
+            SetLanguage(SystemLanguage.Greek);
         }
 
         [MenuItem(ParentMenu + "Hebrew")]
-        static void ChangeToHebrew()
+        private static void ChangeToHebrew()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Hebrew;
+            SetLanguage(SystemLanguage.Hebrew);
         }
 
         [MenuItem(ParentMenu + "Hungarian")]
-        static void ChangeToHungarian()
+        private static void ChangeToHungarian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Hungarian;
+            SetLanguage(SystemLanguage.Hungarian);
         }
 
         [MenuItem(ParentMenu + "Hugarian")]
-        static void ChangeToHugarian()
+        private static void ChangeToHugarian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Hungarian;
+            SetLanguage(SystemLanguage.Hungarian);
         }
 
         [MenuItem(ParentMenu + "Icelandic")]
-        static void ChangeToIcelandic()
+        private static void ChangeToIcelandic()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Icelandic;
+            SetLanguage(SystemLanguage.Icelandic);
         }
 
         [MenuItem(ParentMenu + "Indonesian")]
-        static void ChangeToIndonesian()
+        private static void ChangeToIndonesian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Indonesian;
+            SetLanguage(SystemLanguage.Indonesian);
         }
 
         [MenuItem(ParentMenu + "Italian")]
-        static void ChangeToItalian()
+        private static void ChangeToItalian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Italian;
+            SetLanguage(SystemLanguage.Italian);
         }
 
         [MenuItem(ParentMenu + "Japanese")]
-        static void ChangeToJapanese()
+        private static void ChangeToJapanese()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Japanese;
+            SetLanguage(SystemLanguage.Japanese);
         }
 
         [MenuItem(ParentMenu + "Korean")]
-        static void ChangeToKorean()
+        private static void ChangeToKorean()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Korean;
+            SetLanguage(SystemLanguage.Korean);
         }
 
         [MenuItem(ParentMenu + "Latvian")]
-        static void ChangeToLatvian()
+        private static void ChangeToLatvian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Latvian;
+            SetLanguage(SystemLanguage.Latvian);
         }
 
         [MenuItem(ParentMenu + "Lithuanian")]
-        static void ChangeToLithuanian()
+        private static void ChangeToLithuanian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Lithuanian;
+            SetLanguage(SystemLanguage.Lithuanian);
         }
 
         [MenuItem(ParentMenu + "Norwegian")]
-        static void ChangeToNorwegian()
+        private static void ChangeToNorwegian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Norwegian;
+            SetLanguage(SystemLanguage.Norwegian);
         }
 
         [MenuItem(ParentMenu + "Polish")]
-        static void ChangeToPolish()
+        private static void ChangeToPolish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Polish;
+            SetLanguage(SystemLanguage.Polish);
         }
 
         [MenuItem(ParentMenu + "Portuguese")]
-        static void ChangeToPortuguese()
+        private static void ChangeToPortuguese()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Portuguese;
+            SetLanguage(SystemLanguage.Portuguese);
         }
 
         [MenuItem(ParentMenu + "Romanian")]
-        static void ChangeToRomanian()
+        private static void ChangeToRomanian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Romanian;
+            SetLanguage(SystemLanguage.Romanian);
         }
 
         [MenuItem(ParentMenu + "Russian")]
-        static void ChangeToRussian()
+        private static void ChangeToRussian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Russian;
+            SetLanguage(SystemLanguage.Russian);
         }
 
         [MenuItem(ParentMenu + "SerboCroatian")]
-        static void ChangeToSerboCroatian()
+        private static void ChangeToSerboCroatian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.SerboCroatian;
+            SetLanguage(SystemLanguage.SerboCroatian);
         }
 
         [MenuItem(ParentMenu + "Slovak")]
-        static void ChangeToSlovak()
+        private static void ChangeToSlovak()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Slovak;
+            SetLanguage(SystemLanguage.Slovak);
         }
 
         [MenuItem(ParentMenu + "Slovenian")]
-        static void ChangeToSlovenian()
+        private static void ChangeToSlovenian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Slovenian;
+            SetLanguage(SystemLanguage.Slovenian);
         }
 
         [MenuItem(ParentMenu + "Spanish")]
-        static void ChangeToSpanish()
+        private static void ChangeToSpanish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Spanish;
+            SetLanguage(SystemLanguage.Spanish);
         }
 
         [MenuItem(ParentMenu + "Swedish")]
-        static void ChangeToSwedish()
+        private static void ChangeToSwedish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Swedish;
+            SetLanguage(SystemLanguage.Swedish);
         }
 
         [MenuItem(ParentMenu + "Thai")]
-        static void ChangeToThai()
+        private static void ChangeToThai()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Thai;
+            SetLanguage(SystemLanguage.Thai);
         }
 
         [MenuItem(ParentMenu + "Turkish")]
-        static void ChangeToTurkish()
+        private static void ChangeToTurkish()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Turkish;
+            SetLanguage(SystemLanguage.Turkish);
         }
 
         [MenuItem(ParentMenu + "Ukrainian")]
-        static void ChangeToUkrainian()
+        private static void ChangeToUkrainian()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Ukrainian;
+            SetLanguage(SystemLanguage.Ukrainian);
         }
 
         [MenuItem(ParentMenu + "Vietnamese")]
-        static void ChangeToVietnamese()
+        private static void ChangeToVietnamese()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Vietnamese;
+            SetLanguage(SystemLanguage.Vietnamese);
         }
 
         [MenuItem(ParentMenu + "ChineseSimplified")]
-        static void ChangeToChineseSimplified()
+        private static void ChangeToChineseSimplified()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.ChineseSimplified;
+            SetLanguage(SystemLanguage.ChineseSimplified);
         }
 
         [MenuItem(ParentMenu + "ChineseTraditional")]
-        static void ChangeToChineseTraditional()
+        private static void ChangeToChineseTraditional()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.ChineseTraditional;
+            SetLanguage(SystemLanguage.ChineseTraditional);
         }
 
         [MenuItem(ParentMenu + "Unknown")]
-        static void ChangeToUnknown()
+        private static void ChangeToUnknown()
         {
-            Localization.Instance.CurrentLanguage = SystemLanguage.Unknown;
+            SetLanguage(SystemLanguage.Unknown);
+        }
+
+        private static void SetLanguage(SystemLanguage language)
+        {
+            Localization.Instance.CurrentLanguage = language;
         }
     }
 }

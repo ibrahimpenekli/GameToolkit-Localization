@@ -6,9 +6,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Text Asset")]
     public class LocalizedTextAssetBehaviour : LocalizedGenericAssetBehaviour<LocalizedTextAsset, TextAsset>
     {
         protected override Type GetValueType()

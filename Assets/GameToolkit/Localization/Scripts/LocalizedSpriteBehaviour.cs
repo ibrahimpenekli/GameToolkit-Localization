@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Sprite")]
     public class LocalizedSpriteBehaviour : LocalizedGenericAssetBehaviour<LocalizedSprite, Sprite>
     {
     }

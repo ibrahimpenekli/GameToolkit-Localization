@@ -5,12 +5,11 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [ExecuteInEditMode]
     public abstract class LocalizedAssetBehaviour : MonoBehaviour
     {
+        protected const string ComponentMenuRoot = "Localization/";
+        
         /// <summary>
         /// 
         /// </summary>

@@ -5,9 +5,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    [AddComponentMenu(ComponentMenuRoot + "Localized Prefab")]
     public class LocalizedPrefabBehaviour : LocalizedAssetBehaviour
     {
         public LocalizedPrefab LocalizedPrefab;

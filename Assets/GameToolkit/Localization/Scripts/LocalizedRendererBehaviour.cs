@@ -1,12 +1,11 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameToolkit.Localization
 {
+    [AddComponentMenu(ComponentMenuRoot + "Localized Renderer Texture")]
     [RequireComponent(typeof(Renderer))]
     public class LocalizedRendererBehaviour : LocalizedAssetBehaviour
     {
@@ -42,13 +41,8 @@ namespace GameToolkit.Localization
             {
                 return GetComponent<Renderer>().sharedMaterials;
             }
-            else
-            {
 #endif
-                return GetComponent<Renderer>().materials;
-#if UNITY_EDITOR
-            }
-#endif
+            return GetComponent<Renderer>().materials;
         }
     }
 }
