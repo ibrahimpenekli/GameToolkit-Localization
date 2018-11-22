@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 
 namespace GameToolkit.Localization
@@ -52,7 +51,7 @@ namespace GameToolkit.Localization
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                 {
-                    Undo.RecordObject(m_Component, "Locale value change");
+                    UnityEditor.Undo.RecordObject(m_Component, "Locale value change");
                 }
 #endif
                 m_PropertyInfo.SetValue(m_Component, GetLocalizedValue(), null);
