@@ -46,14 +46,9 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Gets the localized value safely.
         /// </summary>
-        protected static T GetLocalizedValue<T>(LocalizedAsset<T> localizedAsset) where T : class
+        protected static T GetValueOrDefault<T>(LocalizedAsset<T> localizedAsset) where T : class
         {
-            if (Application.isPlaying)
-            {
-                return localizedAsset ? localizedAsset.Value : default(T);
-            }
-
-            return localizedAsset ? localizedAsset.FirstValue : default(T);
+            return localizedAsset ? localizedAsset.Value : default(T);
         }
     }
 }

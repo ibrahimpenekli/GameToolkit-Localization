@@ -16,7 +16,7 @@ namespace GameToolkit.Localization
         {
             if (Material && LocalizedTexture)
             {
-                Material.SetTexture(PropertyName, GetLocalizedValue(LocalizedTexture));
+                Material.SetTexture(PropertyName, GetValueOrDefault(LocalizedTexture));
             }
         }
     }

@@ -35,7 +35,7 @@ namespace GameToolkit.Localization
 
         protected virtual object GetLocalizedValue()
         {
-            return GetLocalizedValue(m_LocalizedAsset);
+            return GetValueOrDefault(m_LocalizedAsset);
         }
 
         protected override void UpdateComponentValue()

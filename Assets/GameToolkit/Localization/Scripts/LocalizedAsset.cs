@@ -37,15 +37,24 @@ namespace GameToolkit.Localization
         }
 
         /// <summary>
-        /// Returns localized text regarding to Localization.Instance.CurrentLanguage.
-        /// Returns fallback text or empty string if not found.
+        /// Gets localized asset value regarding to <see cref="Localization.CurrentLanguage"/> if available.
+        /// Gets first value of the asset if application is not playing.
         /// </summary>
-        /// <returns>Localized text.</returns>
+        /// <seealso cref="Application.isPlaying"/>
         public T Value
         {
             get
             {
-                var value = GetLocaleValue(Localization.Instance.CurrentLanguage);
+                T value = null;
+#if UNITY_EDITOR
+                if (Application.isPlaying)
+                {
+#endif
+                    value = GetLocaleValue(Localization.Instance.CurrentLanguage);
+#if UNITY_EDITOR
+                }
+#endif
+
                 return value != null ? value : FirstValue;
             }
         }
