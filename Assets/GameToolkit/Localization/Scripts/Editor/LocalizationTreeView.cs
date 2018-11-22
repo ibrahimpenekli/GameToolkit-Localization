@@ -53,7 +53,7 @@ namespace GameToolkit.Localization.Editor
             // This section illustrates that IDs should be unique. The root item is required to 
             // have a depth of -1, and the rest of the items increment from that.
             var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
-            var localizedAssets = Localization.Instance.FindAllLocalizedAssets();
+            var localizedAssets = Localization.FindAllLocalizedAssets();
             var allItems = new List<TreeViewItem>();
 
             // Add localized assets.

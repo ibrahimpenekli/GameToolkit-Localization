@@ -41,11 +41,19 @@ namespace GameToolkit.Localization
         {
             get
             {
+#if UNITY_EDITOR
+                if (!Application.isPlaying)
+                {
+                    Debug.LogError("Localization instance only available when application is playing.");
+                    return null;
+                }
+#endif
                 if (s_Instance == null)
                 {
                     s_Instance = new Localization();
                     s_Instance.SetDefaultLanguage();
                 }
+
                 return s_Instance;
             }
         }
@@ -71,7 +79,7 @@ namespace GameToolkit.Localization
         /// finds only that loaded in memory.
         /// </summary>
         /// <returns>Array of specified localized assets.</returns>
-        public T[] FindAllLocalizedAssets<T>() where T : LocalizedAssetBase
+        public static T[] FindAllLocalizedAssets<T>() where T : LocalizedAssetBase
         {
 #if UNITY_EDITOR
             var guids = UnityEditor.AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
@@ -82,6 +90,7 @@ namespace GameToolkit.Localization
                 assets[i] = UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
                 Debug.Assert(assets[i]);
             }
+
             return assets;
 #else
             return Resources.FindObjectsOfTypeAll<T>();
@@ -93,7 +102,7 @@ namespace GameToolkit.Localization
         /// </summary>
         /// <seealso cref="FindAllLocalizedAssets{T}"/>
         /// <returns>Array of localized assets.</returns>
-        public LocalizedAssetBase[] FindAllLocalizedAssets()
+        public static LocalizedAssetBase[] FindAllLocalizedAssets()
         {
             return FindAllLocalizedAssets<LocalizedAssetBase>();
         }

@@ -9,24 +9,16 @@ namespace GameToolkit.Localization.Editor
     /// <summary>
     /// Unity Editor menu for changing localization under "Tools/Localization".
     /// </summary>
-    [InitializeOnLoad]
     public static class LocalizationMenu
     {
         private const string ParentMenu = LocalizationEditorHelper.LocalizationMenu + "Set Locale/";
 
-        static LocalizationMenu()
-        {           
-            EditorApplication.delayCall += () => {
-                Menu.SetChecked(GetMenuName(Localization.Instance.CurrentLanguage), true);
-            };
-        }
-        
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + "Help", false, 1)]
         private static void OpenHelpUrl()
         {
             LocalizationEditorHelper.OpenHelpUrl();
         }
-
+        
         [MenuItem(ParentMenu + "Afrikaans")]
         private static void ChangeToAfrikaans()
         {
@@ -293,6 +285,12 @@ namespace GameToolkit.Localization.Editor
 
         private static void SetLanguage(SystemLanguage currentLanguage)
         {
+            if (!Application.isPlaying)
+            {
+                Debug.LogWarning("Setting language only available when application is playing.");
+                return;
+            }
+            
             var previousLanguage = Localization.Instance.CurrentLanguage;
             Localization.Instance.CurrentLanguage = currentLanguage;
             

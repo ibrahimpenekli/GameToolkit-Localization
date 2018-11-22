@@ -107,7 +107,7 @@ namespace GameToolkit.Localization.Editor
                 languages.Add((SystemLanguage)Enum.Parse(typeof(SystemLanguage), enumName));
             }
 
-            var localizedAssets = Localization.Instance.FindAllLocalizedAssets();
+            var localizedAssets = Localization.FindAllLocalizedAssets();
             foreach (var localizedAsset in localizedAssets)
             {
                 foreach (var locale in localizedAsset.LocaleItems)
