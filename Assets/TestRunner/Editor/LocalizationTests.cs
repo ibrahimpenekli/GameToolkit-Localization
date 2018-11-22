@@ -26,12 +26,11 @@ namespace GameToolkit.Localization.Tests
         [Test]
         public void LocaleChanged_NotRaised()
         {
-            var onLocaleChanged = new EventHandler<LocaleChangedEventArgs>(
-                delegate(object sender, LocaleChangedEventArgs e)
-                {
-                    Assert.Fail("LocaleChanged event should not be raised when the same value is set.");
-                });
-            
+            var onLocaleChanged = new EventHandler<LocaleChangedEventArgs>((sender, e) =>
+            {
+                Assert.Fail("LocaleChanged event should not be raised when the same value is set.");
+            });
+
             Localization.Instance.CurrentLanguage = SystemLanguage.English;
             Localization.Instance.LocaleChanged += onLocaleChanged;
             Localization.Instance.CurrentLanguage = SystemLanguage.English;

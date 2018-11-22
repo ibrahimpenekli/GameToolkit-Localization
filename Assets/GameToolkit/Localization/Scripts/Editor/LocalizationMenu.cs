@@ -9,10 +9,18 @@ namespace GameToolkit.Localization.Editor
     /// <summary>
     /// Unity Editor menu for changing localization under "Tools/Localization".
     /// </summary>
+    [InitializeOnLoad]
     public static class LocalizationMenu
     {
         private const string ParentMenu = LocalizationEditorHelper.LocalizationMenu + "Set Locale/";
 
+        static LocalizationMenu()
+        {           
+            EditorApplication.delayCall += () => {
+                Menu.SetChecked(GetMenuName(Localization.Instance.CurrentLanguage), true);
+            };
+        }
+        
         [MenuItem(LocalizationEditorHelper.LocalizationMenu + "Help", false, 1)]
         private static void OpenHelpUrl()
         {
@@ -283,9 +291,18 @@ namespace GameToolkit.Localization.Editor
             SetLanguage(SystemLanguage.Unknown);
         }
 
-        private static void SetLanguage(SystemLanguage language)
+        private static void SetLanguage(SystemLanguage currentLanguage)
         {
-            Localization.Instance.CurrentLanguage = language;
+            var previousLanguage = Localization.Instance.CurrentLanguage;
+            Localization.Instance.CurrentLanguage = currentLanguage;
+            
+            Menu.SetChecked(GetMenuName(previousLanguage), false);
+            Menu.SetChecked(GetMenuName(currentLanguage), true);
+        }
+
+        private static string GetMenuName(SystemLanguage language)
+        {
+            return ParentMenu + language;
         }
     }
 }
