@@ -20,7 +20,7 @@ namespace GameToolkit.Localization
                 var materials = GetMaterials();
                 if (MaterialIndex < materials.Length)
                 {
-                    materials[MaterialIndex].SetTexture(PropertyName, LocalizedTexture.Value);
+                    materials[MaterialIndex].SetTexture(PropertyName, GetLocalizedValue(LocalizedTexture));
                 }
                 else
                 {

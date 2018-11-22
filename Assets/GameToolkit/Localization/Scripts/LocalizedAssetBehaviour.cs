@@ -9,21 +9,28 @@ namespace GameToolkit.Localization
     public abstract class LocalizedAssetBehaviour : MonoBehaviour
     {
         protected const string ComponentMenuRoot = "Localization/";
-        
+
         /// <summary>
-        /// 
+        /// Component value is updated with the localized asset value.
         /// </summary>
         protected abstract void UpdateComponentValue();
 
         protected virtual void OnEnable()
         {
             UpdateComponentValue();
-            Localization.Instance.LocaleChanged += Localization_LocaleChanged;
+
+            if (Application.isPlaying)
+            {
+                Localization.Instance.LocaleChanged += Localization_LocaleChanged;
+            }
         }
 
         protected virtual void OnDisable()
         {
-            Localization.Instance.LocaleChanged -= Localization_LocaleChanged;
+            if (Application.isPlaying)
+            {
+                Localization.Instance.LocaleChanged -= Localization_LocaleChanged;
+            }
         }
 
         private void OnValidate()
@@ -34,6 +41,19 @@ namespace GameToolkit.Localization
         private void Localization_LocaleChanged(object sender, LocaleChangedEventArgs e)
         {
             UpdateComponentValue();
+        }
+        
+        /// <summary>
+        /// Gets the localized value safely.
+        /// </summary>
+        protected static T GetLocalizedValue<T>(LocalizedAsset<T> localizedAsset) where T : class
+        {
+            if (Application.isPlaying)
+            {
+                return localizedAsset ? localizedAsset.Value : default(T);
+            }
+
+            return localizedAsset ? localizedAsset.FirstValue : default(T);
         }
     }
 }

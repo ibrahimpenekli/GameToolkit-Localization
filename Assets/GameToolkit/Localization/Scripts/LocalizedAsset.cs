@@ -33,7 +33,7 @@ namespace GameToolkit.Localization
         /// </summary>
         public LocaleItem<T>[] TypedLocaleItems
         {
-            get { return (LocaleItem<T>[])LocaleItems; }
+            get { return (LocaleItem<T>[]) LocaleItems; }
         }
 
         /// <summary>
@@ -46,12 +46,19 @@ namespace GameToolkit.Localization
             get
             {
                 var value = GetLocaleValue(Localization.Instance.CurrentLanguage);
-                if (value == null)
-                {
-                    var localeItem = TypedLocaleItems.FirstOrDefault();
-                    value = localeItem != null ? localeItem.Value : default(T);
-                }
-                return value;
+                return value != null ? value : FirstValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the first locale value of the asset.
+        /// </summary>
+        public T FirstValue
+        {
+            get
+            {
+                var localeItem = TypedLocaleItems.FirstOrDefault();
+                return localeItem != null ? localeItem.Value : default(T);
             }
         }
 
@@ -75,6 +82,7 @@ namespace GameToolkit.Localization
             {
                 return localeItem.Value;
             }
+
             return null;
         }
 
