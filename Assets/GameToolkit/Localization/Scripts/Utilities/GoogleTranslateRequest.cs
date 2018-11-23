@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace GameToolkit.Localization.Utilities
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Serializable]
     public class GoogleTranslateRequest
     {

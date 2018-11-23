@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -34,8 +33,8 @@ namespace GameToolkit.Localization.Utilities
         /// <param name="onCompleted">Completed action.</param>
         /// <param name="onError">Error action.</param>
         public IEnumerator TranslateAsync(GoogleTranslateRequest request,
-                                          Action<TranslationCompletedEventArgs> onCompleted = null,
-                                          Action<TranslationErrorEventArgs> onError = null)
+            Action<TranslationCompletedEventArgs> onCompleted = null,
+            Action<TranslationErrorEventArgs> onError = null)
         {
             using (UnityWebRequest www = PrepareRequest(request))
             {
@@ -55,8 +54,8 @@ namespace GameToolkit.Localization.Utilities
         /// <param name="onCompleted">Completed action.</param>
         /// <param name="onError">Error action.</param>
         public void Translate(GoogleTranslateRequest request,
-                              Action<TranslationCompletedEventArgs> onCompleted = null,
-                              Action<TranslationErrorEventArgs> onError = null)
+            Action<TranslationCompletedEventArgs> onCompleted = null,
+            Action<TranslationErrorEventArgs> onError = null)
         {
             using (UnityWebRequest www = PrepareRequest(request))
             {
@@ -67,11 +66,7 @@ namespace GameToolkit.Localization.Utilities
 #endif
 
                 // Wait request completion.
-#if UNITY_2017_1_OR_NEWER
-                while (!www.isDone && !www.isNetworkError && !www.isHttpError)
-#else
-                while (!www.isDone && !www.isError)
-#endif
+                while (!www.isDone)
                 {
                 }
 
@@ -101,14 +96,10 @@ namespace GameToolkit.Localization.Utilities
         }
 
         private void ProcessResponse(GoogleTranslateRequest request, UnityWebRequest www,
-                                     Action<TranslationCompletedEventArgs> onCompleted,
-                                     Action<TranslationErrorEventArgs> onError)
+            Action<TranslationCompletedEventArgs> onCompleted,
+            Action<TranslationErrorEventArgs> onError)
         {
-#if UNITY_2017_1_OR_NEWER
             if (www.isNetworkError || www.isHttpError)
-#else
-            if (www.isError)
-#endif
             {
                 if (onError != null)
                 {
@@ -121,11 +112,11 @@ namespace GameToolkit.Localization.Utilities
                 if (response != null && response.data != null && response.data.translations != null &&
                     response.data.translations.Length > 0)
                 {
-                    var requests = new GoogleTranslateRequest[] { request };
+                    var requests = new GoogleTranslateRequest[] {request};
 
                     var translateResponse = new GoogleTranslateResponse();
                     translateResponse.TranslatedText = response.data.translations[0].translatedText;
-                    var responses = new GoogleTranslateResponse[] { translateResponse };
+                    var responses = new GoogleTranslateResponse[] {translateResponse};
 
                     if (onCompleted != null)
                     {
@@ -178,7 +169,7 @@ namespace GameToolkit.Localization.Utilities
         public GoogleTranslateResponse[] Responses { get; private set; }
 
         public TranslationCompletedEventArgs(GoogleTranslateRequest[] requests,
-                                              GoogleTranslateResponse[] responses)
+            GoogleTranslateResponse[] responses)
         {
             Debug.Assert(requests != null);
             Debug.Assert(responses != null);

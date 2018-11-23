@@ -5,9 +5,6 @@ using System;
 
 namespace GameToolkit.Localization.Utilities
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Serializable]
     public class GoogleTranslateResponse
     {
