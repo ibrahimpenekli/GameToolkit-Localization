@@ -1,5 +1,4 @@
 # Asset Localization for Unity
-[![Build Status](https://travis-ci.org/ibrahimpenekli/GameToolkit-Localization.svg?branch=master)](https://travis-ci.org/ibrahimpenekli/GameToolkit-Localization)
 
 Easy-to-use and generic asset localization system for Unity.
 
