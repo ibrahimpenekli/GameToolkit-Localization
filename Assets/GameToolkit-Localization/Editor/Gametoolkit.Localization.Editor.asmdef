@@ -1,0 +1,10 @@
+{
+    "name": "Gametoolkit.Localization.Editor",
+    "references": [
+        "Gametoolkit.Localization.Runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
