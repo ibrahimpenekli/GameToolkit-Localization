@@ -16,7 +16,7 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Gets or sets the language of the locale.
         /// </summary>
-        public SystemLanguage Language
+        public Language Language
         {
             get { return m_Language; }
             set { m_Language = value; }
