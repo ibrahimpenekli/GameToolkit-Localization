@@ -53,9 +53,15 @@ namespace GameToolkit.Localization
                     value = GetLocaleValue(Localization.Instance.CurrentLanguage);
 #if UNITY_EDITOR
                 }
+                
+                // Get default language from settings.
+                var localizationSettings = LocalizationSettings.Instance;
+                if (localizationSettings.AvailableLanguages.Any())
+                {
+                    value = GetLocaleValue(localizationSettings.AvailableLanguages.First());    
+                }
 #endif
-
-                return value != null ? value : FirstValue;
+                return value ?? FirstValue;
             }
         }
 
