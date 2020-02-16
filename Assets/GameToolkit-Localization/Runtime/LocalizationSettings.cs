@@ -18,6 +18,9 @@ namespace GameToolkit.Localization
         {
             SystemLanguage.English
         };
+        
+        [SerializeField, Tooltip("You can add custom languages different than built-in ones.")]
+        private List<Language> m_CustomLanguages = new List<Language>();
 
         [Tooltip("Google Cloud authentication file.")]
         public TextAsset GoogleAuthenticationFile;

@@ -37,7 +37,7 @@ public class LocalizationPrefs : MonoBehaviour
 
     private void SaveLanguage()
     {
-        PlayerPrefs.SetInt(m_PrefKey, (int) Localization.Instance.CurrentLanguage);
+        PlayerPrefs.SetInt(m_PrefKey, (int) (SystemLanguage) Localization.Instance.CurrentLanguage);
         PlayerPrefs.Save();
     }
 
