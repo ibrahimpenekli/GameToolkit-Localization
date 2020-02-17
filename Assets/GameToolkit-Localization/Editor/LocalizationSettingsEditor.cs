@@ -39,7 +39,29 @@ namespace GameToolkit.Localization.Editor
                 {
                     var element = m_AvailableLanguagesList.serializedProperty.GetArrayElementAtIndex(index);
                     var position = new Rect(rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.PropertyField(position, element, GUIContent.none);
+
+                    var isCustom = element.FindPropertyRelative("m_Custom").boolValue;
+                    if (isCustom)
+                    {
+                        var languageName = element.FindPropertyRelative("m_Name");
+                        var languageCode = element.FindPropertyRelative("m_Code");
+
+                        var labelWidth = EditorGUIUtility.labelWidth;
+                        
+                        EditorGUIUtility.labelWidth = 40;
+                        var r1 = new Rect(position.x, position.y, position.width / 2 - 2, position.height);
+                        EditorGUI.PropertyField(r1, languageName, new GUIContent("Name"));
+                        
+                        EditorGUIUtility.labelWidth = 40;
+                        var r2 = new Rect(position.x + r1.width + 4, position.y, position.width / 2 - 2, position.height);
+                        EditorGUI.PropertyField(r2, languageCode, new GUIContent("Code"));
+                        
+                        EditorGUIUtility.labelWidth = labelWidth;
+                    }
+                    else
+                    {
+                        EditorGUI.PropertyField(position, element, GUIContent.none);
+                    }
                 };
                 m_AvailableLanguagesList.onCanRemoveCallback = (ReorderableList list) =>
                 {
@@ -51,11 +73,23 @@ namespace GameToolkit.Localization.Editor
                     menu.AddItem(new GUIContent("Language", "Adds built-in language."), false, () =>
                     {
                         ReorderableList.defaultBehaviours.DoAddButton(list);
+                        
+                        var element = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                        element.FindPropertyRelative("m_Name").stringValue = Language.Afrikaans.Name;
+                        element.FindPropertyRelative("m_Code").stringValue = Language.Afrikaans.Code;
+                        element.FindPropertyRelative("m_Custom").boolValue = false;
+                        
                         serializedObject.ApplyModifiedProperties();
                     });
                     menu.AddItem(new GUIContent("Custom language", "Adds custom language."), false, () =>
                     {
                         ReorderableList.defaultBehaviours.DoAddButton(list);
+
+                        var element = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                        element.FindPropertyRelative("m_Name").stringValue = "";
+                        element.FindPropertyRelative("m_Code").stringValue = "";
+                        element.FindPropertyRelative("m_Custom").boolValue = true;
+                        
                         serializedObject.ApplyModifiedProperties();
                     });
                     menu.AddItem(new GUIContent("Adds languages in-use", "Adds by searching used languages in assets."), false, () =>

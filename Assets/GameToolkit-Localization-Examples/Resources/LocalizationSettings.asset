@@ -16,9 +16,6 @@ MonoBehaviour:
   - m_Name: English
     m_Code: en
     m_Custom: 0
-  - m_Name: English
-    m_Code: en
-    m_Custom: 0
   - m_Name: Turkish
     m_Code: tr
     m_Custom: 0
@@ -37,4 +34,7 @@ MonoBehaviour:
   - m_Name: Spanish
     m_Code: es
     m_Custom: 0
+  - m_Name: Hindi
+    m_Code: hi
+    m_Custom: 1
   GoogleAuthenticationFile: {fileID: 0}
