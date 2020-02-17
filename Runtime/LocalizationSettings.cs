@@ -3,24 +3,29 @@
 
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace GameToolkit.Localization
 {
     [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 0)]
-    public sealed class LocalizationSettings : ScriptableObject
+    public sealed class LocalizationSettings : ScriptableObject, ISerializationCallbackReceiver
     {
         private const string AssetName = "LocalizationSettings";
         private static LocalizationSettings s_Instance = null;
 
-        [SerializeField, Tooltip("Enabled languages for the application.")]
+        // Keep it for migration.
+        [SerializeField]
         private List<SystemLanguage> m_AvailableLanguages = new List<SystemLanguage>(1)
         {
             SystemLanguage.English
         };
         
-        [SerializeField, Tooltip("You can add custom languages different than built-in ones.")]
-        private List<Language> m_CustomLanguages = new List<Language>();
+        [SerializeField, Tooltip("Enabled languages for the application.")]
+        private List<Language> m_AvailableLanguages2 = new List<Language>(1)
+        {
+            Language.English
+        };
 
         [Tooltip("Google Cloud authentication file.")]
         public TextAsset GoogleAuthenticationFile;
@@ -56,9 +61,9 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Enabled languages for the application.
         /// </summary>
-        public List<SystemLanguage> AvailableLanguages
+        public List<Language> AvailableLanguages
         {
-            get { return m_AvailableLanguages; }
+            get { return m_AvailableLanguages2; }
         }
 
         private static LocalizationSettings FindByResources()
@@ -99,5 +104,23 @@ namespace GameToolkit.Localization
             Debug.Log(AssetName + " has been created: " + assetPath);
         }
 #endif
+        public void OnBeforeSerialize()
+        {
+            // Migration from SystemLanguage to Language.
+            if (m_AvailableLanguages.Any())
+            {
+                foreach (var availableLanguage in m_AvailableLanguages)
+                {
+                    m_AvailableLanguages2.Add(availableLanguage);
+                }
+                
+                m_AvailableLanguages.Clear();
+            }
+        }
+
+        public void OnAfterDeserialize()
+        {
+            // Intentionally empty.
+        }
     }
 }
