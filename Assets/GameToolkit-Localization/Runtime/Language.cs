@@ -9,55 +9,58 @@ namespace GameToolkit.Localization
     [Serializable]
     public class Language : IEquatable<Language>
     {
-        public static readonly Language Afrikaans = new Language("Afrikaans", "af");
-        public static readonly Language Arabic = new Language("Arabic", "ar");
-        public static readonly Language Basque = new Language("Basque", "eu");
-        public static readonly Language Belarusian = new Language("Belarusian", "be");
-        public static readonly Language Bulgarian = new Language("Bulgarian", "bg");
-        public static readonly Language Catalan = new Language("Catalan", "ca");
-        public static readonly Language Chinese = new Language("Chinese", "zh");
-        public static readonly Language Czech = new Language("Czech", "cs");
-        public static readonly Language Danish = new Language("Danish", "da");
-        public static readonly Language Dutch = new Language("Dutch", "nl");
-        public static readonly Language English = new Language("English", "en");
-        public static readonly Language Estonian = new Language("Estonian", "et");
-        public static readonly Language Faroese = new Language("Faroese", "fo");
-        public static readonly Language Finnish = new Language("Finnish", "fi");
-        public static readonly Language French = new Language("French", "fr");
-        public static readonly Language German = new Language("German", "de");
-        public static readonly Language Greek = new Language("Greek", "el");
-        public static readonly Language Hebrew = new Language("Hebrew", "he");
-        public static readonly Language Hungarian = new Language("Hungarian", "hu");
-        public static readonly Language Icelandic = new Language("Icelandic", "is");
-        public static readonly Language Indonesian = new Language("Indonesian", "id");
-        public static readonly Language Italian = new Language("Italian", "it");
-        public static readonly Language Japanese = new Language("Japanese", "ja");
-        public static readonly Language Korean = new Language("Korean", "ko");
-        public static readonly Language Latvian = new Language("Latvian", "lv");
-        public static readonly Language Lithuanian = new Language("Lithuanian", "lt");
-        public static readonly Language Norwegian = new Language("Norwegian", "no");
-        public static readonly Language Polish = new Language("Polish", "pl");
-        public static readonly Language Portuguese = new Language("Portuguese", "pt");
-        public static readonly Language Romanian = new Language("Romanian", "ro");
-        public static readonly Language Russian = new Language("Russian", "ru");
-        public static readonly Language SerboCroatian = new Language("SerboCroatian", "hr");
-        public static readonly Language Slovak = new Language("Slovak", "sk");
-        public static readonly Language Slovenian = new Language("Slovenian", "sl");
-        public static readonly Language Spanish = new Language("Spanish", "es");
-        public static readonly Language Swedish = new Language("Swedish", "sv");
-        public static readonly Language Thai = new Language("Thai", "th");
-        public static readonly Language Turkish = new Language("Turkish", "tr");
-        public static readonly Language Ukrainian = new Language("Ukrainian", "uk");
-        public static readonly Language Vietnamese = new Language("Vietnamese", "vi");
-        public static readonly Language ChineseSimplified = new Language("ChineseSimplified", "zh-Hans");
-        public static readonly Language ChineseTraditional = new Language("ChineseTraditional", "zh-Hant");
-        public static readonly Language Unknown = new Language("Unknown", "");
+        public static readonly Language Afrikaans = new Language("Afrikaans", "af", false);
+        public static readonly Language Arabic = new Language("Arabic", "ar", false);
+        public static readonly Language Basque = new Language("Basque", "eu", false);
+        public static readonly Language Belarusian = new Language("Belarusian", "be", false);
+        public static readonly Language Bulgarian = new Language("Bulgarian", "bg", false);
+        public static readonly Language Catalan = new Language("Catalan", "ca", false);
+        public static readonly Language Chinese = new Language("Chinese", "zh", false);
+        public static readonly Language Czech = new Language("Czech", "cs", false);
+        public static readonly Language Danish = new Language("Danish", "da", false);
+        public static readonly Language Dutch = new Language("Dutch", "nl", false);
+        public static readonly Language English = new Language("English", "en", false);
+        public static readonly Language Estonian = new Language("Estonian", "et", false);
+        public static readonly Language Faroese = new Language("Faroese", "fo", false);
+        public static readonly Language Finnish = new Language("Finnish", "fi", false);
+        public static readonly Language French = new Language("French", "fr", false);
+        public static readonly Language German = new Language("German", "de", false);
+        public static readonly Language Greek = new Language("Greek", "el", false);
+        public static readonly Language Hebrew = new Language("Hebrew", "he", false);
+        public static readonly Language Hungarian = new Language("Hungarian", "hu", false);
+        public static readonly Language Icelandic = new Language("Icelandic", "is", false);
+        public static readonly Language Indonesian = new Language("Indonesian", "id", false);
+        public static readonly Language Italian = new Language("Italian", "it", false);
+        public static readonly Language Japanese = new Language("Japanese", "ja", false);
+        public static readonly Language Korean = new Language("Korean", "ko", false);
+        public static readonly Language Latvian = new Language("Latvian", "lv", false);
+        public static readonly Language Lithuanian = new Language("Lithuanian", "lt", false);
+        public static readonly Language Norwegian = new Language("Norwegian", "no", false);
+        public static readonly Language Polish = new Language("Polish", "pl", false);
+        public static readonly Language Portuguese = new Language("Portuguese", "pt", false);
+        public static readonly Language Romanian = new Language("Romanian", "ro", false);
+        public static readonly Language Russian = new Language("Russian", "ru", false);
+        public static readonly Language SerboCroatian = new Language("SerboCroatian", "hr", false);
+        public static readonly Language Slovak = new Language("Slovak", "sk", false);
+        public static readonly Language Slovenian = new Language("Slovenian", "sl", false);
+        public static readonly Language Spanish = new Language("Spanish", "es", false);
+        public static readonly Language Swedish = new Language("Swedish", "sv", false);
+        public static readonly Language Thai = new Language("Thai", "th", false);
+        public static readonly Language Turkish = new Language("Turkish", "tr", false);
+        public static readonly Language Ukrainian = new Language("Ukrainian", "uk", false);
+        public static readonly Language Vietnamese = new Language("Vietnamese", "vi", false);
+        public static readonly Language ChineseSimplified = new Language("ChineseSimplified", "zh-Hans", false);
+        public static readonly Language ChineseTraditional = new Language("ChineseTraditional", "zh-Hant", false);
+        public static readonly Language Unknown = new Language("Unknown", "", false);
         
         [SerializeField]
-        private string m_Name;
+        private string m_Name = "";
         
         [SerializeField]
-        private string m_Code;
+        private string m_Code = "";
+
+        [SerializeField]
+        private bool m_Custom = true;
         
         /// <summary>
         /// Language name.
@@ -75,10 +78,26 @@ namespace GameToolkit.Localization
             get { return m_Code; }
         }
 
+        /// <summary>
+        /// Language is whether custom or built-in that supports SystemLanguage conversions.
+        /// </summary>
+        public bool Custom
+        {
+            get { return m_Custom; }
+        }
+
         public Language(string name, string code)
         {
             m_Name = name ?? "";
             m_Code = code ?? "";
+            m_Custom = true;
+        }
+        
+        private Language(string name, string code, bool custom)
+        {
+            m_Name = name ?? "";
+            m_Code = code ?? "";
+            m_Custom = custom;
         }
 
         public bool Equals(Language other)
@@ -170,6 +189,8 @@ namespace GameToolkit.Localization
         
         public static implicit operator SystemLanguage(Language language)
         {
+            if (language.Custom) return SystemLanguage.Unknown;
+            
             if (Afrikaans == language) return SystemLanguage.Afrikaans;
             if (Arabic == language) return SystemLanguage.Arabic;
             if (Basque == language) return SystemLanguage.Basque;

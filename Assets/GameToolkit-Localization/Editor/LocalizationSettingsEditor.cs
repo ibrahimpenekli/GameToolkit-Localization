@@ -1,7 +1,6 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -19,7 +18,7 @@ namespace GameToolkit.Localization.Editor
 
         private void OnEnable()
         {
-            m_AvailableLanguages = serializedObject.FindProperty("m_AvailableLanguages");
+            m_AvailableLanguages = serializedObject.FindProperty("m_AvailableLanguages2");
             m_GoogleAuthenticationFile = serializedObject.FindProperty("GoogleAuthenticationFile");
             if (m_AvailableLanguages != null)
             {
@@ -34,7 +33,7 @@ namespace GameToolkit.Localization.Editor
                 );
                 m_AvailableLanguagesList.drawHeaderCallback = (Rect rect) =>
                 {
-                    EditorGUI.LabelField(rect, m_AvailableLanguages.displayName);
+                    EditorGUI.LabelField(rect, "Available Languages");
                 };
                 m_AvailableLanguagesList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
                 {
@@ -49,12 +48,17 @@ namespace GameToolkit.Localization.Editor
                 m_AvailableLanguagesList.onAddDropdownCallback = (Rect buttonRect, ReorderableList list) =>
                 {
                     var menu = new GenericMenu();
-                    menu.AddItem(new GUIContent("Language", "Adds a language."), false, () =>
+                    menu.AddItem(new GUIContent("Language", "Adds built-in language."), false, () =>
                     {
                         ReorderableList.defaultBehaviours.DoAddButton(list);
                         serializedObject.ApplyModifiedProperties();
                     });
-                    menu.AddItem(new GUIContent("Add used languages", "Adds by searching used languages in assets."), false, () =>
+                    menu.AddItem(new GUIContent("Custom language", "Adds custom language."), false, () =>
+                    {
+                        ReorderableList.defaultBehaviours.DoAddButton(list);
+                        serializedObject.ApplyModifiedProperties();
+                    });
+                    menu.AddItem(new GUIContent("Adds languages in-use", "Adds by searching used languages in assets."), false, () =>
                     {
                         AddUsedLocales();
                         serializedObject.ApplyModifiedProperties();
