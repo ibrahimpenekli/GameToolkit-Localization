@@ -11,7 +11,7 @@ namespace GameToolkit.Localization.Editor
     [CustomPropertyDrawer(typeof(Language))]
     public class LanguageDrawer : PropertyDrawer
     {
-        private static readonly List<Language> Languages = new List<Language>
+        private static readonly List<Language> BuiltInLanguages = new List<Language>
         {
             Language.Afrikaans,
             Language.Arabic,
@@ -58,30 +58,43 @@ namespace GameToolkit.Localization.Editor
             Language.Unknown
         };
 
+        private List<Language> m_Languages;
         private GUIContent[] m_Contents;
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (m_Contents == null)
+            if (m_Languages == null)
             {
-                m_Contents = Languages.Select(x => new GUIContent(x.Name)).ToArray();
+                m_Languages = new List<Language>();
+                m_Languages.AddRange(BuiltInLanguages);
+                
+                var localizationSettings = LocalizationSettings.Instance;
+                if (localizationSettings != null)
+                {
+                    var customLanguages 
+                        = localizationSettings.AvailableLanguages.Where(x => x.Custom);
+                    m_Languages.AddRange(customLanguages);
+                }
             }
             
-            // Using BeginProperty / EndProperty on the parent property means that
-            // prefab override logic works on the entire property.
+            if (m_Contents == null || m_Contents.Length != m_Languages.Count)
+            {
+                m_Contents = m_Languages.Select(x => new GUIContent(x.Name)).ToArray();
+            }
+
             EditorGUI.BeginProperty(position, label, property);
 
             var languageName = property.FindPropertyRelative("m_Name");
             var languageCode = property.FindPropertyRelative("m_Code");
 
-            var currentValue = Languages.FindIndex(x => x.Code == languageCode.stringValue);
-            currentValue = currentValue >= 0 ? currentValue : Languages.Count - 1;
+            var currentValue = m_Languages.FindIndex(x => x.Code == languageCode.stringValue);
+            currentValue = currentValue >= 0 ? currentValue : BuiltInLanguages.Count - 1;
             
             var newValue = EditorGUI.Popup(position, label, currentValue, m_Contents);
             if (newValue != currentValue)
             {
-                languageName.stringValue = Languages[newValue].Name;
-                languageCode.stringValue = Languages[newValue].Code;
+                languageName.stringValue = m_Languages[newValue].Name;
+                languageCode.stringValue = m_Languages[newValue].Code;
                 property.serializedObject.ApplyModifiedProperties();
             }
             
