@@ -129,7 +129,7 @@ namespace GameToolkit.Localization.Editor
             var languages = FindUsedLanguages(enumNames);
             m_AvailableLanguages.arraySize = languages.Count;
             var size = m_AvailableLanguages.arraySize;
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 var enumValueIndex = Array.IndexOf(enumNames, languages[i].ToString());
                 m_AvailableLanguages.GetArrayElementAtIndex(i).enumValueIndex = enumValueIndex;
@@ -139,7 +139,7 @@ namespace GameToolkit.Localization.Editor
         private List<SystemLanguage> FindUsedLanguages(string[] enumNames)
         {
             var languages = new HashSet<SystemLanguage>();
-            for (int i = 0; i < m_AvailableLanguages.arraySize; i++)
+            for (var i = 0; i < m_AvailableLanguages.arraySize; i++)
             {
                 var enumName = enumNames[m_AvailableLanguages.GetArrayElementAtIndex(i).enumValueIndex];
                 languages.Add((SystemLanguage)Enum.Parse(typeof(SystemLanguage), enumName));
