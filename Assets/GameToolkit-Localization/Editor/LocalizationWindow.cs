@@ -537,7 +537,7 @@ namespace GameToolkit.Localization.Editor
                         },
                         e =>
                         {
-                            Debug.LogError(e.Message);
+                            Debug.LogError("Response (" + e.ResponseCode + "): " + e.Message);
                         }
                     );
                 }
