@@ -13,7 +13,7 @@ namespace GameToolkit.Localization.Editor
             var localizationWindow = LocalizationWindow.Instance;
             if (localizationWindow)
             {
-                /// This will reset assets <see cref="AssetTreeViewItem.IsDirty"/> flag.
+                // This will reset assets AssetTreeViewItem.IsDirty flag.
                 localizationWindow.Refresh();
             }
             return paths;

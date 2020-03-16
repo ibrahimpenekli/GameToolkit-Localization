@@ -16,7 +16,7 @@ namespace GameToolkit.Localization.Editor
         private SerializedProperty m_Property;
 
         private List<PropertyInfo> m_Properties;
-        private string[] m_PropertieNames = new string[0];
+        private string[] m_PropertiesNames = new string[0];
         private int m_SelectedPropertyIdx = -1;
 
         private void OnEnable()
@@ -28,7 +28,7 @@ namespace GameToolkit.Localization.Editor
 
             if (!string.IsNullOrEmpty(m_Property.stringValue))
             {
-                m_SelectedPropertyIdx = Array.IndexOf(m_PropertieNames, m_Property.stringValue);
+                m_SelectedPropertyIdx = Array.IndexOf(m_PropertiesNames, m_Property.stringValue);
             }
         }
 
@@ -43,15 +43,15 @@ namespace GameToolkit.Localization.Editor
                 FindComponentProperties();
             }
 
-            var selectedPropertyIdx = EditorGUILayout.Popup("Property", m_SelectedPropertyIdx, m_PropertieNames);
+            var selectedPropertyIdx = EditorGUILayout.Popup("Property", m_SelectedPropertyIdx, m_PropertiesNames);
             if (m_SelectedPropertyIdx != selectedPropertyIdx)
             {
-                m_Property.stringValue = m_PropertieNames[selectedPropertyIdx];
+                m_Property.stringValue = m_PropertiesNames[selectedPropertyIdx];
                 m_SelectedPropertyIdx = selectedPropertyIdx;
             }
 
             // Draw other properties.
-            DrawPropertiesExcluding(serializedObject, new string[] { "m_Script", m_Component.name, m_Property.name });
+            DrawPropertiesExcluding(serializedObject, "m_Script", m_Component.name, m_Property.name);
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -62,10 +62,10 @@ namespace GameToolkit.Localization.Editor
             if (component)
             {
                 m_Properties = localizedBehaviour.FindProperties((Component)m_Component.objectReferenceValue);
-                m_PropertieNames = new string[m_Properties.Count];
+                m_PropertiesNames = new string[m_Properties.Count];
                 for (int i = 0; i < m_Properties.Count; i++)
                 {
-                    m_PropertieNames[i] = m_Properties[i].Name;
+                    m_PropertiesNames[i] = m_Properties[i].Name;
                 }
             }
         }

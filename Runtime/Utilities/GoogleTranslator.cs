@@ -88,8 +88,8 @@ namespace GameToolkit.Localization.Utilities
 
             var form = new WWWForm();
             form.AddField(RequestKeyInputText, request.Text);
-            form.AddField(RequestKeySourceLanguage, Localization.GetLanguageCode(request.Source));
-            form.AddField(RequestKeyTargetLanguage, Localization.GetLanguageCode(request.Target));
+            form.AddField(RequestKeySourceLanguage, request.Source.Code);
+            form.AddField(RequestKeyTargetLanguage, request.Target.Code);
 
             var url = string.Format(RequestUrlFormat, AuthenticationFile.text);
             return UnityWebRequest.Post(url, form);

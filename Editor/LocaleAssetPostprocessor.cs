@@ -6,7 +6,7 @@ using UnityEditor;
 namespace GameToolkit.Localization.Editor
 {
     /// <summary>
-    /// Refreshes <see cref="LocalizationWindow"> if opened.
+    /// Refreshes <see cref="LocalizationWindow"> if is opened.
     /// </summary>
     public class LocaleAssetPostprocessor : AssetPostprocessor
     {

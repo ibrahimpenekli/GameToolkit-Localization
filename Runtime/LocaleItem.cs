@@ -1,6 +1,7 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using UnityEngine;
 
 namespace GameToolkit.Localization
@@ -29,7 +30,7 @@ namespace GameToolkit.Localization
             set { Value = (T) value; }
         }
 
-        public LocaleItem() : base()
+        public LocaleItem()
         {
         }
 
@@ -38,7 +39,7 @@ namespace GameToolkit.Localization
         /// </summary>
         /// <param name="language">Locale language.</param>
         /// <param name="value">Corresponding locale value.</param>
-        public LocaleItem(SystemLanguage language, T value)
+        public LocaleItem(Language language, T value)
         {
             Language = language;
             Value = value;

@@ -9,59 +9,283 @@ namespace GameToolkit.Localization
     [Serializable]
     public class Language : IEquatable<Language>
     {
-        public static readonly Language Afrikaans = new Language("Afrikaans", "af", false);
-        public static readonly Language Arabic = new Language("Arabic", "ar", false);
-        public static readonly Language Basque = new Language("Basque", "eu", false);
-        public static readonly Language Belarusian = new Language("Belarusian", "be", false);
-        public static readonly Language Bulgarian = new Language("Bulgarian", "bg", false);
-        public static readonly Language Catalan = new Language("Catalan", "ca", false);
-        public static readonly Language Chinese = new Language("Chinese", "zh", false);
-        public static readonly Language Czech = new Language("Czech", "cs", false);
-        public static readonly Language Danish = new Language("Danish", "da", false);
-        public static readonly Language Dutch = new Language("Dutch", "nl", false);
-        public static readonly Language English = new Language("English", "en", false);
-        public static readonly Language Estonian = new Language("Estonian", "et", false);
-        public static readonly Language Faroese = new Language("Faroese", "fo", false);
-        public static readonly Language Finnish = new Language("Finnish", "fi", false);
-        public static readonly Language French = new Language("French", "fr", false);
-        public static readonly Language German = new Language("German", "de", false);
-        public static readonly Language Greek = new Language("Greek", "el", false);
-        public static readonly Language Hebrew = new Language("Hebrew", "he", false);
-        public static readonly Language Hungarian = new Language("Hungarian", "hu", false);
-        public static readonly Language Icelandic = new Language("Icelandic", "is", false);
-        public static readonly Language Indonesian = new Language("Indonesian", "id", false);
-        public static readonly Language Italian = new Language("Italian", "it", false);
-        public static readonly Language Japanese = new Language("Japanese", "ja", false);
-        public static readonly Language Korean = new Language("Korean", "ko", false);
-        public static readonly Language Latvian = new Language("Latvian", "lv", false);
-        public static readonly Language Lithuanian = new Language("Lithuanian", "lt", false);
-        public static readonly Language Norwegian = new Language("Norwegian", "no", false);
-        public static readonly Language Polish = new Language("Polish", "pl", false);
-        public static readonly Language Portuguese = new Language("Portuguese", "pt", false);
-        public static readonly Language Romanian = new Language("Romanian", "ro", false);
-        public static readonly Language Russian = new Language("Russian", "ru", false);
-        public static readonly Language SerboCroatian = new Language("SerboCroatian", "hr", false);
-        public static readonly Language Slovak = new Language("Slovak", "sk", false);
-        public static readonly Language Slovenian = new Language("Slovenian", "sl", false);
-        public static readonly Language Spanish = new Language("Spanish", "es", false);
-        public static readonly Language Swedish = new Language("Swedish", "sv", false);
-        public static readonly Language Thai = new Language("Thai", "th", false);
-        public static readonly Language Turkish = new Language("Turkish", "tr", false);
-        public static readonly Language Ukrainian = new Language("Ukrainian", "uk", false);
-        public static readonly Language Vietnamese = new Language("Vietnamese", "vi", false);
-        public static readonly Language ChineseSimplified = new Language("ChineseSimplified", "zh-Hans", false);
-        public static readonly Language ChineseTraditional = new Language("ChineseTraditional", "zh-Hant", false);
-        public static readonly Language Unknown = new Language("Unknown", "", false);
-        
-        [SerializeField]
+        public static Language[] BuiltinLanguages
+        {
+            get
+            {
+                return new[]
+                {
+                    Afrikaans,
+                    Arabic,
+                    Basque,
+                    Belarusian,
+                    Bulgarian,
+                    Catalan,
+                    Chinese,
+                    Czech,
+                    Danish,
+                    Dutch,
+                    English,
+                    Estonian,
+                    Faroese,
+                    Finnish,
+                    French,
+                    German,
+                    Greek,
+                    Hebrew,
+                    Hungarian,
+                    Icelandic,
+                    Indonesian,
+                    Italian,
+                    Japanese,
+                    Korean,
+                    Latvian,
+                    Lithuanian,
+                    Norwegian,
+                    Polish,
+                    Portuguese,
+                    Romanian,
+                    Russian,
+                    SerboCroatian,
+                    Slovak,
+                    Slovenian,
+                    Spanish,
+                    Swedish,
+                    Thai,
+                    Turkish,
+                    Ukrainian,
+                    Vietnamese,
+                    ChineseSimplified,
+                    ChineseTraditional,
+                    Unknown
+                };
+            }
+        }
+
+        public static Language Afrikaans
+        {
+            get { return new Language(SystemLanguage.Afrikaans.ToString(), "af", false); }
+        }
+
+        public static Language Arabic
+        {
+            get { return new Language(SystemLanguage.Arabic.ToString(), "ar", false); }
+        }
+
+        public static Language Basque
+        {
+            get { return new Language(SystemLanguage.Basque.ToString(), "eu", false); }
+        }
+
+        public static Language Belarusian
+        {
+            get { return new Language(SystemLanguage.Belarusian.ToString(), "be", false); }
+        }
+
+        public static Language Bulgarian
+        {
+            get { return new Language(SystemLanguage.Bulgarian.ToString(), "bg", false); }
+        }
+
+        public static Language Catalan
+        {
+            get { return new Language(SystemLanguage.Catalan.ToString(), "ca", false); }
+        }
+
+        public static Language Chinese
+        {
+            get { return new Language(SystemLanguage.Chinese.ToString(), "zh", false); }
+        }
+
+        public static Language Czech
+        {
+            get { return new Language(SystemLanguage.Czech.ToString(), "cs", false); }
+        }
+
+        public static Language Danish
+        {
+            get { return new Language(SystemLanguage.Danish.ToString(), "da", false); }
+        }
+
+        public static Language Dutch
+        {
+            get { return new Language(SystemLanguage.Dutch.ToString(), "nl", false); }
+        }
+
+        public static Language English
+        {
+            get { return new Language(SystemLanguage.English.ToString(), "en", false); }
+        }
+
+        public static Language Estonian
+        {
+            get { return new Language(SystemLanguage.Estonian.ToString(), "et", false); }
+        }
+
+        public static Language Faroese
+        {
+            get { return new Language(SystemLanguage.Faroese.ToString(), "fo", false); }
+        }
+
+        public static Language Finnish
+        {
+            get { return new Language(SystemLanguage.Finnish.ToString(), "fi", false); }
+        }
+
+        public static Language French
+        {
+            get { return new Language(SystemLanguage.French.ToString(), "fr", false); }
+        }
+
+        public static Language German
+        {
+            get { return new Language(SystemLanguage.German.ToString(), "de", false); }
+        }
+
+        public static Language Greek
+        {
+            get { return new Language(SystemLanguage.Greek.ToString(), "el", false); }
+        }
+
+        public static Language Hebrew
+        {
+            get { return new Language(SystemLanguage.Hebrew.ToString(), "he", false); }
+        }
+
+        public static Language Hungarian
+        {
+            get { return new Language(SystemLanguage.Hungarian.ToString(), "hu", false); }
+        }
+
+        public static Language Icelandic
+        {
+            get { return new Language(SystemLanguage.Icelandic.ToString(), "is", false); }
+        }
+
+        public static Language Indonesian
+        {
+            get { return new Language(SystemLanguage.Indonesian.ToString(), "id", false); }
+        }
+
+        public static Language Italian
+        {
+            get { return new Language(SystemLanguage.Italian.ToString(), "it", false); }
+        }
+
+        public static Language Japanese
+        {
+            get { return new Language(SystemLanguage.Japanese.ToString(), "ja", false); }
+        }
+
+        public static Language Korean
+        {
+            get { return new Language(SystemLanguage.Korean.ToString(), "ko", false); }
+        }
+
+        public static Language Latvian
+        {
+            get { return new Language(SystemLanguage.Latvian.ToString(), "lv", false); }
+        }
+
+        public static Language Lithuanian
+        {
+            get { return new Language(SystemLanguage.Lithuanian.ToString(), "lt", false); }
+        }
+
+        public static Language Norwegian
+        {
+            get { return new Language(SystemLanguage.Norwegian.ToString(), "no", false); }
+        }
+
+        public static Language Polish
+        {
+            get { return new Language(SystemLanguage.Polish.ToString(), "pl", false); }
+        }
+
+        public static Language Portuguese
+        {
+            get { return new Language(SystemLanguage.Portuguese.ToString(), "pt", false); }
+        }
+
+        public static Language Romanian
+        {
+            get { return new Language(SystemLanguage.Romanian.ToString(), "ro", false); }
+        }
+
+        public static Language Russian
+        {
+            get { return new Language(SystemLanguage.Russian.ToString(), "ru", false); }
+        }
+
+        public static Language SerboCroatian
+        {
+            get { return new Language(SystemLanguage.SerboCroatian.ToString(), "hr", false); }
+        }
+
+        public static Language Slovak
+        {
+            get { return new Language(SystemLanguage.Slovak.ToString(), "sk", false); }
+        }
+
+        public static Language Slovenian
+        {
+            get { return new Language(SystemLanguage.Slovenian.ToString(), "sl", false); }
+        }
+
+        public static Language Spanish
+        {
+            get { return new Language(SystemLanguage.Spanish.ToString(), "es", false); }
+        }
+
+        public static Language Swedish
+        {
+            get { return new Language(SystemLanguage.Swedish.ToString(), "sv", false); }
+        }
+
+        public static Language Thai
+        {
+            get { return new Language(SystemLanguage.Thai.ToString(), "th", false); }
+        }
+
+        public static Language Turkish
+        {
+            get { return new Language(SystemLanguage.Turkish.ToString(), "tr", false); }
+        }
+
+        public static Language Ukrainian
+        {
+            get { return new Language(SystemLanguage.Ukrainian.ToString(), "uk", false); }
+        }
+
+        public static Language Vietnamese
+        {
+            get { return new Language(SystemLanguage.Vietnamese.ToString(), "vi", false); }
+        }
+
+        public static Language ChineseSimplified
+        {
+            get { return new Language(SystemLanguage.ChineseSimplified.ToString(), "zh-Hans", false); }
+        }
+
+        public static Language ChineseTraditional
+        {
+            get { return new Language(SystemLanguage.ChineseTraditional.ToString(), "zh-Hant", false); }
+        }
+
+        public static Language Unknown
+        {
+            get { return new Language(SystemLanguage.Unknown.ToString(), "", false); }
+        }
+
+        [SerializeField] 
         private string m_Name = "";
-        
-        [SerializeField]
+
+        [SerializeField] 
         private string m_Code = "";
 
-        [SerializeField]
+        [SerializeField] 
         private bool m_Custom = true;
-        
+
         /// <summary>
         /// Language name.
         /// </summary>
@@ -71,15 +295,16 @@ namespace GameToolkit.Localization
         }
 
         /// <summary>
-        /// Language code.
+        /// Gets the <see href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO-639-1</see> language code.
         /// </summary>
+        /// <returns>Two-characters ISO-639-1 code.</returns>
         public string Code
         {
             get { return m_Code; }
         }
 
         /// <summary>
-        /// Language is whether custom or built-in that supports SystemLanguage conversions.
+        /// Language is whether custom or built-in that supports <see cref="SystemLanguage"/> conversions.
         /// </summary>
         public bool Custom
         {
@@ -92,7 +317,7 @@ namespace GameToolkit.Localization
             m_Code = code ?? "";
             m_Custom = true;
         }
-        
+
         private Language(string name, string code, bool custom)
         {
             m_Name = name ?? "";
@@ -134,107 +359,20 @@ namespace GameToolkit.Localization
         {
             return Name;
         }
-        
+
         public static implicit operator Language(SystemLanguage systemLanguage)
         {
-            switch (systemLanguage)
-            {
-                case SystemLanguage.Afrikaans: return Afrikaans;
-                case SystemLanguage.Arabic: return Arabic;
-                case SystemLanguage.Basque: return Basque;
-                case SystemLanguage.Belarusian: return Belarusian;
-                case SystemLanguage.Bulgarian: return Bulgarian;
-                case SystemLanguage.Catalan: return Catalan;
-                case SystemLanguage.Chinese: return Chinese;
-                case SystemLanguage.Czech: return Czech;
-                case SystemLanguage.Danish: return Danish;
-                case SystemLanguage.Dutch: return Dutch;
-                case SystemLanguage.English: return English;
-                case SystemLanguage.Estonian: return Estonian;
-                case SystemLanguage.Faroese: return Faroese;
-                case SystemLanguage.Finnish: return Finnish;
-                case SystemLanguage.French: return French;
-                case SystemLanguage.German: return German;
-                case SystemLanguage.Greek: return Greek;
-                case SystemLanguage.Hebrew: return Hebrew;
-                case SystemLanguage.Hungarian: return Hungarian;
-                case SystemLanguage.Icelandic: return Icelandic;
-                case SystemLanguage.Indonesian: return Indonesian;
-                case SystemLanguage.Italian: return Italian;
-                case SystemLanguage.Japanese: return Japanese;
-                case SystemLanguage.Korean: return Korean;
-                case SystemLanguage.Latvian: return Latvian;
-                case SystemLanguage.Lithuanian: return Lithuanian;
-                case SystemLanguage.Norwegian: return Norwegian;
-                case SystemLanguage.Polish: return Polish;
-                case SystemLanguage.Portuguese: return Portuguese;
-                case SystemLanguage.Romanian: return Romanian;
-                case SystemLanguage.Russian: return Russian;
-                case SystemLanguage.SerboCroatian: return SerboCroatian;
-                case SystemLanguage.Slovak: return Slovak;
-                case SystemLanguage.Slovenian: return Slovenian;
-                case SystemLanguage.Spanish: return Spanish;
-                case SystemLanguage.Swedish: return Swedish;
-                case SystemLanguage.Thai: return Thai;
-                case SystemLanguage.Turkish: return Turkish;
-                case SystemLanguage.Ukrainian: return Ukrainian;
-                case SystemLanguage.Vietnamese: return Vietnamese;
-                case SystemLanguage.ChineseSimplified: return ChineseSimplified;
-                case SystemLanguage.ChineseTraditional: return ChineseTraditional;
-
-                default:
-                case SystemLanguage.Unknown: return null;
-            }
+            var index = Array.FindIndex(BuiltinLanguages, x => x.Name == systemLanguage.ToString());
+            return index >= 0 ? BuiltinLanguages[index] : Unknown;
         }
-        
-        public static implicit operator SystemLanguage(Language language)
+
+        public static explicit operator SystemLanguage(Language language)
         {
             if (language.Custom) return SystemLanguage.Unknown;
-            
-            if (Afrikaans == language) return SystemLanguage.Afrikaans;
-            if (Arabic == language) return SystemLanguage.Arabic;
-            if (Basque == language) return SystemLanguage.Basque;
-            if (Belarusian == language) return SystemLanguage.Belarusian;
-            if (Bulgarian == language) return SystemLanguage.Bulgarian;
-            if (Catalan == language) return SystemLanguage.Catalan;
-            if (Chinese == language) return SystemLanguage.Chinese;
-            if (Czech == language) return SystemLanguage.Czech;
-            if (Danish == language) return SystemLanguage.Danish;
-            if (Dutch == language) return SystemLanguage.Dutch;
-            if (English == language) return SystemLanguage.English;
-            if (Estonian == language) return SystemLanguage.Estonian;
-            if (Faroese == language) return SystemLanguage.Faroese;
-            if (Finnish == language) return SystemLanguage.Finnish;
-            if (French == language) return SystemLanguage.French;
-            if (German == language) return SystemLanguage.German;
-            if (Greek == language) return SystemLanguage.Greek;
-            if (Hebrew == language) return SystemLanguage.Hebrew;
-            if (Hungarian == language) return SystemLanguage.Hungarian;
-            if (Icelandic == language) return SystemLanguage.Icelandic;
-            if (Indonesian == language) return SystemLanguage.Indonesian;
-            if (Italian == language) return SystemLanguage.Italian;
-            if (Japanese == language) return SystemLanguage.Japanese;
-            if (Korean == language) return SystemLanguage.Korean;
-            if (Latvian == language) return SystemLanguage.Latvian;
-            if (Lithuanian == language) return SystemLanguage.Lithuanian;
-            if (Norwegian == language) return SystemLanguage.Norwegian;
-            if (Polish == language) return SystemLanguage.Polish;
-            if (Portuguese == language) return SystemLanguage.Portuguese;
-            if (Romanian == language) return SystemLanguage.Romanian;
-            if (Russian == language) return SystemLanguage.Russian;
-            if (SerboCroatian == language) return SystemLanguage.SerboCroatian;
-            if (Slovak == language) return SystemLanguage.Slovak;
-            if (Slovenian == language) return SystemLanguage.Slovenian;
-            if (Spanish == language) return SystemLanguage.Spanish;
-            if (Swedish == language) return SystemLanguage.Swedish;
-            if (Thai == language) return SystemLanguage.Thai;
-            if (Turkish == language) return SystemLanguage.Turkish;
-            if (Ukrainian == language) return SystemLanguage.Ukrainian;
-            if (Vietnamese == language) return SystemLanguage.Vietnamese;
-            if (ChineseSimplified == language) return SystemLanguage.ChineseSimplified;
-            if (ChineseTraditional == language) return SystemLanguage.ChineseTraditional;
 
-            return SystemLanguage.Unknown;
+            var systemLanguages = (SystemLanguage[]) Enum.GetValues(typeof(SystemLanguage));
+            var index = Array.FindIndex(systemLanguages, x => x.ToString() == language.Name);
+            return index >= 0 ? systemLanguages[index] : SystemLanguage.Unknown;
         }
     }
 }

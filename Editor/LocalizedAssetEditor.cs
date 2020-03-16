@@ -13,22 +13,30 @@ namespace GameToolkit.Localization.Editor
     public class LocalizedAssetEditor : UnityEditor.Editor
     {
         private const float LanguageFieldWidth = 100;
-
+        
         private ReorderableList m_LocaleItemList;
         private SerializedProperty m_LocaleItems;
         private Rect m_CurrentLayoutRect;
         private GUIStyle m_TextAreaStyle;
 
+        private GUIStyle TextAreaStyle
+        {
+            get
+            {
+                if (m_TextAreaStyle == null)
+                {
+                    m_TextAreaStyle = new GUIStyle(EditorStyles.textArea);
+                    m_TextAreaStyle.wordWrap = true;
+                }
+                
+                return m_TextAreaStyle;
+            }
+        }
+
         private void OnEnable()
         {
-            if (m_TextAreaStyle == null)
-            {
-                m_TextAreaStyle = new GUIStyle(EditorStyles.textArea);
-                m_TextAreaStyle.wordWrap = true;
-            }
-
             var assetValueType = ((LocalizedAssetBase)target).ValueType;
-            m_LocaleItems = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            m_LocaleItems = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
             if (m_LocaleItems != null)
             {
                 m_LocaleItemList = new ReorderableList
@@ -51,35 +59,32 @@ namespace GameToolkit.Localization.Editor
 
                     // Language field.
                     var languageRect = new Rect(rect.x, rect.y + 2, LanguageFieldWidth, rect.height - 4);
-                    var languageProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleLanguageSerializedProperty);
+                    var languageProperty = element.FindLanguageProperty();
                     EditorGUI.PropertyField(languageRect, languageProperty, GUIContent.none);
 
                     // Value field.
                     var valueRect = new Rect(languageRect.x + languageRect.width + 4, languageRect.y, rect.width - languageRect.width - 4, rect.height - 4);
-                    var valueProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleValueSerializedProperty);
+                    var valueProperty = element.FindValueProperty();
                     if (assetValueType == typeof(string))
                     {
-                        valueProperty.stringValue = EditorGUI.TextArea(valueRect, valueProperty.stringValue, m_TextAreaStyle);
+                        valueProperty.stringValue = EditorGUI.TextArea(valueRect, valueProperty.stringValue, TextAreaStyle);
                     }
                     else
                     {
                         EditorGUI.PropertyField(valueRect, valueProperty, GUIContent.none);
                     }
                 };
-                m_LocaleItemList.onCanRemoveCallback = (list) =>
-                {
-                    return list.count > 1;
-                };
+                m_LocaleItemList.onCanRemoveCallback = (list) => list.count > 1;
                 m_LocaleItemList.elementHeightCallback = (index) =>
                 {
                     var element = m_LocaleItemList.serializedProperty.GetArrayElementAtIndex(index);
-                    var valueProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleValueSerializedProperty);
+                    var valueProperty = element.FindValueProperty();
                     var elementHeight = EditorGUIUtility.singleLineHeight;
 
                     if (assetValueType == typeof(string))
                     {
                         var valueWidth = m_CurrentLayoutRect.width - LanguageFieldWidth - 30;
-                        elementHeight = m_TextAreaStyle.CalcHeight(new GUIContent(valueProperty.stringValue), valueWidth);
+                        elementHeight = TextAreaStyle.CalcHeight(new GUIContent(valueProperty.stringValue), valueWidth);
                     }
                     return Mathf.Max(EditorGUIUtility.singleLineHeight, elementHeight) + 4;
                 };
@@ -133,7 +138,7 @@ namespace GameToolkit.Localization.Editor
             for (int i = 0; i < m_LocaleItems.arraySize; i++)
             {
                 var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleLanguageSerializedProperty);
+                var languageProperty = element.FindLanguageProperty();
                 languageProperty.enumValueIndex = i;
             }
         }
@@ -142,10 +147,10 @@ namespace GameToolkit.Localization.Editor
         {
             var enumNames = Enum.GetNames(typeof(SystemLanguage));
             var uniqueLanguages = new HashSet<SystemLanguage>();
-            for (int i = 0; i < m_LocaleItems.arraySize; i++)
+            for (var i = 0; i < m_LocaleItems.arraySize; i++)
             {
                 var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleLanguageSerializedProperty);
+                var languageProperty = element.FindLanguageProperty();
                 var enumName = enumNames[languageProperty.enumValueIndex];
                 uniqueLanguages.Add((SystemLanguage)Enum.Parse(typeof(SystemLanguage), enumName));
             }
@@ -153,19 +158,32 @@ namespace GameToolkit.Localization.Editor
             var availableLanguages = LocalizationSettings.Instance.AvailableLanguages;
             foreach (var lang in availableLanguages)
             {
-                uniqueLanguages.Add(lang);
+                uniqueLanguages.Add((SystemLanguage) lang);
             }
 
             var languages = new List<SystemLanguage>(uniqueLanguages);
             m_LocaleItems.arraySize = languages.Count;
             var size = m_LocaleItems.arraySize;
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 var enumValueIndex = Array.IndexOf(enumNames, languages[i].ToString());
                 var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindPropertyRelative(LocalizationEditorHelper.LocaleLanguageSerializedProperty);
+                var languageProperty = element.FindLanguageProperty();
                 languageProperty.enumValueIndex = enumValueIndex;
             }
+        }
+    }
+
+    internal static class LocaleItemEditorExtensions
+    {
+        public static SerializedProperty FindLanguageProperty(this SerializedProperty element)
+        {
+            return element.FindPropertyRelative("m_Language2");
+        }
+        
+        public static SerializedProperty FindValueProperty(this SerializedProperty element)
+        {
+            return element.FindPropertyRelative("m_Value");
         }
     }
 }
