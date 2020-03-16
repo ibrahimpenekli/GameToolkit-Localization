@@ -2,18 +2,18 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
 #if UNITY_IOS
+using System.IO;
+using UnityEngine;
 using UnityEditor.iOS.Xcode;
 #endif
 
 namespace GameToolkit.Localization.Editor
 {
-    public class LocalizationBuildPostprocessor
+    public class PostBuildProcessor
     {
         [PostProcessBuild(9999)]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string pathToBuiltProject)
@@ -58,7 +58,7 @@ namespace GameToolkit.Localization.Editor
             {
                 foreach (var language in localizationSettings.AvailableLanguages)
                 {
-                    localizations.Add(Localization.GetLanguageCode(language));
+                    localizations.Add(language.Code);
                 }
             }
             return localizations;

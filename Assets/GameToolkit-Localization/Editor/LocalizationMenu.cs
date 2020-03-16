@@ -11,279 +11,279 @@ namespace GameToolkit.Localization.Editor
     /// </summary>
     public static class LocalizationMenu
     {
-        private const string ParentMenu = LocalizationEditorHelper.LocalizationMenu + "Set Locale/";
+        private const string ParentMenu = EditorHelper.LocalizationMenu + "Set Locale/";
 
-        [MenuItem(LocalizationEditorHelper.LocalizationMenu + "Help", false, 1)]
+        [MenuItem(EditorHelper.LocalizationMenu + "Help", false, 1)]
         private static void OpenHelpUrl()
         {
-            LocalizationEditorHelper.OpenHelpUrl();
+            EditorHelper.OpenHelpUrl();
         }
-        
+
         [MenuItem(ParentMenu + "Afrikaans")]
         private static void ChangeToAfrikaans()
         {
-            SetLanguage(SystemLanguage.Afrikaans);
+            SetLanguage(Language.Afrikaans);
         }
 
         [MenuItem(ParentMenu + "Arabic")]
         private static void ChangeToArabic()
         {
-            SetLanguage(SystemLanguage.Arabic);
+            SetLanguage(Language.Arabic);
         }
 
         [MenuItem(ParentMenu + "Basque")]
         private static void ChangeToBasque()
         {
-            SetLanguage(SystemLanguage.Basque);
+            SetLanguage(Language.Basque);
         }
 
         [MenuItem(ParentMenu + "Belarusian")]
         private static void ChangeToBelarusian()
         {
-            SetLanguage(SystemLanguage.Belarusian);
+            SetLanguage(Language.Belarusian);
         }
 
         [MenuItem(ParentMenu + "Bulgarian")]
         private static void ChangeToBulgarian()
         {
-            SetLanguage(SystemLanguage.Bulgarian);
+            SetLanguage(Language.Bulgarian);
         }
 
         [MenuItem(ParentMenu + "Catalan")]
         private static void ChangeToCatalan()
         {
-            SetLanguage(SystemLanguage.Catalan);
+            SetLanguage(Language.Catalan);
         }
 
         [MenuItem(ParentMenu + "Chinese")]
         private static void ChangeToChinese()
         {
-            SetLanguage(SystemLanguage.Chinese);
+            SetLanguage(Language.Chinese);
         }
 
         [MenuItem(ParentMenu + "Czech")]
         private static void ChangeToCzech()
         {
-            SetLanguage(SystemLanguage.Czech);
+            SetLanguage(Language.Czech);
         }
 
         [MenuItem(ParentMenu + "Danish")]
         private static void ChangeToDanish()
         {
-            SetLanguage(SystemLanguage.Danish);
+            SetLanguage(Language.Danish);
         }
 
         [MenuItem(ParentMenu + "Dutch")]
         private static void ChangeToDutch()
         {
-            SetLanguage(SystemLanguage.Dutch);
+            SetLanguage(Language.Dutch);
         }
 
         [MenuItem(ParentMenu + "English")]
         private static void ChangeToEnglish()
         {
-            SetLanguage(SystemLanguage.English);
+            SetLanguage(Language.English);
         }
 
         [MenuItem(ParentMenu + "Estonian")]
         private static void ChangeToEstonian()
         {
-            SetLanguage(SystemLanguage.Estonian);
+            SetLanguage(Language.Estonian);
         }
 
         [MenuItem(ParentMenu + "Faroese")]
         private static void ChangeToFaroese()
         {
-            SetLanguage(SystemLanguage.Faroese);
+            SetLanguage(Language.Faroese);
         }
 
         [MenuItem(ParentMenu + "Finnish")]
         private static void ChangeToFinnish()
         {
-            SetLanguage(SystemLanguage.Finnish);
+            SetLanguage(Language.Finnish);
         }
 
         [MenuItem(ParentMenu + "French")]
         private static void ChangeToFrench()
         {
-            SetLanguage(SystemLanguage.French);
+            SetLanguage(Language.French);
         }
 
         [MenuItem(ParentMenu + "German")]
         private static void ChangeToGerman()
         {
-            SetLanguage(SystemLanguage.German);
+            SetLanguage(Language.German);
         }
 
         [MenuItem(ParentMenu + "Greek")]
         private static void ChangeToGreek()
         {
-            SetLanguage(SystemLanguage.Greek);
+            SetLanguage(Language.Greek);
         }
 
         [MenuItem(ParentMenu + "Hebrew")]
         private static void ChangeToHebrew()
         {
-            SetLanguage(SystemLanguage.Hebrew);
+            SetLanguage(Language.Hebrew);
         }
 
         [MenuItem(ParentMenu + "Hungarian")]
         private static void ChangeToHungarian()
         {
-            SetLanguage(SystemLanguage.Hungarian);
+            SetLanguage(Language.Hungarian);
         }
 
         [MenuItem(ParentMenu + "Hugarian")]
         private static void ChangeToHugarian()
         {
-            SetLanguage(SystemLanguage.Hungarian);
+            SetLanguage(Language.Hungarian);
         }
 
         [MenuItem(ParentMenu + "Icelandic")]
         private static void ChangeToIcelandic()
         {
-            SetLanguage(SystemLanguage.Icelandic);
+            SetLanguage(Language.Icelandic);
         }
 
         [MenuItem(ParentMenu + "Indonesian")]
         private static void ChangeToIndonesian()
         {
-            SetLanguage(SystemLanguage.Indonesian);
+            SetLanguage(Language.Indonesian);
         }
 
         [MenuItem(ParentMenu + "Italian")]
         private static void ChangeToItalian()
         {
-            SetLanguage(SystemLanguage.Italian);
+            SetLanguage(Language.Italian);
         }
 
         [MenuItem(ParentMenu + "Japanese")]
         private static void ChangeToJapanese()
         {
-            SetLanguage(SystemLanguage.Japanese);
+            SetLanguage(Language.Japanese);
         }
 
         [MenuItem(ParentMenu + "Korean")]
         private static void ChangeToKorean()
         {
-            SetLanguage(SystemLanguage.Korean);
+            SetLanguage(Language.Korean);
         }
 
         [MenuItem(ParentMenu + "Latvian")]
         private static void ChangeToLatvian()
         {
-            SetLanguage(SystemLanguage.Latvian);
+            SetLanguage(Language.Latvian);
         }
 
         [MenuItem(ParentMenu + "Lithuanian")]
         private static void ChangeToLithuanian()
         {
-            SetLanguage(SystemLanguage.Lithuanian);
+            SetLanguage(Language.Lithuanian);
         }
 
         [MenuItem(ParentMenu + "Norwegian")]
         private static void ChangeToNorwegian()
         {
-            SetLanguage(SystemLanguage.Norwegian);
+            SetLanguage(Language.Norwegian);
         }
 
         [MenuItem(ParentMenu + "Polish")]
         private static void ChangeToPolish()
         {
-            SetLanguage(SystemLanguage.Polish);
+            SetLanguage(Language.Polish);
         }
 
         [MenuItem(ParentMenu + "Portuguese")]
         private static void ChangeToPortuguese()
         {
-            SetLanguage(SystemLanguage.Portuguese);
+            SetLanguage(Language.Portuguese);
         }
 
         [MenuItem(ParentMenu + "Romanian")]
         private static void ChangeToRomanian()
         {
-            SetLanguage(SystemLanguage.Romanian);
+            SetLanguage(Language.Romanian);
         }
 
         [MenuItem(ParentMenu + "Russian")]
         private static void ChangeToRussian()
         {
-            SetLanguage(SystemLanguage.Russian);
+            SetLanguage(Language.Russian);
         }
 
         [MenuItem(ParentMenu + "SerboCroatian")]
         private static void ChangeToSerboCroatian()
         {
-            SetLanguage(SystemLanguage.SerboCroatian);
+            SetLanguage(Language.SerboCroatian);
         }
 
         [MenuItem(ParentMenu + "Slovak")]
         private static void ChangeToSlovak()
         {
-            SetLanguage(SystemLanguage.Slovak);
+            SetLanguage(Language.Slovak);
         }
 
         [MenuItem(ParentMenu + "Slovenian")]
         private static void ChangeToSlovenian()
         {
-            SetLanguage(SystemLanguage.Slovenian);
+            SetLanguage(Language.Slovenian);
         }
 
         [MenuItem(ParentMenu + "Spanish")]
         private static void ChangeToSpanish()
         {
-            SetLanguage(SystemLanguage.Spanish);
+            SetLanguage(Language.Spanish);
         }
 
         [MenuItem(ParentMenu + "Swedish")]
         private static void ChangeToSwedish()
         {
-            SetLanguage(SystemLanguage.Swedish);
+            SetLanguage(Language.Swedish);
         }
 
         [MenuItem(ParentMenu + "Thai")]
         private static void ChangeToThai()
         {
-            SetLanguage(SystemLanguage.Thai);
+            SetLanguage(Language.Thai);
         }
 
         [MenuItem(ParentMenu + "Turkish")]
         private static void ChangeToTurkish()
         {
-            SetLanguage(SystemLanguage.Turkish);
+            SetLanguage(Language.Turkish);
         }
 
         [MenuItem(ParentMenu + "Ukrainian")]
         private static void ChangeToUkrainian()
         {
-            SetLanguage(SystemLanguage.Ukrainian);
+            SetLanguage(Language.Ukrainian);
         }
 
         [MenuItem(ParentMenu + "Vietnamese")]
         private static void ChangeToVietnamese()
         {
-            SetLanguage(SystemLanguage.Vietnamese);
+            SetLanguage(Language.Vietnamese);
         }
 
         [MenuItem(ParentMenu + "ChineseSimplified")]
         private static void ChangeToChineseSimplified()
         {
-            SetLanguage(SystemLanguage.ChineseSimplified);
+            SetLanguage(Language.ChineseSimplified);
         }
 
         [MenuItem(ParentMenu + "ChineseTraditional")]
         private static void ChangeToChineseTraditional()
         {
-            SetLanguage(SystemLanguage.ChineseTraditional);
+            SetLanguage(Language.ChineseTraditional);
         }
 
         [MenuItem(ParentMenu + "Unknown")]
         private static void ChangeToUnknown()
         {
-            SetLanguage(SystemLanguage.Unknown);
+            SetLanguage(Language.Unknown);
         }
 
-        private static void SetLanguage(SystemLanguage currentLanguage)
+        private static void SetLanguage(Language currentLanguage)
         {
             if (!Application.isPlaying)
             {
@@ -298,7 +298,7 @@ namespace GameToolkit.Localization.Editor
             Menu.SetChecked(GetMenuName(currentLanguage), true);
         }
 
-        private static string GetMenuName(SystemLanguage language)
+        private static string GetMenuName(Language language)
         {
             return ParentMenu + language;
         }

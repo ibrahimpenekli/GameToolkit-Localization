@@ -2,22 +2,21 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using UnityEngine;
 
 namespace GameToolkit.Localization.Utilities
 {
     [Serializable]
     public class GoogleTranslateRequest
     {
-        public SystemLanguage Source;
-        public SystemLanguage Target;
+        public Language Source;
+        public Language Target;
         public string Text;
 
         public GoogleTranslateRequest()
         {
         }
 
-        public GoogleTranslateRequest(SystemLanguage source, SystemLanguage target, string text)
+        public GoogleTranslateRequest(Language source, Language target, string text)
         {
             Source = source;
             Target = target;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using GameToolkit.Localization;
@@ -14,10 +12,13 @@ public class LocalizationDropdown : MonoBehaviour
     private void Start()
     {
         // Write language names as native.
-        var options = LocalizationSettings.Instance.AvailableLanguages.Select(language =>
-        {
-            return m_Languages.GetLocaleValue(language);
-        }).ToList();
+        var options = LocalizationSettings.Instance.AvailableLanguages
+            .Select(language =>
+            {
+                var languageName = "";
+                m_Languages.TryGetLocaleValue(language, out languageName);
+                return languageName;
+            }).ToList();
 
         var dropdown = GetComponent<Dropdown>();
         dropdown.AddOptions(options);

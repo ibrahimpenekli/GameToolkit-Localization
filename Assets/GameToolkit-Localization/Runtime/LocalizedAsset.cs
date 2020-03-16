@@ -7,9 +7,6 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class
     {
         /// <summary>
@@ -45,23 +42,26 @@ namespace GameToolkit.Localization
         {
             get
             {
-                T value = null;
+                var value = default(T);
+                var isValueSet = false;
 #if UNITY_EDITOR
                 if (Application.isPlaying)
                 {
 #endif
-                    value = GetLocaleValue(Localization.Instance.CurrentLanguage);
+                    isValueSet = TryGetLocaleValue(Localization.Instance.CurrentLanguage, out value);
 #if UNITY_EDITOR
                 }
-                
-                // Get default language from settings.
-                var localizationSettings = LocalizationSettings.Instance;
-                if (localizationSettings.AvailableLanguages.Any())
+                else
                 {
-                    value = GetLocaleValue(localizationSettings.AvailableLanguages.First());    
+                    // Get default language from settings if is not in Play mode.
+                    var localizationSettings = LocalizationSettings.Instance;
+                    if (localizationSettings.AvailableLanguages.Any())
+                    {
+                        isValueSet = TryGetLocaleValue(localizationSettings.AvailableLanguages.First(), out value);
+                    }    
                 }
 #endif
-                return value ?? FirstValue;
+                return isValueSet ? value : FirstValue;
             }
         }
 
@@ -80,25 +80,42 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Returns the language given is whether exist or not.
         /// </summary>
-        public bool HasLocale(SystemLanguage language)
+        public bool HasLocale(Language language)
         {
-            var localeItem = LocaleItems.FirstOrDefault(x => x.Language == language);
-            return localeItem != null;
+            return LocaleItems.Any(x => x.Language == language);
         }
 
         /// <summary>
         /// Returns localized text regarding to language given; otherwise, null.
         /// </summary>
         /// <returns>Localized text.</returns>
-        public T GetLocaleValue(SystemLanguage language)
+        [Obsolete("Use TryGetLocaleValue()", error: true)]
+        public T GetLocaleValue(Language language)
         {
-            var localeItem = TypedLocaleItems.FirstOrDefault(x => x.Language == language);
-            if (localeItem != null)
+            T value;
+            if (TryGetLocaleValue(language, out value))
             {
-                return localeItem.Value;
+                return value;
             }
 
-            return null;
+            return default(T);
+        }
+
+        /// <summary>
+        /// Gets localized value if exist regarding to given language.
+        /// </summary>
+        /// <returns>True if exist; otherwise False</returns>
+        public bool TryGetLocaleValue(Language language, out T value)
+        {
+            var index = Array.FindIndex(TypedLocaleItems, x => x.Language == language);
+            if (index >= 0)
+            {
+                value = TypedLocaleItems[index].Value;
+                return true;
+            }
+
+            value = default(T);
+            return false;
         }
 
         /// <summary>

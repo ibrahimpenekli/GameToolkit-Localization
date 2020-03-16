@@ -12,17 +12,45 @@ MonoBehaviour:
   m_Name: Locale_Prefab_Shape
   m_EditorClassIdentifier: 
   m_LocaleItems:
-  - m_Language: 10
+  - m_Language: -1
+    m_Language2:
+      m_Name: English
+      m_Code: en
+      m_Custom: 0
     m_Value: {fileID: 1823501855626836, guid: 31428973e85ffc944b298e29e416c207, type: 2}
-  - m_Language: 37
+  - m_Language: -1
+    m_Language2:
+      m_Name: Turkish
+      m_Code: tr
+      m_Custom: 0
     m_Value: {fileID: 1112608846796636, guid: 791d4d7581fbabd4aabfaf0f253521df, type: 2}
-  - m_Language: 1
+  - m_Language: -1
+    m_Language2:
+      m_Name: Arabic
+      m_Code: ar
+      m_Custom: 0
     m_Value: {fileID: 1384120416915356, guid: eb2f4a47cacbfa649b3d9fb44254cf16, type: 2}
-  - m_Language: 30
+  - m_Language: -1
+    m_Language2:
+      m_Name: Russian
+      m_Code: ru
+      m_Custom: 0
     m_Value: {fileID: 1739504056131026, guid: ca2c30938bf93b84da4dcc1b43d29b8e, type: 2}
-  - m_Language: 15
+  - m_Language: -1
+    m_Language2:
+      m_Name: German
+      m_Code: de
+      m_Custom: 0
     m_Value: {fileID: 1823501855626836, guid: 31428973e85ffc944b298e29e416c207, type: 2}
-  - m_Language: 40
+  - m_Language: -1
+    m_Language2:
+      m_Name: ChineseSimplified
+      m_Code: zh-Hans
+      m_Custom: 0
     m_Value: {fileID: 1112608846796636, guid: 791d4d7581fbabd4aabfaf0f253521df, type: 2}
-  - m_Language: 34
+  - m_Language: -1
+    m_Language2:
+      m_Name: Spanish
+      m_Code: es
+      m_Custom: 0
     m_Value: {fileID: 1384120416915356, guid: eb2f4a47cacbfa649b3d9fb44254cf16, type: 2}

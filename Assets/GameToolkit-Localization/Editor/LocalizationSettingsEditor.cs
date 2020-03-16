@@ -60,14 +60,11 @@ namespace GameToolkit.Localization.Editor
                     }
                     else
                     {
-                        EditorGUI.PropertyField(position, element, GUIContent.none);
+                        EditorHelper.LanguageField(position, element, GUIContent.none, true);
                     }
                 };
-                m_AvailableLanguagesList.onCanRemoveCallback = (ReorderableList list) =>
-                {
-                    return list.count > 1;
-                };
-                m_AvailableLanguagesList.onAddDropdownCallback = (Rect buttonRect, ReorderableList list) =>
+                m_AvailableLanguagesList.onCanRemoveCallback = list => list.count > 1;
+                m_AvailableLanguagesList.onAddDropdownCallback = (buttonRect, list) =>
                 {
                     var menu = new GenericMenu();
                     menu.AddItem(new GUIContent("Language", "Adds built-in language."), false, () =>
@@ -150,7 +147,7 @@ namespace GameToolkit.Localization.Editor
             {
                 foreach (var locale in localizedAsset.LocaleItems)
                 {
-                    languages.Add(locale.Language);
+                    languages.Add((SystemLanguage) locale.Language);
                 }
             }
             return new List<SystemLanguage>(languages);

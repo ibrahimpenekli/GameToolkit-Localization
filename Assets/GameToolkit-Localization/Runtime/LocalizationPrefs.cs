@@ -1,4 +1,5 @@
-﻿using GameToolkit.Localization;
+﻿using System.Linq;
+using GameToolkit.Localization;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -29,7 +30,7 @@ public class LocalizationPrefs : MonoBehaviour
     {
         // Set previously saved language if available.
         var savedLanguage = GetSavedLanguage();
-        if (savedLanguage != SystemLanguage.Unknown)
+        if (savedLanguage != Language.Unknown)
         {
             Localization.Instance.CurrentLanguage = savedLanguage;
         }
@@ -37,21 +38,23 @@ public class LocalizationPrefs : MonoBehaviour
 
     private void SaveLanguage()
     {
-        PlayerPrefs.SetInt(m_PrefKey, (int) (SystemLanguage) Localization.Instance.CurrentLanguage);
+        PlayerPrefs.SetString(m_PrefKey, Localization.Instance.CurrentLanguage.Code);
         PlayerPrefs.Save();
     }
 
-    private SystemLanguage GetSavedLanguage()
+    private Language GetSavedLanguage()
     {
         if (PlayerPrefs.HasKey(m_PrefKey))
         {
-            var languageValue = PlayerPrefs.GetInt(m_PrefKey, -1);
-            if (languageValue >= 0)
+            var languageCode = PlayerPrefs.GetString(m_PrefKey, "");
+            var language = 
+                LocalizationSettings.Instance.AvailableLanguages.FirstOrDefault(x => x.Code == languageCode);
+            if (language != null)
             {
-                return (SystemLanguage) languageValue;
+                return language;
             }
         }
 
-        return SystemLanguage.Unknown;
+        return Language.Unknown;
     }
 }

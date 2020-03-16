@@ -46,7 +46,7 @@ namespace GameToolkit.Localization.Editor
             get { return new Rect(Padding, position.height - 24, position.width - 2 * Padding, 20); }
         }
 
-        [MenuItem(LocalizationEditorHelper.LocalizationMenu + WindowName, false, 0)]
+        [MenuItem(EditorHelper.LocalizationMenu + WindowName, false, 0)]
         public static LocalizationWindow GetWindow()
         {
             s_Instance = GetWindow<LocalizationWindow>();
@@ -497,21 +497,45 @@ namespace GameToolkit.Localization.Editor
 
         private void TranslateSelected(object userData, string[] options, int selected)
         {
-            var localizedText = userData as LocalizedText;
-            var selectedLanguage = (SystemLanguage)Enum.Parse(typeof(SystemLanguage), options[selected]);
-            var selectedValue = localizedText.TypedLocaleItems.FirstOrDefault(x => x.Language == selectedLanguage).Value;
+            var localizedText = (LocalizedText) userData;
+            var localizationSettings = LocalizationSettings.Instance;
+            if (localizationSettings == null)
+            {
+                Debug.LogError("Localization settings not exist.");
+                return;
+            }
 
+            var selectedLanguage = localizationSettings.AllLanguages
+                .FirstOrDefault(x => x.Name == options[selected]);
+            if (selectedLanguage == null)
+            {
+                Debug.Assert(false, "Selected language not found in LocalizationSettings.AllLanguages.");
+                return;
+            }
+
+            string textValue;
+            if (!localizedText.TryGetLocaleValue(selectedLanguage, out textValue))
+            {
+                Debug.Assert(false, "Selected language not exist in " + localizedText.name);
+                return;
+            }
+            
             foreach (var locale in localizedText.TypedLocaleItems)
             {
                 if (string.IsNullOrEmpty(locale.Value))
                 {
-                    m_Translator.Translate(new GoogleTranslateRequest(selectedLanguage, locale.Language, selectedValue),
-                        (TranslationCompletedEventArgs e) =>
+                    var localeItem = locale;
+                    m_Translator.Translate(new GoogleTranslateRequest(selectedLanguage, locale.Language, textValue),
+                        e =>
                         {
-                            locale.Value = e.Responses.FirstOrDefault().TranslatedText;
+                            var response = e.Responses.FirstOrDefault();
+                            if (response != null)
+                            {
+                                localeItem.Value = response.TranslatedText;
+                            }
                             EditorUtility.SetDirty(localizedText);
                         },
-                        (TranslationErrorEventArgs e) =>
+                        e =>
                         {
                             Debug.LogError(e.Message);
                         }
@@ -524,7 +548,7 @@ namespace GameToolkit.Localization.Editor
         {
             var serializedObject = new SerializedObject(localizedAsset);
             serializedObject.Update();
-            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
             if (elements != null && elements.arraySize > 1)
             {
                 var defaultLanguage = localeItem.Language;
@@ -540,7 +564,7 @@ namespace GameToolkit.Localization.Editor
         {
             var serializedObject = new SerializedObject(localizedAsset);
             serializedObject.Update();
-            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
             if (elements != null)
             {
                 elements.arraySize += 1;
@@ -553,7 +577,7 @@ namespace GameToolkit.Localization.Editor
         {
             var serializedObject = new SerializedObject(localizedAsset);
             serializedObject.Update();
-            var elements = serializedObject.FindProperty(LocalizationEditorHelper.LocalizedElementsSerializedProperty);
+            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
             if (elements != null && elements.arraySize > 1)
             {
                 var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);

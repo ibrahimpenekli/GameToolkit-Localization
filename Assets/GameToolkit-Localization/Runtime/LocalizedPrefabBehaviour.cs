@@ -26,8 +26,7 @@ namespace GameToolkit.Localization
                         Destroy(m_PrefabInstance);
                     }
 
-                    m_PrefabInstance = Instantiate(LocalizedPrefab.Value);
-                    m_PrefabInstance.transform.SetParent(transform, false);
+                    m_PrefabInstance = Instantiate(LocalizedPrefab.Value, transform);
                 }
 #if UNITY_EDITOR
             }

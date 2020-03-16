@@ -14,6 +14,9 @@ namespace GameToolkit.Localization
         private const string AssetName = "LocalizationSettings";
         private static LocalizationSettings s_Instance = null;
 
+        [SerializeField, HideInInspector]
+        private int m_Version = 0;
+        
         // Keep it for migration.
         [SerializeField]
         private List<SystemLanguage> m_AvailableLanguages = new List<SystemLanguage>(1)
@@ -29,6 +32,15 @@ namespace GameToolkit.Localization
 
         [Tooltip("Google Cloud authentication file.")]
         public TextAsset GoogleAuthenticationFile;
+
+        /// <summary>
+        /// Settings version related to the Localization system.
+        /// </summary>
+        internal int Version
+        {
+            get { return m_Version; }
+            set { m_Version = value; }
+        }
 
         /// <summary>
         /// Gets the localization settings instance.
@@ -64,6 +76,20 @@ namespace GameToolkit.Localization
         public List<Language> AvailableLanguages
         {
             get { return m_AvailableLanguages2; }
+        }
+
+        /// <summary>
+        /// Gets all languages that contains built-in and custom languages.
+        /// </summary>
+        public List<Language> AllLanguages
+        {
+            get
+            {
+                var languages = new List<Language>();
+                languages.AddRange(Language.BuiltinLanguages);
+                languages.AddRange(AvailableLanguages.Where(x => x.Custom));
+                return languages;
+            }
         }
 
         private static LocalizationSettings FindByResources()
@@ -106,6 +132,11 @@ namespace GameToolkit.Localization
 #endif
         public void OnBeforeSerialize()
         {
+            // Intentionally empty.
+        }
+
+        public void OnAfterDeserialize()
+        {
             // Migration from SystemLanguage to Language.
             if (m_AvailableLanguages.Any())
             {
@@ -116,11 +147,6 @@ namespace GameToolkit.Localization
                 
                 m_AvailableLanguages.Clear();
             }
-        }
-
-        public void OnAfterDeserialize()
-        {
-            // Intentionally empty.
         }
     }
 }

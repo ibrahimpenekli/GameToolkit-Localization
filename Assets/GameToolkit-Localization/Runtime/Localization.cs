@@ -27,9 +27,10 @@ namespace GameToolkit.Localization
             {
                 if (m_CurrentLanguage != value)
                 {
-                    var previousLanguage = m_CurrentLanguage;
-                    m_CurrentLanguage = value;
-                    OnLocaleChanged(new LocaleChangedEventArgs(previousLanguage, m_CurrentLanguage));
+                    var oldValue = m_CurrentLanguage;
+                    var newValue = value;
+                    m_CurrentLanguage = newValue;
+                    OnLocaleChanged(new LocaleChangedEventArgs(oldValue, newValue));
                 }
             }
         }
@@ -113,9 +114,10 @@ namespace GameToolkit.Localization
         /// </summary>
         /// <param name="language">Specified language.</param>
         /// <returns>Two-chararacters iso-639-1 code.</returns>
-        public static string GetLanguageCode(SystemLanguage language)
+        [Obsolete("Use Language.Code property.")]
+        public static string GetLanguageCode(Language language)
         {
-            return ((Language) language).Code;
+            return language.Code;
         }
 
         /// <summary>
