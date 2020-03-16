@@ -1,4 +1,4 @@
-﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
+// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
@@ -10,7 +10,7 @@ namespace GameToolkit.Localization.Utilities
 {
     public class GoogleTranslator
     {
-        private const string RequestUrlFormat = "https://translation.googleapis.com/language/translate/v2?key={0}";
+        private const string RequestUrlV2 = "https://translation.googleapis.com/language/translate/v2?key={0}";
         private const string RequestKeyInputText = "q";
         private const string RequestKeySourceLanguage = "source";
         private const string RequestKeyTargetLanguage = "target";
@@ -36,7 +36,7 @@ namespace GameToolkit.Localization.Utilities
             Action<TranslationCompletedEventArgs> onCompleted = null,
             Action<TranslationErrorEventArgs> onError = null)
         {
-            using (UnityWebRequest www = PrepareRequest(request))
+            using (var www = PrepareRequest(request))
             {
 #if UNITY_2017_2_OR_NEWER
                 yield return www.SendWebRequest();
@@ -57,7 +57,7 @@ namespace GameToolkit.Localization.Utilities
             Action<TranslationCompletedEventArgs> onCompleted = null,
             Action<TranslationErrorEventArgs> onError = null)
         {
-            using (UnityWebRequest www = PrepareRequest(request))
+            using (var www = PrepareRequest(request))
             {
 #if UNITY_2017_2_OR_NEWER
                 www.SendWebRequest();
@@ -91,7 +91,7 @@ namespace GameToolkit.Localization.Utilities
             form.AddField(RequestKeySourceLanguage, request.Source.Code);
             form.AddField(RequestKeyTargetLanguage, request.Target.Code);
 
-            var url = string.Format(RequestUrlFormat, AuthenticationFile.text);
+            var url = string.Format(RequestUrlV2, AuthenticationFile.text);
             return UnityWebRequest.Post(url, form);
         }
 
@@ -103,7 +103,7 @@ namespace GameToolkit.Localization.Utilities
             {
                 if (onError != null)
                 {
-                    onError.Invoke(new TranslationErrorEventArgs(www.error));
+                    onError.Invoke(new TranslationErrorEventArgs(www.error, www.responseCode));
                 }
             }
             else
@@ -125,9 +125,16 @@ namespace GameToolkit.Localization.Utilities
                 }
                 else
                 {
+                    if (response != null && response.error != null)
+                    {
+                        if (onError != null)
+                        {
+                            onError.Invoke(new TranslationErrorEventArgs(response.error.message, response.error.code));
+                        }
+                    }
                     if (onError != null)
                     {
-                        onError.Invoke(new TranslationErrorEventArgs("Response data could not be read."));
+                        onError.Invoke(new TranslationErrorEventArgs("Response data could not be read.", -1));
                     }
                 }
             }
@@ -137,12 +144,20 @@ namespace GameToolkit.Localization.Utilities
         private class JsonResponse
         {
             public JsonData data = null;
+            public JsonError error = null;
         }
 
         [Serializable]
         private class JsonData
         {
             public JsonTranslation[] translations = null;
+        }
+        
+        [Serializable]
+        private class JsonError
+        {
+            public int code;
+            public string message;
         }
 
         [Serializable]
@@ -184,12 +199,18 @@ namespace GameToolkit.Localization.Utilities
     public class TranslationErrorEventArgs : EventArgs
     {
         /// <summary>
+        /// Error code.
+        /// </summary>
+        public long ResponseCode { get; private set; }
+        
+        /// <summary>
         /// Error message.
         /// </summary>
         public string Message { get; private set; }
 
-        public TranslationErrorEventArgs(string message)
+        public TranslationErrorEventArgs(string message, long responseCode)
         {
+            ResponseCode = responseCode;
             Message = message;
         }
     }
