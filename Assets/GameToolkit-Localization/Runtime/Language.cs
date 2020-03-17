@@ -318,6 +318,13 @@ namespace GameToolkit.Localization
             m_Custom = true;
         }
 
+        public Language(Language other)
+        {
+            m_Name = other.m_Name;
+            m_Code = other.m_Code;
+            m_Custom = other.m_Custom;
+        }
+
         internal Language(string name, string code, bool custom)
         {
             m_Name = name ?? "";
