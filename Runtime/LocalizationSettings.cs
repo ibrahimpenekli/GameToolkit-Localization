@@ -30,6 +30,9 @@ namespace GameToolkit.Localization
             Language.English
         };
 
+        [SerializeField, Tooltip("Imported text assets location.")]
+        private string m_ImportLocation = "Assets";
+
         [Tooltip("Google Cloud authentication file.")]
         public TextAsset GoogleAuthenticationFile;
 
@@ -40,6 +43,14 @@ namespace GameToolkit.Localization
         {
             get { return m_Version; }
             set { m_Version = value; }
+        }
+
+        /// <summary>
+        /// Gets import location of external localization files..
+        /// </summary>
+        internal string ImportLocation
+        {
+            get { return m_ImportLocation; }
         }
 
         /// <summary>

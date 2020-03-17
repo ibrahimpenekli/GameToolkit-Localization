@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 using System.Linq;
+using UnityEngine.Windows;
 
 namespace GameToolkit.Localization.Editor
 {
@@ -14,11 +15,13 @@ namespace GameToolkit.Localization.Editor
     {
         private ReorderableList m_AvailableLanguagesList;
         private SerializedProperty m_AvailableLanguages;
+        private SerializedProperty m_ImportLocation;
         private SerializedProperty m_GoogleAuthenticationFile;
 
         private void OnEnable()
         {
             m_AvailableLanguages = serializedObject.FindProperty("m_AvailableLanguages2");
+            m_ImportLocation = serializedObject.FindProperty("m_ImportLocation");
             m_GoogleAuthenticationFile = serializedObject.FindProperty("GoogleAuthenticationFile");
             if (m_AvailableLanguages != null)
             {
@@ -60,13 +63,13 @@ namespace GameToolkit.Localization.Editor
                     }
                     else
                     {
-                        EditorHelper.LanguageField(position, languageProperty, GUIContent.none, true);
+                        LanguageEditorUtility.LanguageField(position, languageProperty, GUIContent.none, true);
                     }
                 };
                 m_AvailableLanguagesList.onRemoveCallback = list =>
                 {
                     var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
-                    var language = EditorHelper.GetLanguageValueFromProperty(languageProperty);
+                    var language = LanguageEditorUtility.GetLanguageValueFromProperty(languageProperty);
                     if (language.Custom)
                     {
                         var localizedAssets = Localization.FindAllLocalizedAssets();
@@ -93,7 +96,7 @@ namespace GameToolkit.Localization.Editor
                         ReorderableList.defaultBehaviours.DoAddButton(list);
                         
                         var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
-                        EditorHelper.SetLanguageProperty(languageProperty, Language.BuiltinLanguages[0]);
+                        LanguageEditorUtility.SetLanguageProperty(languageProperty, Language.BuiltinLanguages[0]);
 
                         serializedObject.ApplyModifiedProperties();
                     });
@@ -102,7 +105,7 @@ namespace GameToolkit.Localization.Editor
                         ReorderableList.defaultBehaviours.DoAddButton(list);
 
                         var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
-                        EditorHelper.SetLanguageProperty(languageProperty, "", "", true);
+                        LanguageEditorUtility.SetLanguageProperty(languageProperty, "", "", true);
 
                         serializedObject.ApplyModifiedProperties();
                     });
@@ -123,6 +126,27 @@ namespace GameToolkit.Localization.Editor
                 serializedObject.Update();
                 m_AvailableLanguagesList.DoLayoutList();
 
+                EditorGUILayout.LabelField("Import/Export", EditorStyles.boldLabel);
+                
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PrefixLabel(m_ImportLocation.displayName);
+                if (GUILayout.Button(m_ImportLocation.stringValue, EditorStyles.objectField))
+                {
+                    var path = EditorUtility.OpenFolderPanel("Select folder for import location", "Assets/", "");
+                    if (Directory.Exists(path))
+                    {
+                        path = "Assets" + path.Replace(Application.dataPath, "");
+                        if (AssetDatabase.IsValidFolder(path))
+                        {
+                            m_ImportLocation.stringValue = path;    
+                        }
+                            
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+                
+                EditorGUILayout.Separator();
+                
                 EditorGUILayout.LabelField("Google Translate", EditorStyles.boldLabel);
                 EditorGUILayout.PropertyField(m_GoogleAuthenticationFile);
                 if (!m_GoogleAuthenticationFile.objectReferenceValue)
@@ -144,7 +168,7 @@ namespace GameToolkit.Localization.Editor
             for (var i = 0; i < m_AvailableLanguages.arraySize; i++)
             {
                 var languageProperty = m_AvailableLanguages.GetArrayElementAtIndex(i);
-                EditorHelper.SetLanguageProperty(languageProperty, languages[i]);
+                LanguageEditorUtility.SetLanguageProperty(languageProperty, languages[i]);
             }
         }
 
@@ -154,7 +178,7 @@ namespace GameToolkit.Localization.Editor
             for (var i = 0; i < m_AvailableLanguages.arraySize; i++)
             {
                 languages.Add(
-                    EditorHelper.GetLanguageValueFromProperty(m_AvailableLanguages.GetArrayElementAtIndex(i)));
+                    LanguageEditorUtility.GetLanguageValueFromProperty(m_AvailableLanguages.GetArrayElementAtIndex(i)));
             }
 
             var localizedAssets = Localization.FindAllLocalizedAssets();

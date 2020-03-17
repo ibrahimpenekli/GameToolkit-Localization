@@ -1,6 +1,7 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -36,7 +37,7 @@ namespace GameToolkit.Localization.Editor
         private void OnEnable()
         {
             var assetValueType = ((LocalizedAssetBase)target).ValueType;
-            m_LocaleItems = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
+            m_LocaleItems = serializedObject.FindLocaleItemsProperty();
             if (m_LocaleItems != null)
             {
                 m_LocaleItemList = new ReorderableList
@@ -156,7 +157,7 @@ namespace GameToolkit.Localization.Editor
                 localeItemValue.stringValue = "";
                 
                 var localeItemLanguage = localeItem.FindLanguageProperty();
-                EditorHelper.SetLanguageProperty(localeItemLanguage, filteredLanguages[i]);
+                LanguageEditorUtility.SetLanguageProperty(localeItemLanguage, filteredLanguages[i]);
             }
         }
     
@@ -174,7 +175,94 @@ namespace GameToolkit.Localization.Editor
             }
 
             return false;
-        }   
+        }
+
+        public static T CreateAndSave<T>(string path) where T : LocalizedAssetBase
+        {
+            var localizedAsset = CreateInstance<T>();
+
+            AssetDatabase.CreateAsset(localizedAsset, path);
+            AssetDatabase.SaveAssets();
+            
+            return localizedAsset;
+        }
+        
+        /// <summary>
+        /// Adds a locale and the value or updates if specified language is exists.
+        /// </summary>
+        public static bool AddOrUpdateLocale(LocalizedAssetBase localizedAsset, Language language, object value)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            
+            var elements = serializedObject.FindLocaleItemsProperty();
+            if (elements != null && elements.arraySize > 0)
+            {
+                var index = Array.FindIndex(localizedAsset.LocaleItems, x => x.Language == language);
+                if (index < 0)
+                {
+                    AddLocale(localizedAsset);
+                }
+
+                var localeItem = localizedAsset.LocaleItems[localizedAsset.LocaleItems.Length - 1];
+                localeItem.Language = language;
+                localeItem.ObjectValue = value;
+                return true;
+            }
+
+            return false;
+        }
+
+        
+        /// <summary>
+        /// Adds a locale end of the list by copying last one.
+        /// </summary>
+        public static bool AddLocale(LocalizedAssetBase localizedAsset)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            
+            var elements = serializedObject.FindLocaleItemsProperty();
+            if (elements != null)
+            {
+                elements.arraySize += 1;
+                serializedObject.ApplyModifiedProperties();
+                return true;
+            }
+
+            return false;
+        }
+        
+        /// <summary>
+        /// Removes specified locale item from the list.
+        /// </summary>
+        public static bool RemoveLocale(LocalizedAssetBase localizedAsset, LocaleItemBase localeItem)
+        {
+            var serializedObject = new SerializedObject(localizedAsset);
+            serializedObject.Update();
+            
+            var elements = serializedObject.FindLocaleItemsProperty();
+            if (elements != null && elements.arraySize > 1)
+            {
+                var index = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
+                if (index >= 0)
+                {
+                    elements.DeleteArrayElementAtIndex(index);
+                    serializedObject.ApplyModifiedProperties();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    internal static class LocalizedAssetEditorExtensions
+    {
+        public static SerializedProperty FindLocaleItemsProperty(this SerializedObject serializedObject)
+        {
+            return serializedObject.FindProperty("m_LocaleItems");
+        }
     }
 
     internal static class LocaleItemEditorExtensions
