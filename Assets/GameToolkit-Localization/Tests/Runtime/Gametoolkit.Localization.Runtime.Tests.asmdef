@@ -1,0 +1,11 @@
+{
+    "name": "Gametoolkit.Localization.Runtime.Tests",
+    "references": [
+        "Gametoolkit.Localization.Runtime"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}
