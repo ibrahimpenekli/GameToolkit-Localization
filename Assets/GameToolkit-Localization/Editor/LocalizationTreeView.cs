@@ -181,7 +181,7 @@ namespace GameToolkit.Localization.Editor
             var localeItem = item as LocaleTreeViewItem;
             if (localeItem != null)
             {
-                localeItem.LocaleItem.Language = EditorHelper.LanguageField(cellRect, localeItem.LocaleItem.Language);
+                localeItem.LocaleItem.Language = LanguageEditorUtility.LanguageField(cellRect, localeItem.LocaleItem.Language);
             }
         }
 

@@ -9,18 +9,9 @@ using UnityEngine;
 
 namespace GameToolkit.Localization.Editor
 {
-    internal static class EditorHelper
+    internal static class LanguageEditorUtility
     {
-        private const string HelpUrl = "https://hibrahimpenekli.gitbook.io/gametoolkit-localization";
-        public const string LocalizationMenu = "Window/GameToolkit/Localization/";
-        public const string LocalizedElementsSerializedProperty = "m_LocaleItems";
-        
         private static GUIContent[] m_Contents;
-        
-        public static void OpenHelpUrl()
-        {
-            Application.OpenURL(HelpUrl);
-        }
 
         public static void SetLanguageProperty(SerializedProperty languageProperty, Language language)
         {

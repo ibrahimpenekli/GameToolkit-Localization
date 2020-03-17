@@ -46,7 +46,7 @@ namespace GameToolkit.Localization.Editor
             get { return new Rect(Padding, position.height - 24, position.width - 2 * Padding, 20); }
         }
 
-        [MenuItem(EditorHelper.LocalizationMenu + WindowName, false, 0)]
+        [MenuItem(EditorMenu.RootMenu + WindowName, false, 0)]
         public static LocalizationWindow GetWindow()
         {
             s_Instance = GetWindow<LocalizationWindow>();
@@ -331,9 +331,9 @@ namespace GameToolkit.Localization.Editor
 
         private void OnAssetItemContextMenu(AssetTreeViewItem assetTreeViewItem, Vector2 mousePosition)
         {
-            string itemCreate = "Create";
-            string itemRename = "Rename";
-            string itemDelete = "Delete";
+            var itemCreate = "Create";
+            var itemRename = "Rename";
+            var itemDelete = "Delete";
 
             if (Event.current != null)
             {
@@ -542,7 +542,7 @@ namespace GameToolkit.Localization.Editor
         {
             var serializedObject = new SerializedObject(localizedAsset);
             serializedObject.Update();
-            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
+            var elements = serializedObject.FindLocaleItemsProperty();
             if (elements != null && elements.arraySize > 1)
             {
                 var defaultLanguage = localeItem.Language;
@@ -556,27 +556,16 @@ namespace GameToolkit.Localization.Editor
 
         private void AddLocale(LocalizedAssetBase localizedAsset)
         {
-            var serializedObject = new SerializedObject(localizedAsset);
-            serializedObject.Update();
-            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
-            if (elements != null)
+            if (LocalizedAssetEditor.AddLocale(localizedAsset))
             {
-                elements.arraySize += 1;
-                serializedObject.ApplyModifiedProperties();
                 m_TreeView.Reload();
             }
         }
 
         private void RemoveLocale(LocalizedAssetBase localizedAsset, LocaleItemBase localeItem)
         {
-            var serializedObject = new SerializedObject(localizedAsset);
-            serializedObject.Update();
-            var elements = serializedObject.FindProperty(EditorHelper.LocalizedElementsSerializedProperty);
-            if (elements != null && elements.arraySize > 1)
+            if (LocalizedAssetEditor.RemoveLocale(localizedAsset, localeItem))
             {
-                var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
-                elements.DeleteArrayElementAtIndex(localeItemIndex);
-                serializedObject.ApplyModifiedProperties();
                 m_TreeView.Reload();
             }
         }

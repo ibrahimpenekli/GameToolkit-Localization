@@ -11,7 +11,7 @@ namespace GameToolkit.Localization.Editor
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EditorHelper.LanguageField(position, property, label);
+            LanguageEditorUtility.LanguageField(position, property, label);
         }
     }
 }
