@@ -1,0 +1,13 @@
+{
+    "name": "hip.gametoolkit.localization",
+    "displayName": "GameToolkit Localization",
+    "version": "2.0.0",
+    "unity": "2017.3",
+    "description": "With Asset Localization, you can easily localize your built-in Unity game assets. Also you can create custom localizable asset functionality for your custom assets. \n\n Features: \n▪️ Built-in Text, TextAsset, VideoClip, AudioClip, Sprite, Texture, Font and Prefab localization \n️▪️ Edit everything through Localization Explorer window \n▪️ Quick text translation inside the Editor with Google Translate engine \n▪️ Extensible localized asset support \n▪️ Used locales are automatically added to Info.plist on iOS build \n▪️ Lightweight and easy to use \n▪️ No coding required",
+    "keywords": [
+        "localization",
+        "language",
+        "locale"
+    ],
+    "dependencies": {}
+}
