@@ -156,8 +156,8 @@ namespace GameToolkit.Localization.Utilities
         [Serializable]
         private class JsonError
         {
-            public int code;
-            public string message;
+            public int code = 0;
+            public string message = null;
         }
 
         [Serializable]
