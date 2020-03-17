@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace GameToolkit.Localization.Editor
 {
@@ -133,45 +133,48 @@ namespace GameToolkit.Localization.Editor
 
         private void AddAllLanguages()
         {
-            var enumNames = Enum.GetNames(typeof(SystemLanguage));
-            m_LocaleItems.arraySize = enumNames.Length;
-            for (int i = 0; i < m_LocaleItems.arraySize; i++)
-            {
-                var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindLanguageProperty();
-                languageProperty.enumValueIndex = i;
-            }
+            AddLanguages(LocalizationSettings.Instance.AllLanguages);
         }
 
         private void AddLanguagesFromSettings()
         {
-            var enumNames = Enum.GetNames(typeof(SystemLanguage));
-            var uniqueLanguages = new HashSet<SystemLanguage>();
-            for (var i = 0; i < m_LocaleItems.arraySize; i++)
-            {
-                var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindLanguageProperty();
-                var enumName = enumNames[languageProperty.enumValueIndex];
-                uniqueLanguages.Add((SystemLanguage)Enum.Parse(typeof(SystemLanguage), enumName));
-            }
+            AddLanguages(LocalizationSettings.Instance.AvailableLanguages);
+        }
 
-            var availableLanguages = LocalizationSettings.Instance.AvailableLanguages;
-            foreach (var lang in availableLanguages)
-            {
-                uniqueLanguages.Add((SystemLanguage) lang);
-            }
+        private void AddLanguages(List<Language> languages)
+        {
+            var filteredLanguages = languages.Where(x => !IsLanguageExist(m_LocaleItems, x)).ToArray();
 
-            var languages = new List<SystemLanguage>(uniqueLanguages);
-            m_LocaleItems.arraySize = languages.Count;
-            var size = m_LocaleItems.arraySize;
-            for (var i = 0; i < size; i++)
+            var startIndex = m_LocaleItems.arraySize;
+            m_LocaleItems.arraySize += filteredLanguages.Length;
+
+            for (var i = 0; i < filteredLanguages.Length; i++)
             {
-                var enumValueIndex = Array.IndexOf(enumNames, languages[i].ToString());
-                var element = m_LocaleItems.GetArrayElementAtIndex(i);
-                var languageProperty = element.FindLanguageProperty();
-                languageProperty.enumValueIndex = enumValueIndex;
+                var localeItem = m_LocaleItems.GetArrayElementAtIndex(startIndex + i);
+                
+                var localeItemValue = localeItem.FindValueProperty();
+                localeItemValue.stringValue = "";
+                
+                var localeItemLanguage = localeItem.FindLanguageProperty();
+                EditorHelper.SetLanguageProperty(localeItemLanguage, filteredLanguages[i]);
             }
         }
+    
+        private static bool IsLanguageExist(SerializedProperty localeItemsProperty, Language language)
+        {
+            for (var i = 0; i < localeItemsProperty.arraySize; i++)
+            {
+                var element = localeItemsProperty.GetArrayElementAtIndex(i);
+                var languageProperty = element.FindLanguageProperty();
+                var languageCode = languageProperty.FindLanguageCodeProperty().stringValue;
+                if (languageCode == language.Code)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }   
     }
 
     internal static class LocaleItemEditorExtensions

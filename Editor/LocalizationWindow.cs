@@ -498,14 +498,8 @@ namespace GameToolkit.Localization.Editor
         private void TranslateSelected(object userData, string[] options, int selected)
         {
             var localizedText = (LocalizedText) userData;
-            var localizationSettings = LocalizationSettings.Instance;
-            if (localizationSettings == null)
-            {
-                Debug.LogError("Localization settings not exist.");
-                return;
-            }
-
-            var selectedLanguage = localizationSettings.AllLanguages
+            
+            var selectedLanguage = LocalizationSettings.Instance.AllLanguages
                 .FirstOrDefault(x => x.Name == options[selected]);
             if (selectedLanguage == null)
             {

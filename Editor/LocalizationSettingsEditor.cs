@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
-using System;
+using System.Linq;
 
 namespace GameToolkit.Localization.Editor
 {
@@ -37,30 +37,30 @@ namespace GameToolkit.Localization.Editor
                 };
                 m_AvailableLanguagesList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
                 {
-                    var element = m_AvailableLanguagesList.serializedProperty.GetArrayElementAtIndex(index);
+                    var languageProperty = m_AvailableLanguagesList.serializedProperty.GetArrayElementAtIndex(index);
                     var position = new Rect(rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
 
-                    var isCustom = element.FindPropertyRelative("m_Custom").boolValue;
+                    var isCustom = languageProperty.FindLanguageCustomProperty().boolValue;
                     if (isCustom)
                     {
-                        var languageName = element.FindPropertyRelative("m_Name");
-                        var languageCode = element.FindPropertyRelative("m_Code");
+                        var languageName = languageProperty.FindLanguageNameProperty();
+                        var languageCode = languageProperty.FindLanguageCodeProperty();
 
                         var labelWidth = EditorGUIUtility.labelWidth;
                         
                         EditorGUIUtility.labelWidth = 40;
                         var r1 = new Rect(position.x, position.y, position.width / 2 - 2, position.height);
-                        EditorGUI.PropertyField(r1, languageName, new GUIContent("Name"));
+                        EditorGUI.PropertyField(r1, languageName, new GUIContent(languageName.displayName));
                         
                         EditorGUIUtility.labelWidth = 40;
                         var r2 = new Rect(position.x + r1.width + 4, position.y, position.width / 2 - 2, position.height);
-                        EditorGUI.PropertyField(r2, languageCode, new GUIContent("Code"));
+                        EditorGUI.PropertyField(r2, languageCode, new GUIContent(languageCode.displayName));
                         
                         EditorGUIUtility.labelWidth = labelWidth;
                     }
                     else
                     {
-                        EditorHelper.LanguageField(position, element, GUIContent.none, true);
+                        EditorHelper.LanguageField(position, languageProperty, GUIContent.none, true);
                     }
                 };
                 m_AvailableLanguagesList.onCanRemoveCallback = list => list.count > 1;
@@ -71,22 +71,18 @@ namespace GameToolkit.Localization.Editor
                     {
                         ReorderableList.defaultBehaviours.DoAddButton(list);
                         
-                        var element = list.serializedProperty.GetArrayElementAtIndex(list.index);
-                        element.FindPropertyRelative("m_Name").stringValue = Language.Afrikaans.Name;
-                        element.FindPropertyRelative("m_Code").stringValue = Language.Afrikaans.Code;
-                        element.FindPropertyRelative("m_Custom").boolValue = false;
-                        
+                        var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                        EditorHelper.SetLanguageProperty(languageProperty, Language.BuiltinLanguages[0]);
+
                         serializedObject.ApplyModifiedProperties();
                     });
                     menu.AddItem(new GUIContent("Custom language", "Adds custom language."), false, () =>
                     {
                         ReorderableList.defaultBehaviours.DoAddButton(list);
 
-                        var element = list.serializedProperty.GetArrayElementAtIndex(list.index);
-                        element.FindPropertyRelative("m_Name").stringValue = "";
-                        element.FindPropertyRelative("m_Code").stringValue = "";
-                        element.FindPropertyRelative("m_Custom").boolValue = true;
-                        
+                        var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                        EditorHelper.SetLanguageProperty(languageProperty, "", "", true);
+
                         serializedObject.ApplyModifiedProperties();
                     });
                     menu.AddItem(new GUIContent("Adds languages in-use", "Adds by searching used languages in assets."), false, () =>
@@ -122,24 +118,22 @@ namespace GameToolkit.Localization.Editor
 
         private void AddUsedLocales()
         {
-            var enumNames = Enum.GetNames(typeof(SystemLanguage));
-            var languages = FindUsedLanguages(enumNames);
-            m_AvailableLanguages.arraySize = languages.Count;
-            var size = m_AvailableLanguages.arraySize;
-            for (var i = 0; i < size; i++)
+            var languages = FindUsedLanguages();
+            m_AvailableLanguages.arraySize = languages.Length;
+            for (var i = 0; i < m_AvailableLanguages.arraySize; i++)
             {
-                var enumValueIndex = Array.IndexOf(enumNames, languages[i].ToString());
-                m_AvailableLanguages.GetArrayElementAtIndex(i).enumValueIndex = enumValueIndex;
+                var languageProperty = m_AvailableLanguages.GetArrayElementAtIndex(i);
+                EditorHelper.SetLanguageProperty(languageProperty, languages[i]);
             }
         }
 
-        private List<SystemLanguage> FindUsedLanguages(string[] enumNames)
+        private Language[] FindUsedLanguages()
         {
-            var languages = new HashSet<SystemLanguage>();
+            var languages = new HashSet<Language>();
             for (var i = 0; i < m_AvailableLanguages.arraySize; i++)
             {
-                var enumName = enumNames[m_AvailableLanguages.GetArrayElementAtIndex(i).enumValueIndex];
-                languages.Add((SystemLanguage)Enum.Parse(typeof(SystemLanguage), enumName));
+                languages.Add(
+                    EditorHelper.GetLanguageValueFromProperty(m_AvailableLanguages.GetArrayElementAtIndex(i)));
             }
 
             var localizedAssets = Localization.FindAllLocalizedAssets();
@@ -147,10 +141,11 @@ namespace GameToolkit.Localization.Editor
             {
                 foreach (var locale in localizedAsset.LocaleItems)
                 {
-                    languages.Add((SystemLanguage) locale.Language);
+                    languages.Add(locale.Language);
                 }
             }
-            return new List<SystemLanguage>(languages);
+            
+            return languages.ToArray();
         }
     }
 }
