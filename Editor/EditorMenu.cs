@@ -9,11 +9,23 @@ namespace GameToolkit.Localization.Editor
     /// <summary>
     /// Unity Editor menu for changing localization under "Tools/Localization".
     /// </summary>
-    public static class LocalizationMenu
+    public static class EditorMenu
     {
         private const string ParentMenu = EditorHelper.LocalizationMenu + "Set Locale/";
 
-        [MenuItem(EditorHelper.LocalizationMenu + "Help", false, 1)]
+        [MenuItem(EditorHelper.LocalizationMenu + "Import .csv", false, 1)]
+        private static void Import()
+        {
+            EditorSerialization.Import();
+        }
+        
+        [MenuItem(EditorHelper.LocalizationMenu + "Export .csv", false, 2)]
+        private static void Export()
+        {
+            EditorSerialization.Export();
+        }
+        
+        [MenuItem(EditorHelper.LocalizationMenu + "Help", false, 3)]
         private static void OpenHelpUrl()
         {
             EditorHelper.OpenHelpUrl();
