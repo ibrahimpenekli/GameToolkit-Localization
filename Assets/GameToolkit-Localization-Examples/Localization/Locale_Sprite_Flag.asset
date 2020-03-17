@@ -54,3 +54,9 @@ MonoBehaviour:
       m_Code: ar
       m_Custom: 0
     m_Value: {fileID: 21300000, guid: b952e26b7609033488caf5c4b4fe5ca4, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: {fileID: 21300000, guid: d7572461364d6f942a27d94e130c5628, type: 3}

@@ -54,3 +54,9 @@ MonoBehaviour:
       m_Code: ar
       m_Custom: 0
     m_Value: "\u0644\u0639\u0628"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: "\u0916\u0947\u0932"

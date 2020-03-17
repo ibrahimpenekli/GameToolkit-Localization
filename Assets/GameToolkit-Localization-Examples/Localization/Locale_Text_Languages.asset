@@ -264,3 +264,9 @@ MonoBehaviour:
       m_Code: zh-Hant
       m_Custom: 0
     m_Value: "\u6C49\u8BED"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: "\u0939\u093F\u0902\u0926\u0940"
