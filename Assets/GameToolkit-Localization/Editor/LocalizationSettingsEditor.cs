@@ -35,7 +35,7 @@ namespace GameToolkit.Localization.Editor
                 {
                     EditorGUI.LabelField(rect, "Available Languages");
                 };
-                m_AvailableLanguagesList.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+                m_AvailableLanguagesList.drawElementCallback = (rect, index, isActive, isFocused) =>
                 {
                     var languageProperty = m_AvailableLanguagesList.serializedProperty.GetArrayElementAtIndex(index);
                     var position = new Rect(rect.x, rect.y + 2, rect.width, EditorGUIUtility.singleLineHeight);
@@ -62,6 +62,27 @@ namespace GameToolkit.Localization.Editor
                     {
                         EditorHelper.LanguageField(position, languageProperty, GUIContent.none, true);
                     }
+                };
+                m_AvailableLanguagesList.onRemoveCallback = list =>
+                {
+                    var languageProperty = list.serializedProperty.GetArrayElementAtIndex(list.index);
+                    var language = EditorHelper.GetLanguageValueFromProperty(languageProperty);
+                    if (language.Custom)
+                    {
+                        var localizedAssets = Localization.FindAllLocalizedAssets();
+                        if (localizedAssets.Any(x => 
+                            x.LocaleItems.Any(y => y.Language == language)))
+                        {
+                            if (!EditorUtility.DisplayDialog("Remove \"" + language + "\" language?",
+                                "\"" + language + "\" language is in-use by some localized assets." +
+                                " Are you sure to remove?", "Remove", "Cancel"))
+                            {
+                                return; // Cancelled.
+                            }
+                        }
+                    }
+                    
+                    ReorderableList.defaultBehaviours.DoRemoveButton(list);
                 };
                 m_AvailableLanguagesList.onCanRemoveCallback = list => list.count > 1;
                 m_AvailableLanguagesList.onAddDropdownCallback = (buttonRect, list) =>
