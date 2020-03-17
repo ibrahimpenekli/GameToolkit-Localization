@@ -50,11 +50,11 @@ namespace GameToolkit.Localization.Editor
                         
                         EditorGUIUtility.labelWidth = 40;
                         var r1 = new Rect(position.x, position.y, position.width / 2 - 2, position.height);
-                        EditorGUI.PropertyField(r1, languageName, new GUIContent(languageName.displayName));
+                        EditorGUI.PropertyField(r1, languageName, new GUIContent(languageName.displayName, "Language name"));
                         
                         EditorGUIUtility.labelWidth = 40;
                         var r2 = new Rect(position.x + r1.width + 4, position.y, position.width / 2 - 2, position.height);
-                        EditorGUI.PropertyField(r2, languageCode, new GUIContent(languageCode.displayName));
+                        EditorGUI.PropertyField(r2, languageCode, new GUIContent(languageCode.displayName, "ISO-639-1 code"));
                         
                         EditorGUIUtility.labelWidth = labelWidth;
                     }

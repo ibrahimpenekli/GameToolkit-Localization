@@ -297,7 +297,7 @@ namespace GameToolkit.Localization
         /// <summary>
         /// Gets the <see href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO-639-1</see> language code.
         /// </summary>
-        /// <returns>Two-characters ISO-639-1 code.</returns>
+        /// <returns>ISO-639-1 code.</returns>
         public string Code
         {
             get { return m_Code; }
