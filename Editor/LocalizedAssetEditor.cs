@@ -177,16 +177,6 @@ namespace GameToolkit.Localization.Editor
             return false;
         }
 
-        public static T CreateAndSave<T>(string path) where T : LocalizedAssetBase
-        {
-            var localizedAsset = CreateInstance<T>();
-
-            AssetDatabase.CreateAsset(localizedAsset, path);
-            AssetDatabase.SaveAssets();
-            
-            return localizedAsset;
-        }
-        
         /// <summary>
         /// Adds a locale and the value or updates if specified language is exists.
         /// </summary>
