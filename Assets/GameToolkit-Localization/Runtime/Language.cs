@@ -318,7 +318,7 @@ namespace GameToolkit.Localization
             m_Custom = true;
         }
 
-        private Language(string name, string code, bool custom)
+        internal Language(string name, string code, bool custom)
         {
             m_Name = name ?? "";
             m_Code = code ?? "";
