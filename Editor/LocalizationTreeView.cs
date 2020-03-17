@@ -64,7 +64,7 @@ namespace GameToolkit.Localization.Editor
 
                 // Add locale items.
                 var localItems = localizedAsset.LocaleItems;
-                for (int i = 0; i < localItems.Length; i++)
+                for (var i = 0; i < localItems.Length; i++)
                 {
                     allItems.Add(new LocaleTreeViewItem(m_ElementId++, 1, localItems[i], assetItem));
                 }

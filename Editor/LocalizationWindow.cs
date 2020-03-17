@@ -206,7 +206,7 @@ namespace GameToolkit.Localization.Editor
         private static Texture2D MakeSingleColorTexture(int width, int height, Color color)
         {
             var pixels = new Color[width * height];
-            for (int i = 0; i < pixels.Length; ++i)
+            for (var i = 0; i < pixels.Length; ++i)
             {
                 pixels[i] = color;
             }
@@ -388,7 +388,7 @@ namespace GameToolkit.Localization.Editor
             AssetTreeViewItem assetTreeViewItem;
             LocaleTreeViewItem localeTreeViewItem;
             TryGetSelectedTreeViewItem(out assetTreeViewItem, out localeTreeViewItem);
-            MakeLocaleDefault(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
+            MakeLocaleDefault(assetTreeViewItem, localeTreeViewItem);
         }
 
         private void LocaleItemContextMenu_Remove()
@@ -415,7 +415,7 @@ namespace GameToolkit.Localization.Editor
             GUI.enabled = localeTreeViewItem != null;
             if (GUILayout.Button(new GUIContent("Make Default", "Make selected locale as default."), EditorStyles.toolbarButton))
             {
-                MakeLocaleDefault(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
+                MakeLocaleDefault(assetTreeViewItem, localeTreeViewItem);
             }
 
             GUI.enabled = assetTreeViewItem != null;
@@ -538,19 +538,25 @@ namespace GameToolkit.Localization.Editor
             }
         }
 
-        private void MakeLocaleDefault(LocalizedAssetBase localizedAsset, LocaleItemBase localeItem)
+        private void MakeLocaleDefault(AssetTreeViewItem assetTreeViewItem, LocaleTreeViewItem localeTreeViewItem)
         {
+            var localizedAsset = assetTreeViewItem.LocalizedAsset;
+            var language = localeTreeViewItem.LocaleItem.Language;
+            
             var serializedObject = new SerializedObject(localizedAsset);
             serializedObject.Update();
             var elements = serializedObject.FindLocaleItemsProperty();
             if (elements != null && elements.arraySize > 1)
             {
-                var defaultLanguage = localeItem.Language;
-                var localeItemIndex = Array.IndexOf(localizedAsset.LocaleItems, localeItem);
-                elements.MoveArrayElement(localeItemIndex, 0);
-                serializedObject.ApplyModifiedProperties();
-                m_TreeView.Reload();
-                Debug.Log(localizedAsset.name + ":" + defaultLanguage + " was set as the default language.");
+                var index = Array.FindIndex(localizedAsset.LocaleItems, x => x.Language == language);
+                if (index >= 0)
+                {
+                    language = new Language(language);
+                    elements.MoveArrayElement(index, 0);
+                    serializedObject.ApplyModifiedProperties();
+                    m_TreeView.Reload();
+                    Debug.Log(localizedAsset.name + ":" + language + " was set as the default language.");    
+                }
             }
         }
 
