@@ -21,4 +21,4 @@ With Asset Localization, you can easily localize your built-in Unity game assets
 Required Unity 2017.1 or newer version.
 
 ## Install from Package Manager:
-* Add `"hip.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#upm"` to your project's package manifest file in dependencies section.
+* Add `"hip.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.0.0"` to your project's package manifest file in dependencies section.
