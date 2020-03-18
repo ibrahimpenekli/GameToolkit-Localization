@@ -11,11 +11,7 @@ namespace GameToolkit.Localization
     {
         private void Reset()
         {
-            m_Component = GetComponent<VideoPlayer>();
-            if (m_Component)
-            {
-                m_Property = "clip";
-            }
+            TrySetComponentAndPropertyIfNotSet<VideoPlayer>("clip");
         }
     }
 }

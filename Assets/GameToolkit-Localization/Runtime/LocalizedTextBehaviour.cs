@@ -1,6 +1,7 @@
 ﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,14 +21,7 @@ namespace GameToolkit.Localization
             }
             set
             {
-                if (value == null)
-                {
-                    m_FormatArgs = new string[0];
-                }
-                else
-                {
-                    m_FormatArgs = value;
-                }
+                m_FormatArgs = value ?? new string[0];
                 UpdateComponentValue();
             }
         }
@@ -37,18 +31,15 @@ namespace GameToolkit.Localization
             var value = (string)base.GetLocalizedValue();
             if (FormatArgs.Length > 0 && !string.IsNullOrEmpty(value))
             {
-                return string.Format(value, FormatArgs);
+                return string.Format(value, FormatArgs.Cast<object>());
             }
             return value;
         }
 
         private void Reset()
         {
-            m_Component = GetComponent<Text>();
-            if (m_Component)
-            {
-                m_Property = "text";
-            }
+            TrySetComponentAndPropertyIfNotSet<Text>("text");
+            TrySetComponentAndPropertyIfNotSet<TextMesh>("text");
         }
     }
 }

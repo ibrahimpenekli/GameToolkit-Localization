@@ -14,11 +14,11 @@ namespace GameToolkit.Localization.Tests
             var systemLanguages = ((SystemLanguage[]) Enum.GetValues(typeof(SystemLanguage)))
                 .Distinct().OrderBy(x => (int) x).ToArray();
 
-            for (var i = 0; i < systemLanguages.Length; i++)
+            foreach (var systemLanguage in systemLanguages)
             {
-                if (Language.BuiltinLanguages.All(x => x.Name != systemLanguages[i].ToString()))
+                if (Language.BuiltinLanguages.All(x => x.Name != systemLanguage.ToString()))
                 {
-                    Assert.Fail("Missing SystemLanguage: " + systemLanguages[i]);
+                    Assert.Fail("Missing SystemLanguage: " + systemLanguage);
                 }
             }
         }
@@ -29,13 +29,30 @@ namespace GameToolkit.Localization.Tests
             var systemLanguages = ((SystemLanguage[]) Enum.GetValues(typeof(SystemLanguage)))
                 .Distinct().OrderBy(x => (int) x).ToArray();
 
-            for (var i = 0; i < systemLanguages.Length; i++)
+            foreach (var systemLanguage in systemLanguages)
             {
-                var language = (Language) systemLanguages[i];
-                var systemLanguage = (SystemLanguage) language;
+                var language = (Language) systemLanguage;
+                var systemLanguage2 = (SystemLanguage) language;
                 
-                Assert.AreEqual(systemLanguages[i], systemLanguage, systemLanguages[i] + " not converted correctly");
+                Assert.AreEqual(systemLanguage , systemLanguage2, systemLanguage + " not converted correctly");
             }
+            
+            // Custom language to SystemLanguage.
+            Assert.That(SystemLanguage.Unknown == (SystemLanguage) new Language("Hindi", "hi"), 
+                "Casting from custom language to SystemLanguage should be Unknown");
+        }
+        
+        [Test]
+        public void LanguageAndSystemLanguageComparison()
+        {
+            Assert.That(SystemLanguage.Turkish == Language.Turkish, "SystemLanguage == Language comparison failed");
+            Assert.That(SystemLanguage.Turkish != Language.English, "SystemLanguage != Language comparison failed");
+            
+            Assert.That(Language.Turkish == SystemLanguage.Turkish, "Language == SystemLanguage comparison failed");
+            Assert.That(Language.English != SystemLanguage.Turkish, "Language != SystemLanguage comparison failed");
+
+            Assert.That(Language.Turkish.Equals(SystemLanguage.Turkish), "Language.Equals(SystemLanguage) comparison failed");
+            Assert.That(!Language.English.Equals(SystemLanguage.Turkish), "!Language.Equals(SystemLanguage) comparison failed");
         }
     }
 }
