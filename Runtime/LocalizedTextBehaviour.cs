@@ -22,7 +22,7 @@ namespace GameToolkit.Localization
             set
             {
                 m_FormatArgs = value ?? new string[0];
-                UpdateComponentValue();
+                ForceUpdateComponentLocalization();
             }
         }
 

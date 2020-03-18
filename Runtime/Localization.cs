@@ -45,7 +45,7 @@ namespace GameToolkit.Localization
 #if UNITY_EDITOR
                 if (!Application.isPlaying)
                 {
-                    Debug.LogError("Localization instance only available when application is playing.");
+                    Debug.LogError("Localization instance is only available when application is playing.");
                     return null;
                 }
 #endif
@@ -113,7 +113,7 @@ namespace GameToolkit.Localization
         /// specified <paramref name="language"/>.
         /// </summary>
         /// <param name="language">Specified language.</param>
-        /// <returns>Two-chararacters iso-639-1 code.</returns>
+        /// <returns>ISO-639-1 code.</returns>
         [Obsolete("Use Language.Code property.")]
         public static string GetLanguageCode(Language language)
         {

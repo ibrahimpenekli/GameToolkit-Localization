@@ -27,7 +27,7 @@ namespace GameToolkit.Localization
         protected abstract bool HasLocalizedValue();
         protected abstract object GetLocalizedValue();
 
-        protected override void UpdateComponentValue()
+        protected override bool TryUpdateComponentLocalization(bool isOnValidate)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -45,7 +45,10 @@ namespace GameToolkit.Localization
                 }
 #endif
                 m_PropertyInfo.SetValue(m_Component, GetLocalizedValue(), null);
+                return true;
             }
+
+            return false;
         }
 
         private void InitializePropertyIfNeeded()

@@ -12,12 +12,15 @@ namespace GameToolkit.Localization
         public string PropertyName = "_MainTex";
         public LocalizedTexture LocalizedTexture;
 
-        protected override void UpdateComponentValue()
+        protected override bool TryUpdateComponentLocalization(bool isOnValidate)
         {
             if (Material && LocalizedTexture)
             {
                 Material.SetTexture(PropertyName, GetValueOrDefault(LocalizedTexture));
+                return true;
             }
+
+            return false;
         }
     }
 }

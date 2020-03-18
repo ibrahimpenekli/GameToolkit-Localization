@@ -12,8 +12,8 @@ namespace GameToolkit.Localization
         public int MaterialIndex = 0;
         public string PropertyName = "_MainTex";
         public LocalizedTexture LocalizedTexture;
-
-        protected override void UpdateComponentValue()
+        
+        protected override bool TryUpdateComponentLocalization(bool isOnValidate)
         {
             if (LocalizedTexture)
             {
@@ -21,12 +21,15 @@ namespace GameToolkit.Localization
                 if (MaterialIndex < materials.Length)
                 {
                     materials[MaterialIndex].SetTexture(PropertyName, GetValueOrDefault(LocalizedTexture));
+                    return true;
                 }
                 else
                 {
                     Debug.LogWarning(name + ": Material index out of bounds!");
                 }
             }
+
+            return false;
         }
 
         private void OnValidate()

@@ -12,11 +12,11 @@ namespace GameToolkit.Localization
 
         private GameObject m_PrefabInstance;
 
-        protected override void UpdateComponentValue()
+        protected override bool TryUpdateComponentLocalization(bool isOnValidate)
         {
 #if UNITY_EDITOR
             // Disable on editor when not playing.
-            if (Application.isPlaying)
+            if (Application.isPlaying && !isOnValidate)
             {
 #endif
                 if (LocalizedPrefab)
@@ -27,10 +27,12 @@ namespace GameToolkit.Localization
                     }
 
                     m_PrefabInstance = Instantiate(LocalizedPrefab.Value, transform);
+                    return true;
                 }
 #if UNITY_EDITOR
             }
 #endif
+            return false;
         }
     }
 }
