@@ -23,45 +23,32 @@ namespace GameToolkit.Localization.Tests
             Localization.Instance.SetDefaultLanguage();
             Assert.AreEqual(defaultLanguage, Localization.Instance.CurrentLanguage);
         }
-        
-        [Test]
-        public void LocaleChangedEvent_RaisedWithCorrectArgs()
-        {
-            var onLocaleChanged = new EventHandler<LocaleChangedEventArgs>(
-                delegate(object sender, LocaleChangedEventArgs e)
-                {
-                    Assert.AreEqual(Language.English, e.PreviousLanguage);
-                    Assert.AreEqual(Language.Turkish, e.CurrentLanguage);
-                });
 
-            Localization.Instance.CurrentLanguage = Language.English;
-            Localization.Instance.LocaleChanged += onLocaleChanged;
-            Localization.Instance.CurrentLanguage = Language.Turkish;
-            Localization.Instance.LocaleChanged -= onLocaleChanged;
-        }
-        
         [Test]
-        public void LocaleChangedEvent_ShouldRaised()
+        public void LocaleChangedEvent_ShouldBeRaisedWithCorrectArgs()
         {
+            var previousLanguage = Language.English;
+            var currentLanguage = Language.Turkish;
+            
             var isEventRaised = false;
             var onLocaleChanged = new EventHandler<LocaleChangedEventArgs>((sender, e) =>
             {
                 isEventRaised = true;
                 
-                Assert.AreEqual(Language.English, e.PreviousLanguage, "PreviousLanguage arg is wrong");
-                Assert.AreEqual(Language.Turkish, e.CurrentLanguage, "CurrentLanguage arg is wrong");
+                Assert.AreEqual(previousLanguage, e.PreviousLanguage, "PreviousLanguage argument is wrong");
+                Assert.AreEqual(currentLanguage, e.CurrentLanguage, "CurrentLanguage argument is wrong");
             });
 
-            Localization.Instance.CurrentLanguage = Language.English;
+            Localization.Instance.CurrentLanguage = previousLanguage;
             Localization.Instance.LocaleChanged += onLocaleChanged;
-            Localization.Instance.CurrentLanguage = Language.Turkish;
+            Localization.Instance.CurrentLanguage = currentLanguage;
             Localization.Instance.LocaleChanged -= onLocaleChanged;
             
             Assert.True(isEventRaised, "LocaleChangedEventArgs is not raised");
         }
 
         [Test]
-        public void LocaleChangedEvent_ShouldNotRaised()
+        public void LocaleChangedEvent_ShouldNotBeRaised()
         {
             var onLocaleChanged = new EventHandler<LocaleChangedEventArgs>((sender, e) =>
             {
