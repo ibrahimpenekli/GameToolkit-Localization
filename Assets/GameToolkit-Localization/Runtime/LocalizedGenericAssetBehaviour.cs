@@ -21,7 +21,7 @@ namespace GameToolkit.Localization
             set
             {
                 m_LocalizedAsset = value;
-                UpdateComponentValue();
+                ForceUpdateComponentLocalization();
             }
         }
 
