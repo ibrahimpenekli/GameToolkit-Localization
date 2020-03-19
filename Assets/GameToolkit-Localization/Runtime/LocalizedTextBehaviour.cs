@@ -31,7 +31,7 @@ namespace GameToolkit.Localization
             var value = (string)base.GetLocalizedValue();
             if (FormatArgs.Length > 0 && !string.IsNullOrEmpty(value))
             {
-                return string.Format(value, FormatArgs.Cast<object>());
+                return string.Format(value, FormatArgs.Cast<object>().ToArray());
             }
             return value;
         }
