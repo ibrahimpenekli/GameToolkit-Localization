@@ -7,12 +7,12 @@ using UnityEngine;
 namespace GameToolkit.Localization
 {
     /// <summary>
-    /// 
+    /// Base class for all localized asset types.
     /// </summary>
     public abstract class LocalizedAssetBase : ScriptableObject
     {
         /// <summary>
-        /// Gets the defined locale items of the localized asset.
+        /// Gets the read-only locale items.
         /// </summary>
         public abstract LocaleItemBase[] LocaleItems { get; }
 

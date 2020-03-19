@@ -129,6 +129,9 @@ namespace GameToolkit.Localization.Editor
             else
             {
                 base.OnInspectorGUI();
+                
+                EditorGUILayout.HelpBox("Make sure that locale items variable name is declared as \"m_LocaleItems\" and it is serializable.",
+                    MessageType.Error);
             }
         }
 

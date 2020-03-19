@@ -382,6 +382,11 @@ namespace GameToolkit.Localization.Editor
             menu.AddItem(new GUIContent("Remove"), false, LocaleItemContextMenu_Remove);
             menu.ShowAsContext();
         }
+        
+        private void AppLanguageContextMenu(object language)
+        {
+            Localization.Instance.CurrentLanguage = (Language) language;
+        }
 
         private void LocaleItemContextMenu_MakeDefault()
         {
@@ -412,10 +417,19 @@ namespace GameToolkit.Localization.Editor
             }
 
             // First element is already default.
-            GUI.enabled = localeTreeViewItem != null;
-            if (GUILayout.Button(new GUIContent("Make Default", "Make selected locale as default."), EditorStyles.toolbarButton))
+            GUI.enabled = Application.isPlaying;
+            if (GUILayout.Button(new GUIContent("App Language",
+                Application.isPlaying ? "Set application language" : "Application language can be set in play mode"), EditorStyles.toolbarButton))
             {
-                MakeLocaleDefault(assetTreeViewItem, localeTreeViewItem);
+                var currentLanguage = Localization.Instance.CurrentLanguage;
+                var languages = LocalizationSettings.Instance.AvailableLanguages;
+                
+                var menu = new GenericMenu();
+                foreach (var language in languages)
+                {
+                    menu.AddItem(new GUIContent(language.Name), language == currentLanguage, AppLanguageContextMenu, language);
+                }
+                menu.ShowAsContext();
             }
 
             GUI.enabled = assetTreeViewItem != null;
