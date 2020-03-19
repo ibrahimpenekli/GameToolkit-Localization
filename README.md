@@ -7,7 +7,7 @@
 
 With Asset Localization, you can easily localize your built-in Unity game assets. Also you can create custom localizable asset functionality for your custom assets.
 
-<img src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LRhqW6j6mRgZoErSCt2%2F-LS2MhkM9V9uO-q08YF3%2F-LS2MY6vFydeirLeG9Xe%2FGameToolkit%20Localization%20-%20Preview.gif?alt=media&token=bd3010c7-b710-4339-a379-78f884fee351" alt="Preview" width="100%">
+<img src="https://gblobscdn.gitbook.com/assets%2F-LRhqW6j6mRgZoErSCt2%2F-M2m2MhG96P11UHD_TwZ%2F-M2mBXVWhss4GKBTRhZr%2FUnityAssetLocalization_Preview.gif?alt=media&token=60bb7192-4cc2-4c86-9e6d-b9a7b85c9693" alt="Preview" width="100%">
 
 ## Features: 
 * Built-in [Text](https://docs.unity3d.com/Manual/script-Text.html), [TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html), [VideoClip](https://docs.unity3d.com/Manual/class-VideoClip.html), [AudioClip](https://docs.unity3d.com/Manual/class-AudioClip.html), [Sprite](https://docs.unity3d.com/Manual/Sprites.html), [Texture](https://docs.unity3d.com/ScriptReference/Texture.html), [Font](https://docs.unity3d.com/Manual/class-Font.html) and [Prefab](https://docs.unity3d.com/Manual/Prefabs.html) localization
