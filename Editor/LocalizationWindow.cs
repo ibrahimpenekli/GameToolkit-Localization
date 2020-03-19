@@ -50,7 +50,7 @@ namespace GameToolkit.Localization.Editor
         public static LocalizationWindow GetWindow()
         {
             s_Instance = GetWindow<LocalizationWindow>();
-            s_Instance.titleContent = new GUIContent(WindowName);
+            s_Instance.titleContent = new GUIContent("Localization");
             s_Instance.Focus();
             s_Instance.Repaint();
             return s_Instance;

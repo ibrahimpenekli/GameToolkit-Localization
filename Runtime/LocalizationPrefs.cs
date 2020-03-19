@@ -4,6 +4,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [AddComponentMenu("Localization/Localization Prefs")]
+[HelpURL(Localization.HelpUrl + "/language-persistence")]
 public class LocalizationPrefs : MonoBehaviour
 {
     [SerializeField, Tooltip("PlayerPrefs key to keep language preference.")]

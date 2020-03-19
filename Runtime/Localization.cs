@@ -12,6 +12,8 @@ namespace GameToolkit.Localization
     /// </summary>
     public sealed class Localization
     {
+        internal const string HelpUrl = "https://hibrahimpenekli.gitbook.io/gametoolkit-localization";
+        
         private static Localization s_Instance;
 
         // Current language.

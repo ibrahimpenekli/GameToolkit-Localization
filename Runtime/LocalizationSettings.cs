@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    [HelpURL("https://hibrahimpenekli.gitbook.io/gametoolkit-localization/getting-started#3-localization-settings")]
+    [HelpURL(Localization.HelpUrl + "/getting-started#3-localization-settings")]
     [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 9999)]
     public sealed class LocalizationSettings : ScriptableObject, ISerializationCallbackReceiver
     {

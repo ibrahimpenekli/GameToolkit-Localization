@@ -9,7 +9,7 @@ namespace GameToolkit.Localization
     /// <summary>
     /// Base class for all localized asset types.
     /// </summary>
-    [HelpURL("https://hibrahimpenekli.gitbook.io/gametoolkit-localization")]
+    [HelpURL(Localization.HelpUrl)]
     public abstract class LocalizedAssetBase : ScriptableObject
     {
         /// <summary>

@@ -14,7 +14,6 @@ namespace GameToolkit.Localization.Editor
         public const string RootMenu = "Window/GameToolkit/Localization/";
         
         private const string SetLocaleRootMenu = RootMenu + "Set Locale/";
-        private const string HelpUrl = "https://hibrahimpenekli.gitbook.io/gametoolkit-localization";
 
         [MenuItem(RootMenu + "Import .csv", false, 1)]
         private static void Import()
@@ -31,7 +30,7 @@ namespace GameToolkit.Localization.Editor
         [MenuItem(RootMenu + "Help", false, 3)]
         private static void OpenHelpUrl()
         {
-            Application.OpenURL(HelpUrl);
+            Application.OpenURL(Localization.HelpUrl);
         }
 
         [MenuItem(SetLocaleRootMenu + "Afrikaans")]
