@@ -7,6 +7,7 @@ using UnityEngine;
 namespace GameToolkit.Localization
 {
     [ExecuteInEditMode]
+    [HelpURL(Localization.HelpUrl + "/localizing-components")]
     public abstract class LocalizedAssetBehaviour : MonoBehaviour
     {
         protected const string ComponentMenuRoot = "Localization/";
