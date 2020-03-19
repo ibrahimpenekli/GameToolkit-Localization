@@ -12,7 +12,9 @@ With Asset Localization, you can easily localize your built-in Unity game assets
 ## Features: 
 * Built-in [Text](https://docs.unity3d.com/Manual/script-Text.html), [TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html), [VideoClip](https://docs.unity3d.com/Manual/class-VideoClip.html), [AudioClip](https://docs.unity3d.com/Manual/class-AudioClip.html), [Sprite](https://docs.unity3d.com/Manual/Sprites.html), [Texture](https://docs.unity3d.com/ScriptReference/Texture.html), [Font](https://docs.unity3d.com/Manual/class-Font.html) and [Prefab](https://docs.unity3d.com/Manual/Prefabs.html) localization
 * Edit everything through [Localization Explorer](../../wiki/Localization-Explorer) window
+* Import/Export [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) file
 * [Quick text translation](../../wiki/Localization-Explorer#3-quick-translate-missing-locales) inside the Editor with [Google Translate](https://cloud.google.com/translate/) engine
+* Adding more custom languages in addition to the [built-in languages](https://docs.unity3d.com/ScriptReference/SystemLanguage.html)
 * [Extensible localized asset](../../wiki/Scripting-Reference#extending-custom-localized-asset-behaviour) support
 * Used locales are automatically added to Info.plist on iOS build
 * Lightweight and easy to use
@@ -21,4 +23,4 @@ With Asset Localization, you can easily localize your built-in Unity game assets
 Required Unity 2017.1 or newer version.
 
 ## Install from Package Manager:
-* Add `"hip.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.0.0"` to your project's package manifest file in dependencies section.
+* Add `"hip.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.1.0"` to your project's package manifest file in dependencies section.
