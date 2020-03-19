@@ -7,9 +7,6 @@ using UnityEngine.Video;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedVideoClip", menuName = "GameToolkit/Localization/VideoClip")]
     public class LocalizedVideoClip : LocalizedAsset<VideoClip>
     {

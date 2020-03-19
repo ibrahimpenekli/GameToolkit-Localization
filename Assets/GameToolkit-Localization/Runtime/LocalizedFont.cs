@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedFont", menuName = "GameToolkit/Localization/Font")]
     public class LocalizedFont : LocalizedAsset<Font>
     {
