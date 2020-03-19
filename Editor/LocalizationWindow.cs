@@ -433,14 +433,14 @@ namespace GameToolkit.Localization.Editor
             }
 
             GUI.enabled = assetTreeViewItem != null;
-            if (GUILayout.Button(IconOrText("Toolbar Plus", "+", "Adds locale for selected asset."), EditorStyles.toolbarButton))
+            if (GUILayout.Button(IconOrText("Toolbar Plus", "+", "Add locale for selected asset."), EditorStyles.toolbarButton))
             {
                 AddLocale(assetTreeViewItem.LocalizedAsset);
             }
 
             GUI.enabled = localeTreeViewItem != null;
 
-            if (GUILayout.Button(IconOrText("Toolbar Minus", "-", "Removes selected locale."), EditorStyles.toolbarButton))
+            if (GUILayout.Button(IconOrText("Toolbar Minus", "-", "Remove selected locale."), EditorStyles.toolbarButton))
             {
                 RemoveLocale(assetTreeViewItem.LocalizedAsset, localeTreeViewItem.LocaleItem);
             }

@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 0)]
+    [HelpURL("https://hibrahimpenekli.gitbook.io/gametoolkit-localization/getting-started#3-localization-settings")]
+    [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 9999)]
     public sealed class LocalizationSettings : ScriptableObject, ISerializationCallbackReceiver
     {
         private const string AssetName = "LocalizationSettings";

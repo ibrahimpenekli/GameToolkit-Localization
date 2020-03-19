@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedTextAsset", menuName = "GameToolkit/Localization/Text Asset")]
     public class LocalizedTextAsset : LocalizedAsset<TextAsset>
     {

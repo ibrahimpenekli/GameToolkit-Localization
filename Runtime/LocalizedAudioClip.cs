@@ -6,9 +6,6 @@ using UnityEngine;
 
 namespace GameToolkit.Localization
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [CreateAssetMenu(fileName = "LocalizedAudioClip", menuName = "GameToolkit/Localization/AudioClip")]
     public class LocalizedAudioClip : LocalizedAsset<AudioClip>
     {
