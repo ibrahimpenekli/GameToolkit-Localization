@@ -9,6 +9,7 @@ namespace GameToolkit.Localization
     /// <summary>
     /// Keeps the both asset and the corresponding language.
     /// </summary>
+    [Serializable]
     public class LocaleItem<T> : LocaleItemBase
     {   
         [SerializeField, Tooltip("Locale value.")]

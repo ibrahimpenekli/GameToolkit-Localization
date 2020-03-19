@@ -9,9 +9,7 @@ namespace GameToolkit.Localization
 {
     public abstract class LocalizedAsset<T> : LocalizedAssetBase where T : class
     {
-        /// <summary>
-        /// Gets the value type.
-        /// </summary>
+        /// <inheritdoc cref="LocalizedAssetBase.ValueType"/>
         public override Type ValueType
         {
             get { return GetValueType(); }
