@@ -121,7 +121,17 @@ namespace GameToolkit.Localization.Editor.Serialization
 
         private string[] ReadNextTokens(StreamReader reader)
         {
-            var line = reader.ReadLine();
+            var line = "";
+
+            do
+            {
+                if (line.Length != 0)
+                {
+                    line += "\n";
+                }
+                line += reader.ReadLine();
+            } while (!reader.EndOfStream && line.Length > 0 && line[line.Length - 1] != '\"');
+
             if (line != null)
             {
                 var tokens = Regex.Split(line, @""",""");

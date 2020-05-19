@@ -1,4 +1,4 @@
-﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
+// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
@@ -195,9 +195,10 @@ namespace GameToolkit.Localization.Editor
                 if (index < 0)
                 {
                     AddLocale(localizedAsset);
+                    index = localizedAsset.LocaleItems.Length - 1;
                 }
 
-                var localeItem = localizedAsset.LocaleItems[localizedAsset.LocaleItems.Length - 1];
+                var localeItem = localizedAsset.LocaleItems[index];
                 localeItem.Language = language;
                 localeItem.ObjectValue = value;
                 return true;
