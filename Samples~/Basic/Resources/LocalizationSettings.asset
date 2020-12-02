@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e72a78e706e394b997a151fb0cec3f, type: 3}
+  m_Name: LocalizationSettings
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_AvailableLanguages: 
+  m_AvailableLanguages2:
+  - m_Name: English
+    m_Code: en
+    m_Custom: 0
+  - m_Name: Turkish
+    m_Code: tr
+    m_Custom: 0
+  - m_Name: Arabic
+    m_Code: ar
+    m_Custom: 0
+  - m_Name: German
+    m_Code: de
+    m_Custom: 0
+  - m_Name: ChineseSimplified
+    m_Code: zh-Hans
+    m_Custom: 0
+  - m_Name: Russian
+    m_Code: ru
+    m_Custom: 0
+  - m_Name: Spanish
+    m_Code: es
+    m_Custom: 0
+  - m_Name: Hindi
+    m_Code: hi
+    m_Custom: 1
+  m_ImportLocation: Assets/GameToolkit-Localization-Examples/Localization
+  GoogleAuthenticationFile: {fileID: 0}

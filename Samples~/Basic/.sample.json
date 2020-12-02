@@ -1,0 +1,5 @@
+{
+	"displayName":"Basic",
+	"description": "Provides ready-to-use resources like prefabs, scripts and contains an example scene.",
+	"createSeparatePackage": false
+}

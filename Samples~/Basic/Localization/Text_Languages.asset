@@ -1,0 +1,272 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af65ee6b0f35f974dba93979a07edbce, type: 3}
+  m_Name: Text_Languages
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: -1
+    m_Language2:
+      m_Name: Afrikaans
+      m_Code: af
+      m_Custom: 0
+    m_Value: Afrikaans
+  - m_Language: -1
+    m_Language2:
+      m_Name: Arabic
+      m_Code: ar
+      m_Custom: 0
+    m_Value: "\u0627\u0644\u0644\u063A\u0629 \u0627\u0644\u0639\u0631\u0628\u064A\u0629"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Basque
+      m_Code: eu
+      m_Custom: 0
+    m_Value: Euskara
+  - m_Language: -1
+    m_Language2:
+      m_Name: Belarusian
+      m_Code: be
+      m_Custom: 0
+    m_Value: "\u0411\u0435\u043B\u0430\u0440\u0443\u0441\u043A\u0430\u044F"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Bulgarian
+      m_Code: bg
+      m_Custom: 0
+    m_Value: "\u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Catalan
+      m_Code: ca
+      m_Custom: 0
+    m_Value: "Catal\xE0"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Chinese
+      m_Code: zh
+      m_Custom: 0
+    m_Value: "\u6C49\u8BED"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Czech
+      m_Code: cs
+      m_Custom: 0
+    m_Value: "\u010Ce\u0161tina"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Danish
+      m_Code: da
+      m_Custom: 0
+    m_Value: Dansk
+  - m_Language: -1
+    m_Language2:
+      m_Name: Dutch
+      m_Code: nl
+      m_Custom: 0
+    m_Value: Nederlands
+  - m_Language: -1
+    m_Language2:
+      m_Name: English
+      m_Code: en
+      m_Custom: 0
+    m_Value: English
+  - m_Language: -1
+    m_Language2:
+      m_Name: Estonian
+      m_Code: et
+      m_Custom: 0
+    m_Value: Eesti
+  - m_Language: -1
+    m_Language2:
+      m_Name: Faroese
+      m_Code: fo
+      m_Custom: 0
+    m_Value: "F\xF8royskt"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Finnish
+      m_Code: fi
+      m_Custom: 0
+    m_Value: Suomi
+  - m_Language: -1
+    m_Language2:
+      m_Name: French
+      m_Code: fr
+      m_Custom: 0
+    m_Value: "Fran\xE7ais"
+  - m_Language: -1
+    m_Language2:
+      m_Name: German
+      m_Code: de
+      m_Custom: 0
+    m_Value: Deutsch
+  - m_Language: -1
+    m_Language2:
+      m_Name: Greek
+      m_Code: el
+      m_Custom: 0
+    m_Value: "\u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hebrew
+      m_Code: he
+      m_Custom: 0
+    m_Value: "\u05E2\u05D1\u05E8\u05D9\u05EA\u200E"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hungarian
+      m_Code: hu
+      m_Custom: 0
+    m_Value: Magyar
+  - m_Language: -1
+    m_Language2:
+      m_Name: Icelandic
+      m_Code: is
+      m_Custom: 0
+    m_Value: "\xCDslenska"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Indonesian
+      m_Code: id
+      m_Custom: 0
+    m_Value: Bahasa Indonesia
+  - m_Language: -1
+    m_Language2:
+      m_Name: Italian
+      m_Code: it
+      m_Custom: 0
+    m_Value: Italiano
+  - m_Language: -1
+    m_Language2:
+      m_Name: Japanese
+      m_Code: ja
+      m_Custom: 0
+    m_Value: "\u65E5\u672C\u8A9E"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Korean
+      m_Code: ko
+      m_Custom: 0
+    m_Value: "\uC870\uC120\uB9D0"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Latvian
+      m_Code: lv
+      m_Custom: 0
+    m_Value: "Latvie\u0161u"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Lithuanian
+      m_Code: lt
+      m_Custom: 0
+    m_Value: "Lietuvi\u0173"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Norwegian
+      m_Code: no
+      m_Custom: 0
+    m_Value: Norsk
+  - m_Language: -1
+    m_Language2:
+      m_Name: Polish
+      m_Code: pl
+      m_Custom: 0
+    m_Value: Polski
+  - m_Language: -1
+    m_Language2:
+      m_Name: Portuguese
+      m_Code: pt
+      m_Custom: 0
+    m_Value: "Portugu\xEAs"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Romanian
+      m_Code: ro
+      m_Custom: 0
+    m_Value: "Rom\xE2n\u0103"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Russian
+      m_Code: ru
+      m_Custom: 0
+    m_Value: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
+  - m_Language: -1
+    m_Language2:
+      m_Name: SerboCroatian
+      m_Code: hr
+      m_Custom: 0
+    m_Value: Hrvatski
+  - m_Language: -1
+    m_Language2:
+      m_Name: Slovak
+      m_Code: sk
+      m_Custom: 0
+    m_Value: "Sloven\u010Dina"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Slovenian
+      m_Code: sl
+      m_Custom: 0
+    m_Value: Slovenian
+  - m_Language: -1
+    m_Language2:
+      m_Name: Spanish
+      m_Code: es
+      m_Custom: 0
+    m_Value: Ladino
+  - m_Language: -1
+    m_Language2:
+      m_Name: Swedish
+      m_Code: sv
+      m_Custom: 0
+    m_Value: Svenska
+  - m_Language: -1
+    m_Language2:
+      m_Name: Thai
+      m_Code: th
+      m_Custom: 0
+    m_Value: "\u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Turkish
+      m_Code: tr
+      m_Custom: 0
+    m_Value: "T\xFCrk\xE7e"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Ukrainian
+      m_Code: uk
+      m_Custom: 0
+    m_Value: "\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Vietnamese
+      m_Code: vi
+      m_Custom: 0
+    m_Value: "Ti\u1EBFng Vi\u1EC7t Nam"
+  - m_Language: -1
+    m_Language2:
+      m_Name: ChineseSimplified
+      m_Code: zh-Hans
+      m_Custom: 0
+    m_Value: "\u6C49\u8BED"
+  - m_Language: -1
+    m_Language2:
+      m_Name: ChineseTraditional
+      m_Code: zh-Hant
+      m_Custom: 0
+    m_Value: "\u6C49\u8BED"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: "\u0939\u093F\u0902\u0926\u0940"
