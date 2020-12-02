@@ -3,7 +3,7 @@
 [![Documentation](https://img.shields.io/badge/documentation-yellow.svg)](https://hibrahimpenekli.gitbook.io/gametoolkit-localization/)
 [![Forum](https://img.shields.io/badge/forum-yellow.svg)](https://forum.unity.com/threads/released-asset-localization-for-unity.723047/)
 [![Unity Version](https://img.shields.io/badge/unity-2017.1%2B-blue)](https://unity3d.com/get-unity/download)
-![Version](https://img.shields.io/github/package-json/v/ibrahimpenekli/GameToolkit-Localization/upm?color=green&label=version)
+[![Version](https://img.shields.io/github/package-json/v/ibrahimpenekli/GameToolkit-Localization/upm?color=green&label=version)](https://github.com/ibrahimpenekli/GameToolkit-Localization/releases)
 
 With Asset Localization, you can easily localize your built-in Unity game assets. Also you can create custom localizable asset functionality for your custom assets.
 
