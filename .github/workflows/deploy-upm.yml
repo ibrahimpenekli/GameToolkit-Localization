@@ -30,9 +30,10 @@ jobs:
         run: git subtree split --prefix=Packages/$PKG_ID --branch upm
 
       - name: Create version tag
-        run: |
-          VERSION=$(python -c "import json;print json.loads(open('Packages/$PKG_ID/package.json', 'r').read())['version']")
-          git tag $VERSION upm
-
+        run:  |
+          PKG_VERSION=$(python -c "import json;print json.loads(open('Packages/$PKG_ID/package.json', 'r').read())['version']")
+          git ls-remote --exit-code --tags origin $PKG_VERSION && echo "Same version already exists '$PKG_VERSION'" && exit 7
+          git tag $PKG_VERSION upm
+                
       - name: Push version and upm branch
         run: git push origin upm --tags --force
