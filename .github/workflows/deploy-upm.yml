@@ -30,8 +30,13 @@ jobs:
         run: git subtree split --prefix=Packages/$PKG_ID --branch upm
 
       - name: Create version tag
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: "Packages/$PKG_ID/package.json"
+          prop_path: "version"
         run:  |
-          PKG_VERSION=$(python -c "import json;print json.loads(open('Packages/$PKG_ID/package.json', 'r').read())['version']")
+          PKG_VERSION=${{steps.version.outputs.prop}}
           git ls-remote --exit-code --tags origin $PKG_VERSION && echo "Same version already exists '$PKG_VERSION'" && exit 7
           git tag $PKG_VERSION upm
                 
