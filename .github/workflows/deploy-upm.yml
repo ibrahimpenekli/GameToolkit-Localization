@@ -29,12 +29,14 @@ jobs:
       - name: Commit changes to upm branch
         run: git subtree split --prefix=Packages/$PKG_ID --branch upm
 
-      - name: Create version tag
+      - name: Get version
         id: version
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "Packages/$PKG_ID/package.json"
           prop_path: "version"
+          
+      - name: Create version tag
         run:  |
           PKG_VERSION=${{steps.version.outputs.prop}}
           git ls-remote --exit-code --tags origin $PKG_VERSION && echo "Same version already exists '$PKG_VERSION'" && exit 7
