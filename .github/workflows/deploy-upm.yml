@@ -1,8 +1,5 @@
 name: Deploy Package
 
-env:
-  PKG_ID: com.gametoolkit.localization
-
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -27,13 +24,13 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Commit changes to upm branch
-        run: git subtree split --prefix=Packages/$PKG_ID --branch upm
+        run: git subtree split --prefix=Packages/com.gametoolkit.localization --branch upm
 
       - name: Get version
         id: version
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: {{"Packages/$PKG_ID/package.json"}}
+          path: "Packages/com.gametoolkit.localization/package.json"
           prop_path: "version"
           
       - name: Create version tag
