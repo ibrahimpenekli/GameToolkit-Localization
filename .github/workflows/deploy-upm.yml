@@ -33,7 +33,7 @@ jobs:
         id: version
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: "Packages/$PKG_ID/package.json"
+          path: {{"Packages/$PKG_ID/package.json"}}
           prop_path: "version"
           
       - name: Create version tag
