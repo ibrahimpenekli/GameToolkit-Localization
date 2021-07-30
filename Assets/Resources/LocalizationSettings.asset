@@ -18,8 +18,8 @@ MonoBehaviour:
   - m_Name: English
     m_Code: en
     m_Custom: 0
-  - m_Name: English
-    m_Code: en
+  - m_Name: Turkish
+    m_Code: tr
     m_Custom: 0
-  m_ImportLocation: Assets
+  m_ImportLocation: Assets/Localization
   GoogleAuthenticationFile: {fileID: 0}
