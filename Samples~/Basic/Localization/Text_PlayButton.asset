@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af65ee6b0f35f974dba93979a07edbce, type: 3}
+  m_Name: Text_PlayButton
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: -1
+    m_Language2:
+      m_Name: English
+      m_Code: en
+      m_Custom: 0
+    m_Value: Play
+  - m_Language: -1
+    m_Language2:
+      m_Name: Turkish
+      m_Code: tr
+      m_Custom: 0
+    m_Value: Oyna
+  - m_Language: -1
+    m_Language2:
+      m_Name: Spanish
+      m_Code: es
+      m_Custom: 0
+    m_Value: Jugar
+  - m_Language: -1
+    m_Language2:
+      m_Name: German
+      m_Code: de
+      m_Custom: 0
+    m_Value: Spielen
+  - m_Language: -1
+    m_Language2:
+      m_Name: ChineseSimplified
+      m_Code: zh-Hans
+      m_Custom: 0
+    m_Value: "\u73A9"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Russian
+      m_Code: ru
+      m_Custom: 0
+    m_Value: "\u0418\u0433\u0440\u0430\u0442\u044C"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Arabic
+      m_Code: ar
+      m_Custom: 0
+    m_Value: "\u0644\u0639\u0628"
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: "\u0916\u0947\u0932"
