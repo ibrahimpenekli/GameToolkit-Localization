@@ -1,8 +1,8 @@
-﻿// Copyright (c) H. Ibrahim Penekli. All rights reserved.
+// Copyright (c) H. Ibrahim Penekli. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -13,6 +13,8 @@ namespace GameToolkit.Localization
     public sealed class LocalizationSettings : ScriptableObject, ISerializationCallbackReceiver
     {
         private const string AssetName = "LocalizationSettings";
+        private const string AssetPath = "Assets/Resources/" + AssetName + ".asset";
+
         private static LocalizationSettings s_Instance = null;
 
         [SerializeField, HideInInspector]
@@ -106,6 +108,12 @@ namespace GameToolkit.Localization
 
         private static LocalizationSettings FindByResources()
         {
+#if UNITY_EDITOR
+            var settingsInstance = UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationSettings>(AssetPath);
+            if (settingsInstance != null)
+                return settingsInstance;
+#endif
+
             return Resources.Load<LocalizationSettings>(AssetName);
         }
 
@@ -129,7 +137,7 @@ namespace GameToolkit.Localization
 
         private static void SaveAsset(LocalizationSettings localizationSettings)
         {
-            var assetPath = "Assets/Resources/" + AssetName + ".asset";
+            var assetPath = AssetPath;
             var directoryName = Path.GetDirectoryName(assetPath);
             if (!Directory.Exists(directoryName))
             {
@@ -139,7 +147,7 @@ namespace GameToolkit.Localization
             UnityEditor.AssetDatabase.CreateAsset(localizationSettings, uniqueAssetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
-            Debug.Log(AssetName + " has been created: " + assetPath);
+            Debug.Log(Path.GetFileName(uniqueAssetPath) + " has been created: " + uniqueAssetPath);
         }
 #endif
         public void OnBeforeSerialize()
