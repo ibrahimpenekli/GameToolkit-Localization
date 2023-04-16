@@ -104,16 +104,14 @@ namespace GameToolkit.Localization
                 settings.name = "Default Localization Settings";
 
 #if UNITY_EDITOR
-                ActiveSettings = settings;
-                
                 // Saving during Awake() will crash Unity, delay saving until next editor frame.
                 if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
                 {
-                    UnityEditor.EditorApplication.delayCall += () => SaveAsset(settings);
+                    UnityEditor.EditorApplication.delayCall += () => SaveAndSetActive(settings);
                 }
                 else
                 {
-                    SaveAsset(settings);
+                    SaveAndSetActive(settings);
                 }
 #endif
             }
@@ -166,19 +164,22 @@ namespace GameToolkit.Localization
         }
 
 #if UNITY_EDITOR
-        private static void SaveAsset(LocalizationSettings localizationSettings)
+        private static void SaveAndSetActive(LocalizationSettings settings)
         {
-            var assetPath = "Assets/Resources/" + AssetName + ".asset";
+            var assetPath = $"Assets/Resources/{settings.name}.asset";
             var directoryName = Path.GetDirectoryName(assetPath);
-            if (!Directory.Exists(directoryName))
+            
+            if (!string.IsNullOrEmpty(directoryName) && !Directory.Exists(directoryName))
             {
                 Directory.CreateDirectory(directoryName);
             }
 
             var uniqueAssetPath = UnityEditor.AssetDatabase.GenerateUniqueAssetPath(assetPath);
-            UnityEditor.AssetDatabase.CreateAsset(localizationSettings, uniqueAssetPath);
+            UnityEditor.AssetDatabase.CreateAsset(settings, uniqueAssetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
+            
+            ActiveSettings = settings;
             Debug.Log(AssetName + " has been created: " + assetPath);
         }
 #endif
