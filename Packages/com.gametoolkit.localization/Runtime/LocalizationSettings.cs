@@ -9,22 +9,25 @@ using UnityEngine;
 namespace GameToolkit.Localization
 {
     [HelpURL(Localization.HelpUrl + "/getting-started#3-localization-settings")]
-    [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings", order = 9999)]
+    [CreateAssetMenu(fileName = "LocalizationSettings", menuName = "GameToolkit/Localization/Localization Settings",
+        order = 9999)]
     public sealed class LocalizationSettings : ScriptableObject, ISerializationCallbackReceiver
     {
+        internal const string ConfigName = "com.gametoolkit.localization.settings";
         private const string AssetName = "LocalizationSettings";
+        
         private static LocalizationSettings s_Instance = null;
 
         [SerializeField, HideInInspector]
         private int m_Version = 0;
-        
+
         // Keep it for migration.
         [SerializeField]
         private List<SystemLanguage> m_AvailableLanguages = new List<SystemLanguage>(1)
         {
             SystemLanguage.English
         };
-        
+
         [SerializeField, Tooltip("Enabled languages for the application.")]
         private List<Language> m_AvailableLanguages2 = new List<Language>(1)
         {
@@ -59,28 +62,91 @@ namespace GameToolkit.Localization
         /// </summary>
         public static LocalizationSettings Instance
         {
-            get
+            get { return GetOrCreateSettings(); }
+        }
+
+        /// <summary>
+        /// Returns the singleton of the LocalizationSettings but does not create a default one if no active settings are found.
+        /// </summary>
+        /// <returns></returns>
+        public static LocalizationSettings GetInstanceOrNull()
+        {
+            if (s_Instance != null)
+                return s_Instance;
+
+            LocalizationSettings settings = null;
+#if UNITY_EDITOR
+            settings = ActiveSettings;
+
+            // Try to load existing settings from older package version.
+            if (settings == null)
             {
-                if (!s_Instance)
+                settings = Resources.Load<LocalizationSettings>(AssetName);
+                
+                if (settings != null)
                 {
-                    s_Instance = FindByResources();
+                    ActiveSettings = settings;
                 }
+            }
+#else
+            settings = FindObjectOfType<LocalizationSettings>();
+            
+            // Try to load existing settings from older package version.
+            if (settings == null)
+            {
+                settings = Resources.Load<LocalizationSettings>(AssetName);
+            }
+#endif
+            return settings;
+        }
+
+        public static LocalizationSettings GetOrCreateSettings()
+        {
+            var settings = GetInstanceOrNull();
+            if (settings == null)
+            {
+                Debug.LogWarning("Could not find localization settings. Default will be used.");
+
+                settings = CreateInstance<LocalizationSettings>();
+                settings.name = "Default Localization Settings";
 
 #if UNITY_EDITOR
-                if (!s_Instance)
+                // Saving during Awake() will crash Unity, delay saving until next editor frame.
+                if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
                 {
-                    s_Instance = CreateSettingsAndSave();
+                    UnityEditor.EditorApplication.delayCall += () => SaveAndSetActive(settings);
+                }
+                else
+                {
+                    SaveAndSetActive(settings);
                 }
 #endif
+            }
 
-                if (!s_Instance)
+            return settings;
+        }
+        
+#if UNITY_EDITOR
+        internal static LocalizationSettings ActiveSettings
+        {
+            get
+            {
+                UnityEditor.EditorBuildSettings.TryGetConfigObject(ConfigName, out LocalizationSettings settings);
+                return settings;
+            }
+            set
+            {
+                if (value == null)
                 {
-                    Debug.LogWarning("No instance of " + AssetName + " found, using default values.");
-                    s_Instance = CreateInstance<LocalizationSettings>();
+                    UnityEditor.EditorBuildSettings.RemoveConfigObject(ConfigName);
                 }
-                return s_Instance;
+                else
+                {
+                    UnityEditor.EditorBuildSettings.AddConfigObject(ConfigName, value, true);
+                }
             }
         }
+        #endif
 
         /// <summary>
         /// Enabled languages for the application.
@@ -104,44 +170,27 @@ namespace GameToolkit.Localization
             }
         }
 
-        private static LocalizationSettings FindByResources()
-        {
-            return Resources.Load<LocalizationSettings>(AssetName);
-        }
-
 #if UNITY_EDITOR
-        private static LocalizationSettings CreateSettingsAndSave()
+        private static void SaveAndSetActive(LocalizationSettings settings)
         {
-            var localizationSettings = CreateInstance<LocalizationSettings>();
-
-            // Saving during Awake() will crash Unity, delay saving until next editor frame.
-            if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
-            {
-                UnityEditor.EditorApplication.delayCall += () => SaveAsset(localizationSettings);
-            }
-            else
-            {
-                SaveAsset(localizationSettings);
-            }
-
-            return localizationSettings;
-        }
-
-        private static void SaveAsset(LocalizationSettings localizationSettings)
-        {
-            var assetPath = "Assets/Resources/" + AssetName + ".asset";
+            var assetPath = $"Assets/Resources/{settings.name}.asset";
             var directoryName = Path.GetDirectoryName(assetPath);
-            if (!Directory.Exists(directoryName))
+            
+            if (!string.IsNullOrEmpty(directoryName) && !Directory.Exists(directoryName))
             {
                 Directory.CreateDirectory(directoryName);
             }
+
             var uniqueAssetPath = UnityEditor.AssetDatabase.GenerateUniqueAssetPath(assetPath);
-            UnityEditor.AssetDatabase.CreateAsset(localizationSettings, uniqueAssetPath);
+            UnityEditor.AssetDatabase.CreateAsset(settings, uniqueAssetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
+            
+            ActiveSettings = settings;
             Debug.Log(AssetName + " has been created: " + assetPath);
         }
 #endif
+        
         public void OnBeforeSerialize()
         {
             // Intentionally empty.
@@ -156,7 +205,7 @@ namespace GameToolkit.Localization
                 {
                     m_AvailableLanguages2.Add(availableLanguage);
                 }
-                
+
                 m_AvailableLanguages.Clear();
             }
         }

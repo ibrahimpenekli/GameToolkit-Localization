@@ -47,6 +47,11 @@ namespace GameToolkit.Localization.Editor
         }
 
         [MenuItem(EditorMenu.RootMenu + WindowName, false, 0)]
+        public static void ShowWindow()
+        {
+            GetWindow();
+        }
+        
         public static LocalizationWindow GetWindow()
         {
             s_Instance = GetWindow<LocalizationWindow>();

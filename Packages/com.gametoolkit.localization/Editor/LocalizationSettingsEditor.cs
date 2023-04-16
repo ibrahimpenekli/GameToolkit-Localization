@@ -124,6 +124,24 @@ namespace GameToolkit.Localization.Editor
             if (m_AvailableLanguagesList != null)
             {
                 serializedObject.Update();
+
+                var settings = (LocalizationSettings) target;
+                if (LocalizationSettings.ActiveSettings != settings)
+                {
+                    
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.HelpBox("This is not active localization settings.", MessageType.Warning);
+                    
+                    if (GUILayout.Button("Make\nActive", GUILayout.ExpandHeight(true)))
+                    {
+                        LocalizationSettings.ActiveSettings = settings;
+                    }
+                    
+                    EditorGUILayout.EndHorizontal();
+                }
+                EditorGUILayout.Separator();
+
                 m_AvailableLanguagesList.DoLayoutList();
 
                 EditorGUILayout.LabelField("Import/Export", EditorStyles.boldLabel);

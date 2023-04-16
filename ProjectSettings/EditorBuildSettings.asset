@@ -8,3 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameToolkit-Localization-Examples/Scenes/Example.unity
     guid: c31a7359a7ee4f94094445b24a624569
+  m_configObjects:
+    com.gametoolkit.localization.settings: {fileID: 11400000, guid: c887723d3affdc5418a2862d91d66997,
+      type: 2}
