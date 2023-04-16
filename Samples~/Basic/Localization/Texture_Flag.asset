@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cffd6b74deb304f800173cf2bab6eb, type: 3}
+  m_Name: Texture_Flag
+  m_EditorClassIdentifier: 
+  m_LocaleItems:
+  - m_Language: -1
+    m_Language2:
+      m_Name: English
+      m_Code: en
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: dbdd09e40aa4cc04c9d5dd90db89d097, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Turkish
+      m_Code: tr
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: 866c086864ca00d4e9940e9726723ff9, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Spanish
+      m_Code: es
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: 96b775666ba94544f9ef82d1fabd3f13, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: German
+      m_Code: de
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: 23a2184687c5c114a8c5b8c0a19c41a8, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: ChineseSimplified
+      m_Code: zh-Hans
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: 045c1d3c365f1ab48ab16db7c4528ed5, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Russian
+      m_Code: ru
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: beee1476ebd9438468c5e89b2f870e49, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Arabic
+      m_Code: ar
+      m_Custom: 0
+    m_Value: {fileID: 2800000, guid: b937a98f1c8e4a44fa8f48b214254ff6, type: 3}
+  - m_Language: -1
+    m_Language2:
+      m_Name: Hindi
+      m_Code: hi
+      m_Custom: 1
+    m_Value: {fileID: 2800000, guid: 0e28daa6b029d774ab8a49c2b667832a, type: 3}

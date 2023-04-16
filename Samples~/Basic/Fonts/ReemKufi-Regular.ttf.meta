@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 2a65d02b23aee944daa6dcce7783d164
+timeCreated: 1505559569
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 32
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Reem Kufi
+  fontNames:
+  - Reem Kufi
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
