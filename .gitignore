@@ -5,6 +5,8 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 Logs/
+UserSettings/
+ProjectSettings/boot.config
 
 # Ignore JetBrains Rider
 /.idea/
