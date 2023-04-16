@@ -9,7 +9,7 @@ With Asset Localization, you can easily localize your built-in Unity game assets
 
 <img src="https://gblobscdn.gitbook.com/assets%2F-LRhqW6j6mRgZoErSCt2%2F-M2m2MhG96P11UHD_TwZ%2F-M2mBXVWhss4GKBTRhZr%2FUnityAssetLocalization_Preview.gif?alt=media&token=60bb7192-4cc2-4c86-9e6d-b9a7b85c9693" alt="Preview" width="100%">
 
-## Features: 
+## Features:
 * Built-in [Text](https://docs.unity3d.com/Manual/script-Text.html), [TextAsset](https://docs.unity3d.com/Manual/class-TextAsset.html), [VideoClip](https://docs.unity3d.com/Manual/class-VideoClip.html), [AudioClip](https://docs.unity3d.com/Manual/class-AudioClip.html), [Sprite](https://docs.unity3d.com/Manual/Sprites.html), [Texture](https://docs.unity3d.com/ScriptReference/Texture.html), [Font](https://docs.unity3d.com/Manual/class-Font.html) and [Prefab](https://docs.unity3d.com/Manual/Prefabs.html) localization
 * Edit everything through [Localization Explorer](../../wiki/Localization-Explorer) window
 * Import/Export [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) file
@@ -23,5 +23,5 @@ With Asset Localization, you can easily localize your built-in Unity game assets
 Required Unity 2017.1 or newer version.
 
 ## Install from Package Manager:
-* Add `"com.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.2.1"` to your project's package manifest file in dependencies section.
-* Or, `Package Manager > Add package from git URL...` and paste this URL: `https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.2.1`
+* Add `"com.gametoolkit.localization": "https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.2.3"` to your project's package manifest file in dependencies section.
+* Or, `Package Manager > Add package from git URL...` and paste this URL: `https://github.com/ibrahimpenekli/GameToolkit-Localization.git#2.2.3`
