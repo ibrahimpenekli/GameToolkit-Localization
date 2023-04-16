@@ -15,6 +15,7 @@ namespace GameToolkit.Localization
     {
         internal const string ConfigName = "com.gametoolkit.localization.settings";
         private const string AssetName = "LocalizationSettings";
+        
         private static LocalizationSettings s_Instance = null;
 
         [SerializeField, HideInInspector]
@@ -89,6 +90,12 @@ namespace GameToolkit.Localization
             }
 #else
             settings = FindObjectOfType<LocalizationSettings>();
+            
+            // Try to load existing settings from older package version.
+            if (settings == null)
+            {
+                settings = Resources.Load<LocalizationSettings>(AssetName);
+            }
 #endif
             return settings;
         }
