@@ -120,7 +120,7 @@ namespace GameToolkit.Localization
         }
         
 #if UNITY_EDITOR
-        private static LocalizationSettings ActiveSettings
+        internal static LocalizationSettings ActiveSettings
         {
             get
             {
